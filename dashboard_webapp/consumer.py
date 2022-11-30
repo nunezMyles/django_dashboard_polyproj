@@ -19,7 +19,7 @@ class DashConsumer(AsyncJsonWebsocketConsumer):
 
     async def receive(self, text_data):
         datapoint = json.loads(text_data)
-        val =datapoint['value']
+        val = datapoint['value']
 
         await self.channel_layer.group_send(
             self.groupname,
@@ -34,3 +34,4 @@ class DashConsumer(AsyncJsonWebsocketConsumer):
         valOther=event['value']
         valOther = f'IP VALUE: {valOther}'
         await self.send(text_data=json.dumps({'value2':valOther}))# send for frontend
+        
