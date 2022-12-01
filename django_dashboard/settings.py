@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,15 +76,29 @@ TEMPLATES = [
     },
 ]
 
+
+#CELERY_BROKER_URL = 'redis://:p37c68b42f5775d6f62da80f0485b564b750f78a59d1497e0a829d1c554a16d16@ec2-3-230-185-236.compute-1.amazonaws.com:26980'
+
 WSGI_APPLICATION = 'django_dashboard.wsgi.application'
 
 # Daphne
 ASGI_APPLICATION = "django_dashboard.asgi.application"
 
 # Channels
+"""
 CHANNEL_LAYERS = { # for testing/local-development purposes
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
+    },
+}
+"""
+# For production + run redis server as docker image @ port 6379
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }
 
