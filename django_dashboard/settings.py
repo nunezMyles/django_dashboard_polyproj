@@ -85,14 +85,14 @@ WSGI_APPLICATION = 'django_dashboard.wsgi.application'
 ASGI_APPLICATION = "django_dashboard.asgi.application"
 
 # Channels
-"""
 CHANNEL_LAYERS = { # for testing/local-development purposes
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     },
 }
-"""
+
 # For production + run redis server as docker image @ port 6379
+"""
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
@@ -101,7 +101,7 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
+"""
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
