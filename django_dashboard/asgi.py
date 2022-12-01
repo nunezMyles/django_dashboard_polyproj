@@ -22,6 +22,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_dashboard.settings')
 
 django_asgi_app = get_asgi_application()
 
+"""
 websocket_urlpatterns = [
     #re_path(r"ws/chat/(?P<room_name>\w+)/$", consumer.DashConsumer.as_asgi()),
     path('ws/pollData', consumer.DashConsumer.as_asgi()),
@@ -36,3 +37,4 @@ application = ProtocolTypeRouter(
         #"websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
     }
 )
+"""

@@ -29,15 +29,16 @@ DEBUG = True
 # But In production make sure you include your full URL in the allowed host (for example, .allowed-domain.com) 
 # or a full origin, in the format scheme://domain[:port] (for example, http://allowed-domain.com:80). 
 # Port is optional, but recommended
-ALLOWED_HOSTS = [
-    '127.0.0.1:8000', '127.0.0.1',
-    'ws://127.0.0.1:8000', 'ws://127.0.0.1',
-    'ws://localhost:8000',
-]
+
+#ALLOWED_HOSTS = [
+#    '127.0.0.1:8000', '127.0.0.1',
+#    'ws://127.0.0.1:8000', 'ws://127.0.0.1',
+#   'ws://localhost:8000',
+#]
 
 # Application definition
 INSTALLED_APPS = [
-    'daphne',
+    #'daphne',
     'dashboard_webapp',
 
     'django.contrib.admin',
@@ -82,7 +83,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'django_dashboard.wsgi.application'
 
 # Daphne
-ASGI_APPLICATION = "django_dashboard.asgi.application"
+# ASGI_APPLICATION = "django_dashboard.asgi.application"
 
 # Channels
 CHANNEL_LAYERS = { # for testing/local-development purposes
