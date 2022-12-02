@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .authentication_forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm
 from . import models
 
 from django import template
@@ -33,6 +33,8 @@ def login_view(request):
 
     return render(request, "authentication/login.html", {"form": form, "msg": msg})
 
+def logout_view(request):
+    return HttpResponseRedirect('/login/')
 
 def register_user(request):
     msg = None
