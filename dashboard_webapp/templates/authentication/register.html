@@ -15,7 +15,7 @@
             <div class="card card-plain mt-8">
               <div class="card-header pb-0 text-left bg-transparent">
                 <h4 class="text-info text-gradient">
-                  Soft Dashboard Django - Register
+                  Register Account
                 </h4>
                 <p class="mb-0">
                     {% if msg %}
@@ -54,10 +54,10 @@
                   </div>
                   <span class="text-error">{{ form.password2.errors }}</span>
 
-                  <div class="form-check form-switch">
+                  <!--div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
                     <label class="form-check-label" for="rememberMe">Terms</label>
-                  </div>
+                  </div-->
                   <div class="text-center">
                     <button type="submit" name="register" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign UP</button>
                   </div>
@@ -66,15 +66,14 @@
               <div class="card-footer text-center pt-0 px-lg-2 px-1">
                 <p class="mb-4 text-sm mx-auto">
                   Already have an account?
-                  <a href="{% url 'login' %}" 
-                     class="text-info text-gradient font-weight-bold">Sign IN</a>
+                  <a href="{% url 'login' %}" class="text-info text-gradient font-weight-bold">Sign In</a>
                 </p>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-              <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('/static/assets/img/curved-images/curved6.jpg')"></div>
+              <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('/static/assets/img/curved-images/hdb27.jpg')"></div>
             </div>
           </div>
         </div>
