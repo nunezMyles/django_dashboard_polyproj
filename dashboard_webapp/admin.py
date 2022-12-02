@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HdbBlock, Household, ModuleStand, SmokeReading
+from .models import Household, ModuleStand, SmokeReading
 
 # Register your models here.
-admin.site.register([HdbBlock, Household, ModuleStand, SmokeReading])
+admin.site.register([Household, ModuleStand, SmokeReading])
