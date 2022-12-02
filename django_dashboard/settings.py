@@ -77,9 +77,6 @@ TEMPLATES = [
     },
 ]
 
-
-#CELERY_BROKER_URL = 'redis://:p37c68b42f5775d6f62da80f0485b564b750f78a59d1497e0a829d1c554a16d16@ec2-3-230-185-236.compute-1.amazonaws.com:26980'
-
 WSGI_APPLICATION = 'django_dashboard.wsgi.application'
 
 # Daphne

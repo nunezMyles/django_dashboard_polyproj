@@ -31,7 +31,7 @@ def login_view(request):
         else:
             msg = 'Error validating the form'
 
-    return render(request, "accounts/login.html", {"form": form, "msg": msg})
+    return render(request, "authentication/login.html", {"form": form, "msg": msg})
 
 
 def register_user(request):
@@ -56,7 +56,7 @@ def register_user(request):
     else:
         form = SignUpForm()
 
-    return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
+    return render(request, "authentication/register.html", {"form": form, "msg": msg, "success": success})
 
 @login_required(login_url="/login/")
 def index(request):
