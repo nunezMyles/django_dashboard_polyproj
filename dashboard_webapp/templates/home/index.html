@@ -15,7 +15,7 @@
               <div class="row">
                 <div class="col-7">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Money</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Location</p>
                     <h5 class="font-weight-bolder">$53,000</h5>
                     <span class="text-success text-sm font-weight-bolder">+ $4,000</span>
                     <span class="text-sm">more</span>
@@ -36,7 +36,7 @@
               <div class="row">
                 <div class="col-7">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Today's Users</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Module Stand ID</p>
                     <h5 class="font-weight-bolder">2,300</h5>
                     <span class="text-success text-sm font-weight-bolder">+ 5,3%</span>
                   </div>
@@ -56,7 +56,7 @@
               <div class="row">
                 <div class="col-7">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">New Clients</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">From:</p>
                     <h5 class="font-weight-bolder">+3,462</h5>
                     <span class="text-success text-sm font-weight-bolder">+ 94</span>
                     <span class="text-sm">last week</span>
@@ -77,7 +77,7 @@
               <div class="row">
                 <div class="col-7">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Sales</p>
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">To:</p>
                     <h5 class="font-weight-bolder">$103,430</h5>
                     <span class="text-success text-sm font-weight-bolder">+ 5.3%</span>
                   </div>
@@ -104,28 +104,28 @@
             </div>
             <div class="card-body p-3">
               <div class="chart">
-                <canvas id="chart-line" class="chart-canvas" height="300px"></canvas>
+                <canvas id="chart-line" class="chart-canvas" height="300px" data-url="{% url 'line-graph' %}"></canvas>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
 
       {% include "includes/footer.html" %}
 
     </div>
+    
 
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="/static/assets/js/plugins/chartjs.min.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script>
     var ctx = document.getElementById("chart-line").getContext("2d");
-
     var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
 
     gradientStroke1.addColorStop(1, 'rgba(33,148,254,0.2)');
@@ -138,88 +138,98 @@
     gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
+    $(function() {
+      var $lineGraph = $("#chart-line");
 
-    new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-            label: "Mobile apps",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#2194fe",
-            borderWidth: 3,
-            backgroundColor: gradientStroke1,
-            data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-            maxBarThickness: 6
+      $.ajax({
+        url: $lineGraph.data("url"),
+        success: function(response) {
+          new Chart(ctx, config = {
+            type: "line",
+            data: {
+              datasets: [{
+                  data: response.data,
+                  backgroundColor: gradientStroke1,
+                  label: "Smoke value",
+                  tension: 0.4,
+                  borderWidth: 0,
+                  pointRadius: 0,
+                  borderColor: "#2194fe",
+                  borderWidth: 3,
+                  maxBarThickness: 6,
+                },
+                /*{
+                  label: "Websites",
+                  tension: 0.4,
+                  borderWidth: 0,
+                  pointRadius: 0,
+                  borderColor: "#3A416F",
+                  borderWidth: 3,
+                  backgroundColor: gradientStroke2,
+                  data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+                  maxBarThickness: 6
 
-          },
-          {
-            label: "Websites",
-            tension: 0.4,
-            borderWidth: 0,
-            pointRadius: 0,
-            borderColor: "#3A416F",
-            borderWidth: 3,
-            backgroundColor: gradientStroke2,
-            data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-            maxBarThickness: 6
+                },*/
+              ],
+              labels: response.labels,
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              legend: {
+                display: false,
+              },
+              tooltips: {
+                enabled: true,
+                mode: "index",
+                intersect: false,
+              },
+              scales: {
+                yAxes: [{
+                  gridLines: {
+                    borderDash: [2],
+                    borderDashOffset: [2],
+                    color: '#dee2e6',
+                    zeroLineColor: '#dee2e6',
+                    zeroLineWidth: 1,
+                    zeroLineBorderDash: [2],
+                    drawBorder: false,
+                  },
+                  ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    beginAtZero: true,
+                    padding: 10,
+                    fontSize: 11,
+                    fontColor: '#adb5bd',
+                    lineHeight: 3,
+                    fontStyle: 'normal',
+                    fontFamily: "Open Sans",
+                  },
+                }, ],
+                xAxes: [{
+                  gridLines: {
+                    zeroLineColor: 'rgba(0,0,0,0)',
+                    display: false,
+                  },
+                  ticks: {
+                    padding: 10,
+                    fontSize: 11,
+                    fontColor: '#adb5bd',
+                    lineHeight: 3,
+                    fontStyle: 'normal',
+                    fontFamily: "Open Sans",
+                  },
+                }, ],
+              },
+            },
+          });
+        }
+      });
 
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          enabled: true,
-          mode: "index",
-          intersect: false,
-        },
-        scales: {
-          yAxes: [{
-            gridLines: {
-              borderDash: [2],
-              borderDashOffset: [2],
-              color: '#dee2e6',
-              zeroLineColor: '#dee2e6',
-              zeroLineWidth: 1,
-              zeroLineBorderDash: [2],
-              drawBorder: false,
-            },
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 500,
-              beginAtZero: true,
-              padding: 10,
-              fontSize: 11,
-              fontColor: '#adb5bd',
-              lineHeight: 3,
-              fontStyle: 'normal',
-              fontFamily: "Open Sans",
-            },
-          }, ],
-          xAxes: [{
-            gridLines: {
-              zeroLineColor: 'rgba(0,0,0,0)',
-              display: false,
-            },
-            ticks: {
-              padding: 10,
-              fontSize: 11,
-              fontColor: '#adb5bd',
-              lineHeight: 3,
-              fontStyle: 'normal',
-              fontFamily: "Open Sans",
-            },
-          }, ],
-        },
-      },
     });
+    
+    
   </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;

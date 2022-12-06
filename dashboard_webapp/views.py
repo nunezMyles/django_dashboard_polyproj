@@ -5,11 +5,38 @@ from . import models
 
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 
+import mysql.connector
+
 # Create your views here
+
+def line_graph(request):
+    labels = []
+    data = []
+
+    Connection = mysql.connector.connect(host="localhost", user="root", password="!password")
+    Cursor = Connection.cursor(buffered=True)
+    Connection.connect()
+    Cursor.execute("use dashboard_webapp")
+
+    SQLQuery = "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=1 ORDER BY captured_date"
+    Cursor.execute(SQLQuery)
+    ReturnedRows = Cursor.fetchall()
+    #print(ReturnedRows)
+    Connection.close()
+
+    #queryset = models.SmokeReading.objects.order_by('captured_date')[:100]
+    for smokeReading in ReturnedRows:
+        labels.append(smokeReading[2])
+        data.append(smokeReading[1])
+    
+    return JsonResponse(data={
+        'labels': labels,
+        'data': data,
+    })
 
 
 def login_view(request):
@@ -35,7 +62,7 @@ def login_view(request):
 
 
 def logout_view(request):
-    return HttpResponseRedirect('/login')
+    return HttpResponseRedirect('/login/')
 
 
 def register_user(request):
@@ -64,24 +91,25 @@ def register_user(request):
 
 
 def profile_view(request):
-    context = {'segment': 'profile'}
+    context = {'segment': 'profile/'}
     html_template = loader.get_template('home/profile.html')
     return HttpResponse(html_template.render(context, request))
 
+
 def table_view(request):
-    context = {'segment': 'tables'}
+    context = {'segment': 'tables/'}
     html_template = loader.get_template('home/tables.html')
     return HttpResponse(html_template.render(context, request))
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/login/")
 def index(request):
     context = {'segment': 'index'}
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
 
 
-@login_required(login_url="/login")
+@login_required(login_url="/login/")
 def pages(request):
     context = {}
     # All resource paths end in .html.
