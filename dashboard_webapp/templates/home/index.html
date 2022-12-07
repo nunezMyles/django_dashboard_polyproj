@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <div class="container-fluid py-0">
+    <div class="container-fluid pb-4">
 
       <div class="row mt-4">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
@@ -82,7 +82,7 @@
                 <div class="col-7">
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Type</p>
-                    <h5 class="font-weight-bolder">3-room</h5>
+                    <h5 class="font-weight-bolder">4-room</h5>
                     <span class="text-sm font-weight-bolder">-</span>
                   </div>
                 </div>
@@ -98,12 +98,21 @@
       </div>
 
       <div class="row mt-4">
-        <div class="col-lg-5">
+
+        <div class="col-lg-5 d-flex">
           <div class="card mb-4">
-            <div class="card-header pb-0">
+            <!--div class="card-header pb-0">
               <h6>Sensor Layout</h6>
-            </div>
+            </div-->
+
+            <!--div id="interactive-floor" class="card-body px-0 pt-0 pb-2"-->
             <div class="card-body px-0 pt-0 pb-2">
+              <div id="floorplan-img-container">
+                <div class="pulse">
+                  <i class="fa-regular">1</i>
+                </div>
+                <img src="/static/assets/img/floor-plans/4-room_5.png" alt="img-blur-shadow" class="img-fluid" />
+              </div>
             </div>
           </div>
         </div>
@@ -313,6 +322,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="/static/assets/js/plugins/chartjs.min.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
   <script>
     var ctx = document.getElementById("chart-line").getContext("2d");
     var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
@@ -417,9 +427,42 @@
       });
 
     });
-    
-    
   </script>
+  <!--script>
+    var items = [
+      {
+        type: "text",
+        title: "Text title",
+        description: "<b>Text item</b> with description.",
+        position: {
+          left: 100,
+          top: 50
+        },
+        sticky: false,
+      },
+      {
+        type: "text",
+        title: "Text title",
+        description: "",
+        position: {
+          left: 300,
+          top: 200
+        },
+        sticky: false,
+      },
+    ];
+
+    var options = {
+      allowHtml: true,
+      triggerEvent: 'hover',
+      shareBox: false,
+    };
+
+    $(document).ready(function() {
+      $("#interactive-floor").interactiveImage(items, options);
+    });
+
+  </script-->
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
