@@ -19,23 +19,28 @@ def line_graph(request):
 
     Connection = mysql.connector.connect(host="localhost", user="root", password="!password")
     Cursor = Connection.cursor(buffered=True)
-    Connection.connect()
-    Cursor.execute("use dashboard_webapp")
 
-    SQLQuery = "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=1 ORDER BY captured_date"
-    Cursor.execute(SQLQuery)
-    ReturnedRows = Cursor.fetchall()
-    #print(ReturnedRows)
-    Connection.close()
+    Connection.connect() # start connection w/ MySQL
 
-    #queryset = models.SmokeReading.objects.order_by('captured_date')[:100]
-    for smokeReading in ReturnedRows:
-        labels.append(smokeReading[2])
-        data.append(smokeReading[1])
+    # select the schema/database to use
+    SQLQuery1 = "USE dashboard_webapp" 
+    Cursor.execute(SQLQuery1)
+
+    # select table to retrieve from
+    SQLQuery2 = "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=1 ORDER BY captured_date" 
+    Cursor.execute(SQLQuery2)
+
+    ReturnedRows = Cursor.fetchall() # fetch query results from MySQL
+    Connection.close() # close connection w/ MySQL
+
+    # use for loop to go through each and every row result
+    for smokeReading in ReturnedRows:  
+        labels.append(smokeReading[2]) # for graph x-axis:  smokeReading[2] = captured_date
+        data.append(smokeReading[1])   # for graph y-axis:  smoekReading[1] = smoke_value
     
     return JsonResponse(data={
-        'labels': labels,
-        'data': data,
+        'labels': labels,   # return list of captured dates to line graph
+        'data': data,       # return list of smoke values to lien graph
     })
 
 

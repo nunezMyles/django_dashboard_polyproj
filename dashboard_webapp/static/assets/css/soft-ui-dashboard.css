@@ -7,15 +7,9 @@
 
  /*   floor plan pulse button CSS    */
 
-.pulse{
-  width: 30px;
-  height: 30px;
-  top: 33px;
-  left: 85px;
-  background-color: var(--bs-info);
-  border-radius: 50%;
-  animation: animate 3s linear infinite;
-  position: absolute;
+#floorplan-img-container {
+  display: inline-block;
+  position: relative;
 }
 
 .pulse i{
@@ -23,13 +17,69 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  font-size: 16px;
+  font-style: normal;
   color: #fff;
   height: 100%;
   cursor: pointer;
 }
 
-@keyframes animate{
+#pulse1{
+  width: 30px;
+  height: 30px;
+  top: 30px;
+  left: 87px;
+  background-color: var(--bs-info);
+  border-radius: 100%;
+  animation: onlineAnimate 3s ease-out infinite;
+  position: absolute;
+}
+
+#pulse2{
+  width: 30px;
+  height: 30px;
+  top: 19px;
+  left: 175px;
+  background-color: var(--bs-gray);
+  border-radius: 100%;
+  animation: offlineAnimate 5s linear infinite;
+  position: absolute;
+}
+
+#pulse5{
+  width: 30px;
+  height: 30px;
+  top: 257px;
+  left: 161px;
+  background-color: var(--bs-gray);
+  border-radius: 100%;
+  animation: offlineAnimate 5s linear infinite;
+  position: absolute;
+}
+
+#pulse3{
+  width: 30px;
+  height: 30px;
+  top: 19px;
+  left: 259px;
+  background-color: var(--bs-info);
+  border-radius: 100%;
+  animation: onlineAnimate 3s ease-out infinite;
+  position: absolute;
+}
+
+#pulse4{
+  width: 30px;
+  height: 30px;
+  top: 63px;
+  left: 360px;
+  background-color: var(--bs-info);
+  border-radius: 100%;
+  animation: onlineAnimate 3s ease-out infinite;
+  position: absolute;
+}
+
+@keyframes onlineAnimate{
   0% {
     box-shadow: 0 0 0 0 rgb(33,145,254, 0.7) , 0 0 0 0 rgb(33,145,254, 0.7)
   } 
@@ -44,12 +94,22 @@
   }
 }
 
-/*  pulse button CSS end  */
-
-#floorplan-img-container {
-  display: inline-block;
-  position: relative;
+@keyframes offlineAnimate{
+  0% {
+    box-shadow: 0 0 0 0 rgb(114,132,163, 0.7) , 0 0 0 0 rgb(114,132,163, 0.7)
+  } 
+  40% { 
+    box-shadow: 0 0 0 50px rgb(255, 109, 74, 0) , 0 0 0 0 rgb(114,132,163, 0.7)
+  }
+  80% {
+    box-shadow: 0 0 0 50px rgb(255, 109, 74, 0) , 0 0 0 30px rgb(255, 109, 74, 0)
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(255, 109, 74, 0) , 0 0 0 30px rgb(255, 109, 74, 0)
+  }
 }
+
+/*  pulse button CSS end  */
 
 :root {
   --bs-blue: #63B3ED;
