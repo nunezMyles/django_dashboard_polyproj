@@ -24,37 +24,34 @@
   cursor: pointer;
 }
 
-#pulse1{
+.pulse {
   width: 30px;
   height: 30px;
-  top: 30px;
-  left: 87px;
-  background-color: var(--bs-info);
   border-radius: 100%;
-  animation: onlineAnimate 3s ease-out infinite;
   position: absolute;
 }
 
+#pulse1 {
+  top: 30px;
+  left: 87px;
+  background-color: var(--bs-info);
+  animation: onlineAnimate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+}
+
 #pulse2{
-  width: 30px;
-  height: 30px;
   top: 19px;
   left: 175px;
   background-color: var(--bs-gray);
-  border-radius: 100%;
-  animation: offlineAnimate 5s linear infinite;
-  position: absolute;
+  animation: offlineAnimate 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
 }
 
 #pulse5{
   width: 30px;
   height: 30px;
-  top: 257px;
+  top: 256px;
   left: 161px;
   background-color: var(--bs-gray);
-  border-radius: 100%;
-  animation: offlineAnimate 5s linear infinite;
-  position: absolute;
+  animation: offlineAnimate 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
 }
 
 #pulse3{
@@ -63,9 +60,7 @@
   top: 19px;
   left: 259px;
   background-color: var(--bs-info);
-  border-radius: 100%;
-  animation: onlineAnimate 3s ease-out infinite;
-  position: absolute;
+  animation: onlineAnimate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
 }
 
 #pulse4{
@@ -74,14 +69,16 @@
   top: 63px;
   left: 360px;
   background-color: var(--bs-info);
-  border-radius: 100%;
-  animation: onlineAnimate 3s ease-out infinite;
-  position: absolute;
+  animation: onlineAnimate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+}
+
+.pulse:hover{
+  transform: scale(1.5)
 }
 
 @keyframes onlineAnimate{
   0% {
-    box-shadow: 0 0 0 0 rgb(33,145,254, 0.7) , 0 0 0 0 rgb(33,145,254, 0.7)
+    box-shadow: 0 0 0 0 rgb(33,145,254, 0.7), 0 0 0 0 rgb(33,145,254, 0.7)
   } 
   40% { 
     box-shadow: 0 0 0 50px rgb(255, 109, 74, 0) , 0 0 0 0 rgb(33,145,254, 0.7)
@@ -90,7 +87,7 @@
     box-shadow: 0 0 0 50px rgb(255, 109, 74, 0) , 0 0 0 30px rgb(255, 109, 74, 0)
   }
   100% {
-    box-shadow: 0 0 0 0 rgb(255, 109, 74, 0) , 0 0 0 30px rgb(255, 109, 74, 0)
+    box-shadow: 0 0 0 0 rgb(255, 109, 74, 0) , 0 0 0 30px rgb(255, 109, 74, 0);
   }
 }
 
