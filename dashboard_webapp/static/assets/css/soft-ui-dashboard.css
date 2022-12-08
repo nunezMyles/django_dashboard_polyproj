@@ -5,7 +5,9 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
- /*   floor plan pulse button CSS    */
+ /*   my custom css    */
+
+
 
 #floorplan-img-container {
   display: inline-block;
@@ -32,48 +34,42 @@
 }
 
 #pulse1 {
-  top: 30px;
-  left: 87px;
-  background-color: var(--bs-info);
-  animation: onlineAnimate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+  top: 9%;
+  left: 18%;
 }
 
 #pulse2{
-  top: 19px;
-  left: 175px;
-  background-color: var(--bs-gray);
-  animation: offlineAnimate 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
-}
-
-#pulse5{
-  width: 30px;
-  height: 30px;
-  top: 256px;
-  left: 161px;
-  background-color: var(--bs-gray);
-  animation: offlineAnimate 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+  top: 6%;
+  left: 36%;
 }
 
 #pulse3{
-  width: 30px;
-  height: 30px;
-  top: 19px;
-  left: 259px;
-  background-color: var(--bs-info);
-  animation: onlineAnimate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+  top: 6%;
+  left: 53%;
 }
 
 #pulse4{
-  width: 30px;
-  height: 30px;
-  top: 63px;
-  left: 360px;
+  top: 20%;
+  left: 73%;
+}
+
+#pulse5{
+  top: 78%;
+  left: 33%;
+}
+
+.pulse-online{
   background-color: var(--bs-info);
   animation: onlineAnimate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
 }
 
+.pulse-offline{
+  background-color: var(--bs-gray);
+  animation: offlineAnimate 5s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite;
+}
+
 .pulse:hover{
-  transform: scale(1.5)
+  transform: scale(1.5);
 }
 
 @keyframes onlineAnimate{

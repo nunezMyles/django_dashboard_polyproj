@@ -13,7 +13,12 @@ import mysql.connector
 
 # Create your views here
 
-def line_graph(request):
+"""
+def chart_view(request, selected_sensor):
+    return render('includes/chart.html', {"selected_sensor": selected_sensor})
+"""
+
+def line_graph(request, sensorId):
     labels = []
     data = []
 
@@ -27,11 +32,12 @@ def line_graph(request):
     Cursor.execute(SQLQuery1)
 
     # select table to retrieve from
-    SQLQuery2 = "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=1 ORDER BY captured_date" 
+    SQLQuery2 = "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id= " + str(sensorId) + " ORDER BY captured_date" 
     Cursor.execute(SQLQuery2)
 
     ReturnedRows = Cursor.fetchall() # fetch query results from MySQL
     Connection.close() # close connection w/ MySQL
+    #print(ReturnedRows)
 
     # use for loop to go through each and every row result
     for smokeReading in ReturnedRows:  
@@ -102,14 +108,19 @@ def profile_view(request):
 
 
 def table_view(request):
-    context = {'segment': 'tables/'}
+    context = {
+        'segment': 'tables/',
+    }
     html_template = loader.get_template('home/tables.html')
     return HttpResponse(html_template.render(context, request))
 
 
 @login_required(login_url="/login/")
 def index(request):
-    context = {'segment': 'index'}
+    context = {
+        'segment': 'index',
+        #'selected_sensor': "5",
+    }
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
 

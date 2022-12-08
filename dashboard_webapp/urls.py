@@ -12,7 +12,8 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"), path("logout", views.logout_view, name="logout"),
 
     path('', views.index, name='home'),
-    path('line-graph/', views.line_graph, name='line-graph'), path('line-graph', views.line_graph, name='line-graph'),
+    #path('chart/<int:sensorId>/', views.chart_view, name="chart"), path('chart/<int:sensorId>', views.chart_view, name="chart"),
+    path('line-graph/<int:sensorId>/', views.line_graph, name='line-graph'), path('line-graph/<int:sensorId>', views.line_graph, name='line-graph'),
     path("tables/", views.table_view, name="tables"), path("tables", views.table_view, name="tables"), 
     path("profile/", views.profile_view, name="profile"), path("profile", views.profile_view, name="profile"),
 
