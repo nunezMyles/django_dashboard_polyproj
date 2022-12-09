@@ -353,6 +353,7 @@
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
 
   <!--  update line chart w/ new time script   -->
+
   <script>
     function chartRefresh() {
 
@@ -406,7 +407,7 @@
       }
       
       $.ajax({
-        url: "/line-graph/" + String(global_selected_sensor),
+        url: "/line-graph/" + String(global_selected_sensor) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
         success: function(response) {
           global_lineChart.data.datasets[0].data = response.data;
           global_lineChart.data.labels = response.labels;
@@ -418,6 +419,7 @@
   </script>
 
   <!--  update line chart w/ new sensor & new time script   -->
+
   <script>
     var global_selected_sensor = 1;
     
@@ -428,6 +430,7 @@
   </script>
 
   <!--   init line chart script   -->
+
   <script>
     var global_lineChart;
     var ctx = document.getElementById("chart-line").getContext("2d");
@@ -443,8 +446,41 @@
     gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
 
     $(function() {
+
+      // init datepicker-start: set start date to current day
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+      today = yyyy + '-' + mm + '-' + dd;
+
+      startDate = today;        
+      document.getElementById("datepicker-start").value = startDate;
+      
+      // init timepicker-start: set start time to 12am
+      startTime = "00:00" 
+      document.getElementById("timepicker-start").value = startTime;
+
+      // init datepicker-end: set end date to current day
+      endDate = today;
+      document.getElementById("datepicker-end").value = endDate;
+      
+      // init timepicker-end: set end time to current time
+      function getTime(d){
+        function pad(n){return n<10 ? '0'+n : n}
+        return [
+          pad(d.getUTCHours() + 8),':',
+          pad(d.getUTCMinutes()),
+        ].join("");
+      }
+      var rawDate = new Date();
+      var formattedTime = getTime(rawDate);
+
+      endTime = formattedTime;
+      document.getElementById("timepicker-end").value = endTime;
+
       $.ajax({
-        url: "/line-graph/1",
+        url: "/line-graph/1/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
         success: function(response) {
           global_lineChart = new Chart(ctx, config = {
             type: "line",

@@ -18,35 +18,35 @@ def chart_view(request, selected_sensor):
     return render('includes/chart.html', {"selected_sensor": selected_sensor})
 """
 
-def line_graph(request, sensorId):
-    labels = []
-    data = []
-
+def db_r_query(query, param):
     Connection = mysql.connector.connect(host="localhost", user="root", password="!password")
     Cursor = Connection.cursor(buffered=True)
+    Connection.connect() 
+    Cursor.execute("USE dashboard_webapp")
+    try:
+        Cursor.execute(query, param)
+        returned_rows = Cursor.fetchall()
+        Connection.close()
+        return returned_rows
+    except (mysql.connector.DatabaseError, mysql.connector.OperationalError) as e:  # catch the error
+        print('***', e, '***')
+        return []
 
-    Connection.connect() # start connection w/ MySQL
 
-    # select the schema/database to use
-    SQLQuery1 = "USE dashboard_webapp" 
-    Cursor.execute(SQLQuery1)
+def line_graph(request, sensorId, startDate, startTime, endDate, endTime):
+    labels = []
+    data = []
+    #print(startDate, startTime, endDate, endTime)
 
-    # select table to retrieve from
-    SQLQuery2 = "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id= " + str(sensorId) + " ORDER BY captured_date" 
-    Cursor.execute(SQLQuery2)
+    ReturnedRows = db_r_query("SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=%s ORDER BY captured_date", [sensorId])                
 
-    ReturnedRows = Cursor.fetchall() # fetch query results from MySQL
-    Connection.close() # close connection w/ MySQL
-    #print(ReturnedRows)
-
-    # use for loop to go through each and every row result
-    for smokeReading in ReturnedRows:  
-        labels.append(smokeReading[2]) # for graph x-axis:  smokeReading[2] = captured_date
-        data.append(smokeReading[1])   # for graph y-axis:  smoekReading[1] = smoke_value
+    for smokeReading in ReturnedRows:   
+        labels.append(smokeReading[2]) 
+        data.append(smokeReading[1])    
     
     return JsonResponse(data={
-        'labels': labels,   # return list of captured dates to line graph
-        'data': data,       # return list of smoke values to lien graph
+        'labels': labels,              
+        'data': data,                  
     })
 
 
