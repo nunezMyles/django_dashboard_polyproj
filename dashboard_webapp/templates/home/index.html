@@ -303,27 +303,27 @@
                     <span class="text-xs font-weight-bolder">FROM</span>
                   </div>
                   <div class="col-lg-5">
-                    <input id="startDate" class="form-control" data-toggle="tooltip" type="date" />
+                    <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" />
                   </div>
                   <div class="col-lg-5">
-                    <input id="startTime" class="form-control" type="time" />
+                    <input id="timepicker-start" class="form-control cursor-pointer" type="time" />
                   </div>
                 </div>
 
                 <div class="row align-items-center ms-4">
                   <div class="col-lg-2">
-                    <span class="text-xs font-weight-bolder">TO</span>
+                    <span id="label-test" class="text-xs font-weight-bolder">TO</span>
                   </div>
                   <div class="col-lg-5">
-                    <input id="endDate" class="form-control" type="date" />
+                    <input id="datepicker-end" class="form-control cursor-pointer" type="date" />
                   </div>
                   <div class="col-lg-5">
-                    <input id="endTime" class="form-control" type="time" />
+                    <input id="timepicker-end" class="form-control cursor-pointer" type="time" />
                   </div>
                 </div>
 
-                <div>
-
+                <div class="row align-items-center ms-4 me-1">
+                  <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="chartRefresh()"></i>
                 </div>
 
               </div>
@@ -351,20 +351,85 @@
   <script src="/static/assets/js/plugins/chartjs.min.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
+
+  <!--  update line chart w/ new time script   -->
   <script>
-    function sensor_onClick(selected_sensor) {
+    function chartRefresh() {
+
+      var startDate = $("#datepicker-start").val();   // returns 2022-12-31
+      var startTime = $("#timepicker-start").val();   // returns 16:43
+      var endDate = $("#datepicker-end").val();
+      var endTime = $("#timepicker-end").val();
+      //document.getElementById("label-test").innerHTML = "New text!";
+
+      if (startDate == "") {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        startDate = today;        
+        document.getElementById("datepicker-start").value = startDate;
+      }
+      
+      if (startTime == "") {
+        startTime = "00:00"   // use 12am for startTime
+        document.getElementById("timepicker-start").value = startTime;
+      }
+
+      if (endDate == "") {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        endDate = today;
+        document.getElementById("datepicker-end").value = endDate;
+      }
+      
+      if (endTime == "") {
+        function getTime(d){
+          function pad(n){return n<10 ? '0'+n : n}
+          return [
+            pad(d.getUTCHours() + 8),':',
+            pad(d.getUTCMinutes()),
+          ].join("");
+        }
+
+        var rawDate = new Date();
+        var formattedTime = getTime(rawDate);
+
+        endTime = formattedTime;
+        document.getElementById("timepicker-end").value = endTime;
+      }
+      
       $.ajax({
-        url: "/line-graph/" + String(selected_sensor),
+        url: "/line-graph/" + String(global_selected_sensor),
         success: function(response) {
-          lineChart.data.datasets[0].data = response.data;
-          lineChart.data.labels = response.labels;
-          lineChart.update();
+          global_lineChart.data.datasets[0].data = response.data;
+          global_lineChart.data.labels = response.labels;
+          global_lineChart.update();
         }
       });
     }
+
   </script>
+
+  <!--  update line chart w/ new sensor & new time script   -->
   <script>
-    var lineChart;
+    var global_selected_sensor = 1;
+    
+    function sensor_onClick(selected_sensor) {
+      global_selected_sensor = selected_sensor;
+      chartRefresh();
+    }
+  </script>
+
+  <!--   init line chart script   -->
+  <script>
+    var global_lineChart;
     var ctx = document.getElementById("chart-line").getContext("2d");
 
     var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
@@ -381,7 +446,7 @@
       $.ajax({
         url: "/line-graph/1",
         success: function(response) {
-          lineChart = new Chart(ctx, config = {
+          global_lineChart = new Chart(ctx, config = {
             type: "line",
             data: {
               datasets: [{
@@ -465,7 +530,8 @@
       });
     });
   </script>
-  <script>
+
+  <!--script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {
@@ -473,6 +539,6 @@
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
-  </script>
+  </script-->
 
 {% endblock javascripts %}

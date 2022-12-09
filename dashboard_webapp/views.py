@@ -102,7 +102,9 @@ def register_user(request):
 
 
 def profile_view(request):
-    context = {'segment': 'profile/'}
+    context = {
+        'segment': 'profile/',
+    }
     html_template = loader.get_template('home/profile.html')
     return HttpResponse(html_template.render(context, request))
 
@@ -119,7 +121,6 @@ def table_view(request):
 def index(request):
     context = {
         'segment': 'index',
-        #'selected_sensor': "5",
     }
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
