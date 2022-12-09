@@ -38,7 +38,13 @@ def line_graph(request, sensorId, startDate, startTime, endDate, endTime):
     data = []
     #print(startDate, startTime, endDate, endTime)
 
-    ReturnedRows = db_r_query("SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=%s ORDER BY captured_date", [sensorId])                
+    datetime_start = startDate + " " + startTime + ":00"
+    datetime_end = endDate + " " + endTime + ":00"
+
+    ReturnedRows = db_r_query(
+        "SELECT * FROM dashboard_webapp_smokereading WHERE module_stand_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
+        [sensorId, datetime_start, datetime_end]
+    )                
 
     for smokeReading in ReturnedRows:   
         labels.append(smokeReading[2]) 
@@ -52,7 +58,6 @@ def line_graph(request, sensorId, startDate, startTime, endDate, endTime):
 
 def login_view(request):
     form = LoginForm(request.POST or None)
-
     msg = None
 
     if request.method == "POST":
