@@ -37,35 +37,34 @@ def db_r_query(query, param):
 def line_graph(request, sensorId, startDate, startTime, endDate, endTime):
     labels = []
     data = []
-    print(startDate, startTime, endDate, endTime)
+    #print(startDate, startTime, endDate, endTime)
 
     datetime_start = startDate + " " + startTime + ":00"
     datetime_end = endDate + " " + endTime + ":00"
 
     ReturnedRows = db_r_query(
-        "SELECT DISTINCT * FROM dashboard_webapp_smokereading WHERE module_stand_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
+        "SELECT DISTINCT * FROM dashboard_webapp_smokereading WHERE raspberry_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
         [sensorId, datetime_start, datetime_end]
     )                
 
     for smokeReading in ReturnedRows:   
         capturedDate_str = str(smokeReading[2])
-        print(capturedDate_str)
+        #print(smokeReading)
 
-        # if same day, only show time in AM/PM
+        # if same day, exclude date, show time in AM/PM
         if startDate == endDate:    
             dt = datetime.datetime.strptime(capturedDate_str[11:16], '%H:%M').strftime('%I:%M %p')
-            labels.append(str(dt))
 
-        # if same year, show '13 Dec, 01:40 PM'
+        # if same year, exclude year, show '13 Dec, 01:40 PM'
         elif startDate[0:4] == endDate[0:4]:
             dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b, %I:%M %p')
-            labels.append(str(dt))
 
+        # if different year, exclude time, show date
         else:
-            dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b %Y, %I:%M %p')
-            labels.append(str(dt))
-
-        data.append(smokeReading[1])    
+            dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b %Y')
+            
+        labels.append(str(dt))
+        data.append(smokeReading[3])    
     
     return JsonResponse(data={
         'labels': labels,              

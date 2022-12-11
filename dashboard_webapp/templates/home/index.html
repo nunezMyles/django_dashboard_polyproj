@@ -132,7 +132,7 @@
         <div class="col-lg-7">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Module Stands / Raspberry Pi</h6>
+              <h6>Rooms w/ Raspberry Pi</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -140,8 +140,8 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Id</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Room</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Id</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ip address</th>
                       <th class="text-secondary opacity-7"></th>
@@ -160,10 +160,10 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB1</p>
+                        <p class="text-xs font-weight-bold mb-0">Bedroom 1</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Bedroom 1</p>
+                        <p class="text-xs font-weight-bold mb-0">RB1</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-success">Online</span>
@@ -186,10 +186,10 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB2</p>
+                        <p class="text-xs font-weight-bold mb-0">Bedroom 2</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Bedroom 2</p>
+                        <p class="text-xs font-weight-bold mb-0">RB2</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-secondary">Offline</span>
@@ -212,10 +212,10 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB3</p>
+                        <p class="text-xs font-weight-bold mb-0">Bedroom 3</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Bedroom 3</p>
+                        <p class="text-xs font-weight-bold mb-0">RB3</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-success">Online</span>
@@ -238,10 +238,10 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB4</p>
+                        <p class="text-xs font-weight-bold mb-0">Living room</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Living room</p>
+                        <p class="text-xs font-weight-bold mb-0">RB4</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-success">Online</span>
@@ -264,10 +264,10 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB5</p>
+                        <p class="text-xs font-weight-bold mb-0">Kitchen</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Kitchen</p>
+                        <p class="text-xs font-weight-bold mb-0">RB5</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span class="badge badge-sm bg-gradient-secondary">Offline</span>
@@ -352,12 +352,7 @@
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
 
-  <!--script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script-->
-
   <!--  update line chart w/ new time script   -->
-
   <script>
     function chartRefresh() {
 
@@ -423,7 +418,6 @@
   </script>
 
   <!--  update line chart w/ new sensor & new time script   -->
-
   <script>
     var global_selected_sensor = 1;
     
@@ -434,7 +428,6 @@
   </script>
 
   <!--   init line chart script   -->
-
   <script>
     var global_lineChart;
     var ctx = document.getElementById("chart-line").getContext("2d");

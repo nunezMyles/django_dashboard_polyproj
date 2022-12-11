@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Household, ModuleStand, SmokeReading
+from .models import Raspberry, Raspberry_location, SmokeReading, ThermalCaptures, RGBCaptures
 
 # Register your models here.
-admin.site.register([Household, ModuleStand, SmokeReading])
+admin.site.register([Raspberry, Raspberry_location, SmokeReading, ThermalCaptures, RGBCaptures])
