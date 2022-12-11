@@ -29,7 +29,7 @@ def db_r_query(query, param):
         returned_rows = Cursor.fetchall()
         Connection.close()
         return returned_rows
-    except (mysql.connector.DatabaseError, mysql.connector.OperationalError) as e:  # catch the error
+    except (mysql.connector.DatabaseError, mysql.connector.OperationalError) as e:  # catch error
         #print('***', e, '***')
         return []
 
