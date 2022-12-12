@@ -303,10 +303,10 @@
                     <span class="text-xs font-weight-bolder">FROM</span>
                   </div>
                   <div class="col-lg-5">
-                    <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" />
+                    <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" onchange="dt_range_check()" />
                   </div>
                   <div class="col-lg-5">
-                    <input id="timepicker-start" class="form-control cursor-pointer" type="time" />
+                    <input id="timepicker-start" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
                   </div>
                 </div>
 
@@ -315,10 +315,10 @@
                     <span id="label-test" class="text-xs font-weight-bolder">TO</span>
                   </div>
                   <div class="col-lg-5">
-                    <input id="datepicker-end" class="form-control cursor-pointer" type="date" />
+                    <input id="datepicker-end" class="form-control cursor-pointer" type="date" onchange="dt_range_check()" />
                   </div>
                   <div class="col-lg-5">
-                    <input id="timepicker-end" class="form-control cursor-pointer" type="time" />
+                    <input id="timepicker-end" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
                   </div>
                 </div>
 
@@ -432,6 +432,32 @@
     }
   </script>
 
+  <!--  restrictions for line chart datetime filter script   -->
+  <script>
+    function dt_range_check() {
+      current_date_start = document.getElementById("datepicker-start").value;
+      current_date_end = document.getElementById("datepicker-end").value;
+      current_time_start = document.getElementById("timepicker-start").value;
+      current_time_end = document.getElementById("timepicker-end").value;
+
+      if (current_date_start > current_date_end) {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        today = yyyy + '-' + mm + '-' + dd;
+
+        document.getElementById("datepicker-end").value = today;
+        alert("Invalid date. Please select a date from within the acceptable range.");
+      }
+
+      else if (current_date_start == current_date_end && current_time_start > current_time_end) {        
+        document.getElementById("timepicker-start").value = "00:00";
+        alert("Invalid time. Please select a time from within the acceptable range.");
+      }
+    }
+  </script>
+
   <!--   init line chart script   -->
   <script>
     var global_lineChart;
@@ -458,6 +484,7 @@
 
       startDate = today;        
       document.getElementById("datepicker-start").value = startDate;
+      document.getElementById("datepicker-start").max = startDate;
       
       // init timepicker-start: set start time to 12am
       startTime = "00:00" 
@@ -466,6 +493,7 @@
       // init datepicker-end: set end date to current day
       endDate = today;
       document.getElementById("datepicker-end").value = endDate;
+      document.getElementById("datepicker-end").max = endDate;
       
       // init timepicker-end: set end time to current time
       function getTime(d){
