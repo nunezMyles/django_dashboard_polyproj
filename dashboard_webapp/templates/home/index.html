@@ -39,9 +39,22 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Block</p>
                     <h5 class="font-weight-bolder">413B</h5>
-                    <a href="" class="text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit block">
+                    <a id="btnChangeBlock" onclick="btnChangeBlock_onClick()" class="text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit block">
                       change
                     </a>
+
+                    
+                    <div class="dropdown">
+                      <button class="dropbtn font-weight-bolder">413B</button>
+                      <div class="dropdown-content">
+                      <a href="#">Link 1</a>
+                      <a href="#">Link 2</a>
+                      <a href="#">Link 3</a>
+                      </div>
+                    </div>
+
+
+
                   </div>
                 </div>
                 <div class="col-5 text-end my-auto">
@@ -61,7 +74,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Unit no.</p>
                     <h5 class="font-weight-bolder">#14-101</h5>
-                    <a href="" class="text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
+                    <a id="btnChangeUnit" onclick="btnChangeUnit_onClick()" class="text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
                       change
                     </a>
                   </div>
@@ -354,7 +367,13 @@
 
   <!--  update location, floor plan, raspberry table, line chart script   -->
   <script>
+    function btnChangeUnit_onClick() {
+      
+    }
 
+    function btnChangeBlock_onClick() {
+      
+    }
   </script>
 
   <!--  update line chart w/ new time script   -->
@@ -432,7 +451,7 @@
     }
   </script>
 
-  <!--  restrictions for line chart datetime filter script   -->
+  <!--  line chart minmax datetime checker script   -->
   <script>
     function dt_range_check() {
       current_date_start = document.getElementById("datepicker-start").value;
@@ -458,7 +477,7 @@
     }
   </script>
 
-  <!--   init line chart script   -->
+  <!--  init line chart script   -->
   <script>
     var global_lineChart;
     var ctx = document.getElementById("chart-line").getContext("2d");
