@@ -44,19 +44,25 @@
                     
                     <div class="dropdown">
                       <h5 class="dropbtn font-weight-bolder">413B</h5>
-                      <div id="btnDropDown_block" class="dropdown-content dropdown-scrollbar">
-                        <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                        <h6>401A</h6>
-                        <h6>402C</h6>
-                        <h6>403B</h6>
-                        <h6>404A</h6>
-                        <h6>405C</h6>
+                      <div id="ddlBlock_content" class="dropdown-content dropdown-scrollbar">
+                        <input id="textfield_searchBlock" class="dropdown-content-item" type="text" placeholder="Search.." onkeyup="filterBlockFunction()">
+                        <a class="dropdown-content-item font-weight-bold">401A</a>
+                        <a class="dropdown-content-item font-weight-bold">402C</a>
+                        <a class="dropdown-content-item font-weight-bold">403B</a>
+                        <a class="dropdown-content-item font-weight-bold">404A</a>
+                        <a class="dropdown-content-item font-weight-bold">405C</a>
+                        <a class="dropdown-content-item font-weight-bold">401A</a>
+                        <a class="dropdown-content-item font-weight-bold">402C</a>
+                        <a class="dropdown-content-item font-weight-bold">401A</a>
+                        <a class="dropdown-content-item font-weight-bold">402C</a>
+                        <a class="dropdown-content-item font-weight-bold">403B</a>
+                        <a class="dropdown-content-item font-weight-bold">404A</a>
+                        <a class="dropdown-content-item font-weight-bold">405C</a>
+                        <a class="dropdown-content-item font-weight-bold">401A</a>
+                        <a class="dropdown-content-item font-weight-bold">402C</a>
                       </div>
                     </div>
-                    
-
-
-                    <a id="btnChangeBlock" onclick="btnChangeBlock_onClick()" class="text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
+                    <a id="btnChangeBlock" onclick="btnChangeBlock_onClick()" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
                       change
                     </a>
 
@@ -372,15 +378,44 @@
 
   <!--  update location, floor plan, raspberry table, line chart script   -->
   <script>
-    /*function btnDropDown_onClick() {
-      
-    }*/
+    var ddlBlock_isOpen = false;
 
     function btnChangeBlock_onClick() {
-      document.getElementById("btnDropDown_block").classList.toggle("dropdown-toggle");
+      document.getElementById("ddlBlock_content").classList.toggle("dropdown-toggle");
+      ddlBlock_isOpen = true;
     }
 
-    
+    const onClickOutside = (e) => {
+      if (ddlBlock_isOpen && !e.target.className.includes('dropdown-content-item')) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+
+        for (let i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('dropdown-toggle')) {
+            openDropdown.classList.remove('dropdown-toggle');
+          }
+        }
+
+      }
+    };
+    window.addEventListener("click", onClickOutside);
+
+    function filterBlockFunction() {
+      var input = document.getElementById("textfield_searchBlock");
+      var filter = input.value.toUpperCase();
+
+      var div = document.getElementById("ddlBlock_content");
+      var a = div.getElementsByTagName("a");
+
+      for (let i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          a[i].style.display = "";
+        } else {
+          a[i].style.display = "none";
+        }
+      }
+    }
 
   </script>
 

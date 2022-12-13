@@ -7,6 +7,15 @@
 
 /***    dropdown list 1 css   */
 
+#textfield_searchBlock {
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 7px 10px 6px 10px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  width: 150px;
+}
+
 #btnChangeBlock, #btnChangeUnit {
   position: relative;
   cursor: pointer;
@@ -27,15 +36,15 @@
   display: none;
   position: absolute;
   background-color: #f9f9f9;
-  min-width: 120px;
+  min-width: 150px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  height: 220px;
+  max-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.dropdown-content h6 {
+.dropdown-content a {
   color: black;
   padding: 8px 16px;
   font-size: 16px;
@@ -44,7 +53,7 @@
   cursor: pointer;
 }
 
-.dropdown-content h6:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color: #f1f1f1; color: var(--bs-primary);}
 
 .dropdown-toggle {display:block}
 
