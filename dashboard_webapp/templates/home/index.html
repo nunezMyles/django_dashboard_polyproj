@@ -38,8 +38,6 @@
                 <div class="col-7">
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Block</p>
-                    <!--h5 class="font-weight-bolder">413B</h5-->
-
 
                     
                     <div class="dropdown">
@@ -51,21 +49,13 @@
                         <a class="dropdown-content-item font-weight-bold">403B</a>
                         <a class="dropdown-content-item font-weight-bold">404A</a>
                         <a class="dropdown-content-item font-weight-bold">405C</a>
-                        <a class="dropdown-content-item font-weight-bold">401A</a>
-                        <a class="dropdown-content-item font-weight-bold">402C</a>
-                        <a class="dropdown-content-item font-weight-bold">401A</a>
-                        <a class="dropdown-content-item font-weight-bold">402C</a>
-                        <a class="dropdown-content-item font-weight-bold">403B</a>
-                        <a class="dropdown-content-item font-weight-bold">404A</a>
-                        <a class="dropdown-content-item font-weight-bold">405C</a>
-                        <a class="dropdown-content-item font-weight-bold">401A</a>
-                        <a class="dropdown-content-item font-weight-bold">402C</a>
                       </div>
                     </div>
                     <a id="btnChangeBlock" onclick="btnChangeBlock_onClick()" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
                       change
                     </a>
 
+                    
                   </div>
                 </div>
                 <div class="col-5 text-end my-auto">
@@ -398,6 +388,7 @@
 
       }
     };
+
     window.addEventListener("click", onClickOutside);
 
     function filterBlockFunction() {
@@ -473,13 +464,44 @@
       }
       
       $.ajax({
+        type: "GET",
         url: "/line-graph/" + String(global_selected_sensor) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
         success: function(response) {
+          //alert(response['labels']);
           global_lineChart.data.datasets[0].data = response.data;
           global_lineChart.data.labels = response.labels;
           global_lineChart.update();
+        },
+        error: function(xhr, status, error) {
+          http_error_handler(xhr);
         }
       });
+
+      function http_error_handler(request) {
+        if (xhr.status === 400) {
+          // Bad/invalid request
+          alert("We're sorry, but there seems to be a problem with the request you are trying to make.");
+        } else if (xhr.status === 401) {
+          // Unauthorized
+          alert("We're sorry, but you are not authorized to access the requested resource.");
+        } else if (xhr.status === 403) {
+          // Forbidden
+          alert("We're sorry, but you are not permitted to access the requested resource.");
+        } else if (xhr.status === 404) {
+          // Not found
+          alert('The resource you are looking for does not exist.');
+        } else if (xhr.status === 408) {
+          // Request Timeout
+          alert("Your request has timed out.");
+        } else if (xhr.status === 500) {
+          // Not found
+          alert("We're sorry, but there has been an error on the server");
+        } else {
+          // Other error
+          alert('An error occurred: ' + error);
+        }
+      }
+    
     }
 
   </script>
@@ -572,6 +594,7 @@
       document.getElementById("timepicker-end").value = endTime;
 
       $.ajax({
+        type: "GET",
         url: "/line-graph/1/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
         success: function(response) {
           global_lineChart = new Chart(ctx, config = {
@@ -669,6 +692,9 @@
               },
             },
           });
+        },
+        error: function(xhr, status, error) {
+          http_error_handler(xhr);
         }
       });
     });
