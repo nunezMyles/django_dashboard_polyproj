@@ -370,31 +370,57 @@
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
 
-  <!--  init dropdown list script 	-->
+  <!--  update dropdown list for units script 	-->
+  <script>
+    function dropDownItem_Block_onClick(text) {
+      $.ajax({
+        type: "GET",
+        url: "/fetchUnits/" + text,
+        success: function(response) {
+
+          // delete existing units in dropdownlist_units
+          const unitOptions = document.querySelectorAll('.dropdown-item-unit');
+          unitOptions.forEach(unit => {
+            unit.remove();
+          });
+            
+          // add updated units into dropdownlist_units
+          response['units'].forEach(function(element) {
+            const parentElement = document.querySelector('#ddlUnit_content');
+            const div = document.createElement('div');
+            div.innerHTML = '<a class="dropdown-content-item dropdown-item-unit font-weight-bold">' + element + '</a>';
+            parentElement.appendChild(div);
+          });
+          
+        },
+        error: function(xhr, status, error) {
+          http_error_handler(xhr);
+        }
+      });
+    }
+
+  </script>
+
+  <!--  init dropdown list for blocks script 	-->
   <script>
 
     $(function() {
       $.ajax({
         type: "GET",
-        url: "/fetchLocations",
+        url: "/fetchBlocks",
         success: function(response) {
 
           // add blocks into dropdownlist for blocks
           response['blocks'].forEach(function(element) {
             const parentElement = document.querySelector('#ddlBlock_content');
             const div = document.createElement('div');
-            div.innerHTML =  div.innerHTML = '<a class="dropdown-content-item font-weight-bold">' + element + '</a>';
+            div.innerHTML = '<a class="dropdown-content-item font-weight-bold" onclick="dropDownItem_Block_onClick(this.innerText)">' + element + '</a>';
             parentElement.appendChild(div);
           });
 
-          // add units into dropdownlist for units
-          response['units'].forEach(function(element) {
-            const parentElement = document.querySelector('#ddlUnit_content');
-            const div = document.createElement('div');
-            div.innerHTML = '<a class="dropdown-content-item font-weight-bold">' + element + '</a>';
-            parentElement.appendChild(div);
-          });
-
+        },
+        error: function(xhr, status, error) {
+          http_error_handler(xhr);
         }
       });
     });
@@ -417,16 +443,31 @@
     }
 
     const onClickOutside = (e) => {
+      // if either dropdownlists are open + mouse click occured outside
       if ((ddlBlock_isOpen || ddlUnit_isOpen) && !e.target.className.includes('dropdown-content-item')) {
         var dropdowns = document.getElementsByClassName("dropdown-content");
+        var searchBlockText = document.getElementById("textfield_searchBlock");
+        var searchUnitText = document.getElementById("textfield_searchUnit");
 
+        // reset dropdown searchBlock text
+        if (searchBlockText.value != "") {
+          searchBlockText.value = "";
+          filterBlockFunction();
+        }
+
+        // reset dropdown searchUnit text
+        if (searchUnitText.value != "") {
+          searchUnitText.value = "";
+          filterUnitFunction();
+        }        
+
+        // close drop down list
         for (let i = 0; i < dropdowns.length; i++) {
           var openDropdown = dropdowns[i];
           if (openDropdown.classList.contains('dropdown-toggle')) {
             openDropdown.classList.remove('dropdown-toggle');
           }
         }
-
       }
     };
 

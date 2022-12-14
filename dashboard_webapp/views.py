@@ -34,25 +34,31 @@ def db_r_query(query, param):
         return []
 
 
-def fetch_locations(request):
-    blocks = []
+def fetch_units(request, hdb_block):
     units = []
+
+    ReturnedRows = db_r_query("SELECT DISTINCT(unit_number) FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s", [hdb_block])  
+    for household_unit in ReturnedRows: 
+        units.append(household_unit) 
+    
+    return JsonResponse(data={
+        'units': units,             
+    })
+
+
+def fetch_blocks(request):
+    blocks = []
 
     ReturnedRows = db_r_query("SELECT DISTINCT(hdb_block) FROM dashboard_webapp_raspberry_location", [])  
     for household_block in ReturnedRows: 
         blocks.append(household_block) 
-
-    ReturnedRows = db_r_query("SELECT DISTINCT(unit_number) FROM dashboard_webapp_raspberry_location", [])  
-    for household_unit in ReturnedRows:
-        units.append(household_unit) 
     
     return JsonResponse(data={
-        'blocks': blocks,              
-        'units': units,                  
+        'blocks': blocks,             
     })
 
 
-def fetch_lineChartData(request, sensorId, startDate, startTime, endDate, endTime):
+def fetch_smokeValues(request, sensorId, startDate, startTime, endDate, endTime):
     labels = []
     data = []
     #print(startDate, startTime, endDate, endTime)
