@@ -19,7 +19,6 @@
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Area</p>
                     <h5 class="font-weight-bolder">Sengkang</h5>
                     <span class="text-sm font-weight-bolder">Fernvale Link</span>
-                    <!--span class="text-sm">more</span-->
                   </div>
                 </div>
                 <div class="col-5 text-end my-auto">
@@ -38,25 +37,20 @@
                 <div class="col-7">
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Block</p>
-
-                    
                     <div class="dropdown">
                       <h5 class="dropbtn font-weight-bolder">413B</h5>
                       <div id="ddlBlock_content" class="dropdown-content dropdown-scrollbar">
                         <input id="textfield_searchBlock" class="dropdown-content-item" type="text" placeholder="Search.." onkeyup="filterBlockFunction()">
-                        <a class="dropdown-content-item font-weight-bold">401A</a>
+                        <!--a class="dropdown-content-item font-weight-bold">401A</a>
                         <a class="dropdown-content-item font-weight-bold">402C</a>
                         <a class="dropdown-content-item font-weight-bold">403B</a>
                         <a class="dropdown-content-item font-weight-bold">404A</a>
-                        <a class="dropdown-content-item font-weight-bold">405C</a>
+                        <a class="dropdown-content-item font-weight-bold">405C</a-->
                       </div>
                     </div>
-
                     <a id="btnChangeBlock" onclick="btnChangeBlock_onClick()" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit block">
                       change
                     </a>
-
-                    
                   </div>
                 </div>
                 <div class="col-5 text-end my-auto">
@@ -75,25 +69,19 @@
                 <div class="col-7">
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Unit no.</p>
-
-
                     <div class="dropdown">
                       <h5 class="dropbtn font-weight-bolder">#14-101</h5>
                       <div id="ddlUnit_content" class="dropdown-content dropdown-scrollbar">
                         <input id="textfield_searchUnit" class="dropdown-content-item" type="text" placeholder="Search.." onkeyup="filterUnitFunction()">
-                        <a class="dropdown-content-item font-weight-bold">#03-101</a>
+                        <!--a class="dropdown-content-item font-weight-bold">#03-101</a>
                         <a class="dropdown-content-item font-weight-bold">#09-107</a>
                         <a class="dropdown-content-item font-weight-bold">#14-101</a>
-                        <a class="dropdown-content-item font-weight-bold">#14-107</a>
+                        <a class="dropdown-content-item font-weight-bold">#14-107</a-->
                       </div>
                     </div>
-                    
                     <a id="btnChangeUnit" onclick="btnChangeUnit_onClick()" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
                       change
                     </a>
-
-
-
                   </div>
                 </div>
                 <div class="col-5 text-end my-auto">
@@ -381,6 +369,37 @@
   <script src="/static/assets/js/plugins/chartjs.min.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
+
+  <!--  init dropdown list script 	-->
+  <script>
+
+    $(function() {
+      $.ajax({
+        type: "GET",
+        url: "/fetchLocations",
+        success: function(response) {
+
+          // add blocks into dropdownlist for blocks
+          response['blocks'].forEach(function(element) {
+            const parentElement = document.querySelector('#ddlBlock_content');
+            const div = document.createElement('div');
+            div.innerHTML =  div.innerHTML = '<a class="dropdown-content-item font-weight-bold">' + element + '</a>';
+            parentElement.appendChild(div);
+          });
+
+          // add units into dropdownlist for units
+          response['units'].forEach(function(element) {
+            const parentElement = document.querySelector('#ddlUnit_content');
+            const div = document.createElement('div');
+            div.innerHTML = '<a class="dropdown-content-item font-weight-bold">' + element + '</a>';
+            parentElement.appendChild(div);
+          });
+
+        }
+      });
+    });
+
+  </script>
 
   <!--  dropdown list: change block/unit script   -->
   <script>

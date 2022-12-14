@@ -18,8 +18,11 @@ urlpatterns = [
 
     path('', views.index, name='home'),
     #path('chart/<int:sensorId>/', views.chart_view, name="chart"), path('chart/<int:sensorId>', views.chart_view, name="chart"),
-    path('line-graph/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.line_graph, name='line-graph'), 
-    path('line-graph/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.line_graph, name='line-graph'),
+    path('line-graph/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.fetch_lineChartData, name='line-graph'), 
+    path('line-graph/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_lineChartData, name='line-graph'),
+
+    path('fetchLocations', views.fetch_locations, name='locationData'), 
+    path('fetchLocations/', views.fetch_locations, name='locationData'),
 
     path("tables/", views.table_view, name="tables"), 
     path("tables", views.table_view, name="tables"), 

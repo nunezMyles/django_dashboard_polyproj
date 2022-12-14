@@ -34,7 +34,25 @@ def db_r_query(query, param):
         return []
 
 
-def line_graph(request, sensorId, startDate, startTime, endDate, endTime):
+def fetch_locations(request):
+    blocks = []
+    units = []
+
+    ReturnedRows = db_r_query("SELECT DISTINCT(hdb_block) FROM dashboard_webapp_raspberry_location", [])  
+    for household_block in ReturnedRows: 
+        blocks.append(household_block) 
+
+    ReturnedRows = db_r_query("SELECT DISTINCT(unit_number) FROM dashboard_webapp_raspberry_location", [])  
+    for household_unit in ReturnedRows:
+        units.append(household_unit) 
+    
+    return JsonResponse(data={
+        'blocks': blocks,              
+        'units': units,                  
+    })
+
+
+def fetch_lineChartData(request, sensorId, startDate, startTime, endDate, endTime):
     labels = []
     data = []
     #print(startDate, startTime, endDate, endTime)
