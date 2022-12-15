@@ -38,8 +38,8 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Block</p>
                     <div class="dropdown">
-                      <h5 class="dropbtn font-weight-bolder">413B</h5>
-                      <div id="ddlBlock_content" class="dropdown-content dropdown-scrollbar">
+                      <h5 id="text_blockName" class="dropbtn font-weight-bolder">-</h5>
+                      <div id="ddlBlock_content" class="dropdown-content dropdown-content-block dropdown-scrollbar">
                         <input id="textfield_searchBlock" class="dropdown-content-item" type="text" placeholder="Search.." onkeyup="filterBlockFunction()">
                         <!--a class="dropdown-content-item font-weight-bold">401A</a>
                         <a class="dropdown-content-item font-weight-bold">402C</a>
@@ -70,8 +70,8 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Unit no.</p>
                     <div class="dropdown">
-                      <h5 class="dropbtn font-weight-bolder">#14-101</h5>
-                      <div id="ddlUnit_content" class="dropdown-content dropdown-scrollbar">
+                      <h5 id="text_unitName" class="dropbtn font-weight-bolder">-</h5>
+                      <div id="ddlUnit_content" class="dropdown-content dropdown-content-unit dropdown-scrollbar">
                         <input id="textfield_searchUnit" class="dropdown-content-item" type="text" placeholder="Search.." onkeyup="filterUnitFunction()">
                         <!--a class="dropdown-content-item font-weight-bold">#03-101</a>
                         <a class="dropdown-content-item font-weight-bold">#09-107</a>
@@ -181,10 +181,10 @@
                         <p class="text-xs font-weight-bold mb-0">Bedroom 1</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB1</p>
+                        <p class="text-xs font-weight-bold mb-0">1</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                        <span class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.101</span>
@@ -207,10 +207,10 @@
                         <p class="text-xs font-weight-bold mb-0">Bedroom 2</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB2</p>
+                        <p class="text-xs font-weight-bold mb-0">2</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                        <span class="badge badge-sm bg-gradient-secondary">Inactive</span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.102</span>
@@ -233,10 +233,10 @@
                         <p class="text-xs font-weight-bold mb-0">Bedroom 3</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB3</p>
+                        <p class="text-xs font-weight-bold mb-0">3</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                        <span class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.103</span>
@@ -259,10 +259,10 @@
                         <p class="text-xs font-weight-bold mb-0">Living room</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB4</p>
+                        <p class="text-xs font-weight-bold mb-0">4</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Online</span>
+                        <span class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.104</span>
@@ -285,10 +285,10 @@
                         <p class="text-xs font-weight-bold mb-0">Kitchen</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">RB5</p>
+                        <p class="text-xs font-weight-bold mb-0">5</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Offline</span>
+                        <span class="badge badge-sm bg-gradient-secondary">Inactive</span>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.105</span>
@@ -372,7 +372,76 @@
 
   <!--  update dropdown list for units script 	-->
   <script>
+    var global_selected_block = "";
+    var global_selected_unit = "";
+
+    function dropDownItem_Unit_onClick(text) {
+      var searchUnitText = document.getElementById("textfield_searchUnit");
+      var dropdowns = document.getElementsByClassName("dropdown-content-unit");
+      var unitNameText = document.getElementById("text_unitName");
+
+      global_selected_unit = text;
+      unitNameText.innerHTML = text;
+      ddlUnit_isOpen = false;
+
+      if (searchUnitText.value != "") {
+        searchUnitText.value = "";
+        filterUnitFunction();
+      }     
+
+      for (let i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('dropdown-toggle')) {
+          openDropdown.classList.remove('dropdown-toggle');
+        }
+      }
+
+      //alert(text);
+
+      $.ajax({
+        type: "GET",
+        url: "/fetchUnitInfo/" + global_selected_block + "/" + global_selected_unit.slice(1,7), // remove '#' from #14-101 to prevent interfere w/ url
+        success: function(response) {
+
+          //alert(response['unit_info']);
+
+        },
+        error: function(xhr, status, error) {
+          http_error_handler(xhr);
+        }
+      });
+
+    }
+
     function dropDownItem_Block_onClick(text) {
+      var searchBlockText = document.getElementById("textfield_searchBlock");
+      var dropdowns = document.getElementsByClassName("dropdown-content-block");
+      var blockNameText = document.getElementById("text_blockName");
+      var unitNameText = document.getElementById("text_unitName");
+
+      global_selected_block = text;
+
+      // if selected block = previously selected block, dont change block name + dont reset unit name
+      if (blockNameText.innerHTML != text) {
+        blockNameText.innerHTML = text;
+        unitNameText.innerHTML = "-";
+      }      
+
+      // close dropdownlist_block
+      ddlBlock_isOpen = false;
+
+      if (searchBlockText.value != "") {
+        searchBlockText.value = "";
+        filterBlockFunction();
+      }
+
+      for (let i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('dropdown-toggle')) {
+          openDropdown.classList.remove('dropdown-toggle');
+        }
+      }
+
       $.ajax({
         type: "GET",
         url: "/fetchUnits/" + text,
@@ -388,10 +457,15 @@
           response['units'].forEach(function(element) {
             const parentElement = document.querySelector('#ddlUnit_content');
             const div = document.createElement('div');
-            div.innerHTML = '<a class="dropdown-content-item dropdown-item-unit font-weight-bold">' + element + '</a>';
+            div.innerHTML = '<a class="dropdown-content-item dropdown-item-unit font-weight-bold" onclick="dropDownItem_Unit_onClick(this.innerText)">' + element + '</a>';
             parentElement.appendChild(div);
           });
-          
+
+          // open dropdownlist_units
+          if (!ddlUnit_isOpen) {
+            btnChangeUnit_onClick();
+          }
+
         },
         error: function(xhr, status, error) {
           http_error_handler(xhr);
@@ -445,6 +519,9 @@
     const onClickOutside = (e) => {
       // if either dropdownlists are open + mouse click occured outside
       if ((ddlBlock_isOpen || ddlUnit_isOpen) && !e.target.className.includes('dropdown-content-item')) {
+
+        ddlBlock_isOpen = false;
+        ddlUnit_isOpen = false;
         var dropdowns = document.getElementsByClassName("dropdown-content");
         var searchBlockText = document.getElementById("textfield_searchBlock");
         var searchUnitText = document.getElementById("textfield_searchUnit");
@@ -468,6 +545,7 @@
             openDropdown.classList.remove('dropdown-toggle');
           }
         }
+
       }
     };
 

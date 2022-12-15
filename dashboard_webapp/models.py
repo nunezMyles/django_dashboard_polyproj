@@ -11,7 +11,7 @@ class Shelter(models.Model):
 
 
 class Raspberry(models.Model):
-    serial_id = models.CharField(max_length=200, unique=True)
+    #serial_id = models.CharField(max_length=200, unique=True)
     smoke_sensor_id = models.IntegerField(unique=True) 
     rgb_cam_id = models.IntegerField(unique=True) 
     thermal_cam_id = models.IntegerField(unique=True) 
@@ -23,6 +23,7 @@ class Raspberry_location(models.Model):
     raspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
     hdb_block = models.CharField(max_length=200)  
     unit_number = models.CharField(max_length=200)
+    flat_type = models.CharField(max_length=6)
     room_name = models.CharField(max_length=200)
     area = models.CharField(max_length=200)
     postal_code = models.IntegerField()
@@ -32,7 +33,7 @@ class Raspberry_location(models.Model):
 
 class SmokeReading(models.Model):
     raspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
-    smoke_value = models.IntegerField()
+    smoke_value = models.IntegerField(blank=True, null=True) # nullable
     captured_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f'{self.raspberry.serial_id}, {self.smoke_value}'

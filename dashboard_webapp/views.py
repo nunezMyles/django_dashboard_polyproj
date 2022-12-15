@@ -34,6 +34,22 @@ def db_r_query(query, param):
         return []
 
 
+def fetch_unit_info(request, hdb_block, unit_number):
+    unit_info = []
+
+    ReturnedRows = db_r_query(
+        "SELECT DISTINCT * FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s ORDER BY raspberry_id ASC", 
+        [hdb_block, '#' + unit_number]
+    )  
+
+    for info in ReturnedRows: 
+        unit_info.append(info) 
+    
+    return JsonResponse(data={
+        'unit_info': unit_info,             
+    })
+
+
 def fetch_units(request, hdb_block):
     units = []
 

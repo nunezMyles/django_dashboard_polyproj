@@ -25,7 +25,10 @@ urlpatterns = [
     path('fetchBlocks/', views.fetch_blocks, name='houseBlockData'),
 
     path('fetchUnits/<str:hdb_block>', views.fetch_units, name='houseUnitData'), 
-    path('fetchUnits/<str:hdb_block>', views.fetch_units, name='houseUnitData'),
+    path('fetchUnits/<str:hdb_block>/', views.fetch_units, name='houseUnitData'),
+
+    path('fetchUnitInfo/<str:hdb_block>/<str:unit_number>', views.fetch_unit_info, name='unitInfoData'), 
+    path('fetchUnitInfo/<str:hdb_block>/<str:unit_number>/', views.fetch_unit_info, name='unitInfoData'),
 
     path("tables/", views.table_view, name="tables"), 
     path("tables", views.table_view, name="tables"), 
