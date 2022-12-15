@@ -17,8 +17,8 @@
                 <div class="col-7">
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Area</p>
-                    <h5 class="font-weight-bolder">Sengkang</h5>
-                    <span class="text-sm font-weight-bolder">Fernvale Link</span>
+                    <h5 id="text_area" class="font-weight-bolder">-</h5>
+                    <span id="text_street" class="text-sm font-weight-bolder">-</span>
                   </div>
                 </div>
                 <div class="col-5 text-end my-auto">
@@ -100,7 +100,7 @@
                 <div class="col-7">
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Type</p>
-                    <h5 class="font-weight-bolder">4-room</h5>
+                    <h5 id="text_flatType" class="font-weight-bolder">-</h5>
                     <span class="text-sm font-weight-bolder">-</span>
                   </div>
                 </div>
@@ -150,7 +150,7 @@
         <div class="col-lg-7">
           <div class="card mb-4">
             <div class="card-header pb-0">
-              <h6>Rooms w/ Raspberry Pi</h6>
+              <h6>Raspberry Pi Info</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -158,10 +158,10 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Room</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Allocated Room</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Id</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ip address</th>
+                      <!--th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ip address</th-->
                       <th class="text-secondary opacity-7"></th>
                     </tr>
                   </thead>
@@ -178,17 +178,17 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Bedroom 1</p>
+                        <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 1</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">1</p>
+                        <p id="text_raspberryId1" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Active</span>
+                        <span id="text_raspberryStatus1" class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
-                      <td class="align-middle text-center">
+                      <!--td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.101</span>
-                      </td>
+                      </td-->
                       <td class="align-middle">
                         <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
@@ -204,17 +204,17 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Bedroom 2</p>
+                        <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 2</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">2</p>
+                        <p id="text_raspberryId2" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Inactive</span>
+                        <span id="text_raspberryStatus2" class="badge badge-sm bg-gradient-secondary">Inactive</span>
                       </td>
-                      <td class="align-middle text-center">
+                      <!--td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.102</span>
-                      </td>
+                      </td-->
                       <td class="align-middle">
                         <a href="#!" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
@@ -230,17 +230,17 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Bedroom 3</p>
+                        <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 3</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">3</p>
+                        <p id="text_raspberryId3" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Active</span>
+                        <span id="text_raspberryStatus3" class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
-                      <td class="align-middle text-center">
+                      <!--td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.103</span>
-                      </td>
+                      </td-->
                       <td class="align-middle">
                         <a href="#!" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
@@ -256,17 +256,17 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Living room</p>
+                        <p class="text-xs font-weight-bold mb-0 ps-3">Living room</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">4</p>
+                        <p id="text_raspberryId4" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-success">Active</span>
+                        <span id="text_raspberryStatus4" class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
-                      <td class="align-middle text-center">
+                      <!--td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.104</span>
-                      </td>
+                      </td-->
                       <td class="align-middle">
                         <a href="#!" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
@@ -282,17 +282,17 @@
                         </div>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">Kitchen</p>
+                        <p class="text-xs font-weight-bold mb-0 ps-3">Kitchen</p>
                       </td>
                       <td>
-                        <p class="text-xs font-weight-bold mb-0">5</p>
+                        <p id="text_raspberryId5" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
-                        <span class="badge badge-sm bg-gradient-secondary">Inactive</span>
+                        <span id="text_raspberryStatus5" class="badge badge-sm bg-gradient-secondary">Inactive</span>
                       </td>
-                      <td class="align-middle text-center">
+                      <!--td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.105</span>
-                      </td>
+                      </td-->
                       <td class="align-middle">
                         <a href="#!" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
@@ -313,7 +313,7 @@
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6>Sensor Reading by Room 1</h6>
+                  <h6 id="text_lineChartTitle">Sensor Reading by Room -</h6>
                 </div>
                 
                 <div class="row align-items-center">
@@ -403,8 +403,74 @@
         url: "/fetchUnitInfo/" + global_selected_block + "/" + global_selected_unit.slice(1,7), // remove '#' from #14-101 to prevent interfere w/ url
         success: function(response) {
 
-          //alert(response['unit_info']);
+          // set flat type
+          var flatTypeText = document.getElementById("text_flatType");
+          flatTypeText.innerHTML = response['unit_info'][0][5];
 
+          var rbIdText_1 = document.getElementById("text_raspberryId1");
+          var rbIdText_2 = document.getElementById("text_raspberryId2");
+          var rbIdText_3 = document.getElementById("text_raspberryId3");
+          var rbIdText_4 = document.getElementById("text_raspberryId4");
+          var rbIdText_5 = document.getElementById("text_raspberryId5");
+
+          var rbStatusText_1 = document.getElementById("text_raspberryStatus1");
+          var rbStatusText_2 = document.getElementById("text_raspberryStatus2");
+          var rbStatusText_3 = document.getElementById("text_raspberryStatus3");
+          var rbStatusText_4 = document.getElementById("text_raspberryStatus4");
+          var rbStatusText_5 = document.getElementById("text_raspberryStatus5");
+
+          var isBedroom1Updated = false;
+          var isBedroom2Updated = false;
+          var isBedroom3Updated = false;
+          var isLivingRoomUpdated = false;
+          var isKitchenUpdated = false;
+
+          // algorithm to update rb info html based on given room names
+          response['unit_info'].forEach(function(element) {
+
+            switch(element[4]) {
+              case 'Bedroom 1':
+                rbIdText_1.innerHTML = element[3];
+                isBedroom1Updated = true;
+                break;
+              case 'Bedroom 2':
+                rbIdText_2.innerHTML = element[3];
+                isBedroom2Updated = true;
+                break;
+              case 'Bedroom 3':
+                rbIdText_3.innerHTML = element[3];
+                isBedroom3Updated = true;
+                break;
+              case 'Living room':
+                rbIdText_4.innerHTML = element[3];
+                isLivingRoomUpdated = true;
+                break;
+              case 'Kitchen':
+                rbIdText_5.innerHTML = element[3];
+                isKitchenUpdated = true;
+                break;
+
+              default:
+                break;
+            }
+          });
+
+          // if none of the room names appeared in jsonResponse, set info for the room to nothing
+          if (!isBedroom1Updated) {
+            rbIdText_1.innerHTML ="-";
+          }
+          if (!isBedroom2Updated) {
+            rbIdText_2.innerHTML = "-";
+          }
+          if (!isBedroom3Updated) {
+            rbIdText_3.innerHTML = "-";
+          }
+          if (!isLivingRoomUpdated) {
+            rbIdText_4.innerHTML = "-";
+          }
+          if (!isKitchenUpdated) {
+            rbIdText_5.innerHTML = "-";
+          }
         },
         error: function(xhr, status, error) {
           http_error_handler(xhr);
@@ -418,8 +484,12 @@
       var dropdowns = document.getElementsByClassName("dropdown-content-block");
       var blockNameText = document.getElementById("text_blockName");
       var unitNameText = document.getElementById("text_unitName");
+      var flatTypeText = document.getElementById("text_flatType");
 
       global_selected_block = text;
+
+      // reset flat type text since we'll unselect unit
+      flatTypeText.innerHTML = '-';
 
       // if selected block = previously selected block, dont change block name + dont reset unit name
       if (blockNameText.innerHTML != text) {
@@ -447,14 +517,31 @@
         url: "/fetchUnits/" + text,
         success: function(response) {
 
+          var unitAreaText = document.getElementById("text_area");
+          var unitStreetText = document.getElementById("text_street");
+
+          unitAreaText.innerHTML = response['units'][0][6];
+          unitStreetText.innerHTML = response['units'][0][7];
+
           // delete existing units in dropdownlist_units
           const unitOptions = document.querySelectorAll('.dropdown-item-unit');
           unitOptions.forEach(unit => {
             unit.remove();
           });
+
+          // algorithm to filter out repeating unit numbers, we want distinct
+          var array = response['units'];
+          var unique = [];
+          var distinct = [];
+          for( let i = 0; i < array.length; i++ ){
+            if( !unique[array[i][2]]){
+              distinct.push(array[i][2]);
+              unique[array[i][2]] = 1;
+            }
+          }
             
-          // add updated units into dropdownlist_units
-          response['units'].forEach(function(element) {
+          // add filtered units into dropdownlist_units
+          distinct.forEach(function(element) {
             const parentElement = document.querySelector('#ddlUnit_content');
             const div = document.createElement('div');
             div.innerHTML = '<a class="dropdown-content-item dropdown-item-unit font-weight-bold" onclick="dropDownItem_Unit_onClick(this.innerText)">' + element + '</a>';
@@ -688,6 +775,9 @@
     var global_selected_sensor = 1;
     
     function sensor_onClick(selected_sensor) {
+      var text_lineChartTitle = document.getElementById("text_lineChartTitle");
+
+      text_lineChartTitle.innerHTML = "Sensor Reading by Room " + selected_sensor;
       global_selected_sensor = selected_sensor;
       chartRefresh();
     }

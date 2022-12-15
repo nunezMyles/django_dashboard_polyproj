@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from .forms import LoginForm, SignUpForm
 from . import models
 
@@ -48,12 +49,12 @@ def fetch_unit_info(request, hdb_block, unit_number):
     return JsonResponse(data={
         'unit_info': unit_info,             
     })
-
+    
 
 def fetch_units(request, hdb_block):
     units = []
 
-    ReturnedRows = db_r_query("SELECT DISTINCT(unit_number) FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s", [hdb_block])  
+    ReturnedRows = db_r_query("SELECT DISTINCT * FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s", [hdb_block])  
     for household_unit in ReturnedRows: 
         units.append(household_unit) 
     
@@ -134,6 +135,7 @@ def login_view(request):
 
 
 def logout_view(request):
+    logout(request)
     return HttpResponseRedirect('/login/')
 
 
