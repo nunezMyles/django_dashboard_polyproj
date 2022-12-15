@@ -372,8 +372,18 @@
 
   <!--  update dropdown list for units script 	-->
   <script>
+
     var global_selected_block = "";
     var global_selected_unit = "";
+    
+    var sensorSelectTranslate = {
+      sens1: 0,
+      sens2: 0,
+      sens3: 0,
+      sens4: 0,
+      sens5: 0
+    };
+    
 
     function dropDownItem_Unit_onClick(text) {
       var searchUnitText = document.getElementById("textfield_searchUnit");
@@ -431,22 +441,27 @@
             switch(element[4]) {
               case 'Bedroom 1':
                 rbIdText_1.innerHTML = element[3];
+                sensorSelectTranslate["sens1"] = element[3];
                 isBedroom1Updated = true;
                 break;
               case 'Bedroom 2':
                 rbIdText_2.innerHTML = element[3];
+                sensorSelectTranslate["sens2"] = element[3];
                 isBedroom2Updated = true;
                 break;
               case 'Bedroom 3':
                 rbIdText_3.innerHTML = element[3];
+                sensorSelectTranslate["sens3"] = element[3];
                 isBedroom3Updated = true;
                 break;
               case 'Living room':
                 rbIdText_4.innerHTML = element[3];
+                sensorSelectTranslate["sens4"] = element[3];
                 isLivingRoomUpdated = true;
                 break;
               case 'Kitchen':
                 rbIdText_5.innerHTML = element[3];
+                sensorSelectTranslate["sens5"] = element[3];
                 isKitchenUpdated = true;
                 break;
 
@@ -458,18 +473,23 @@
           // if none of the room names appeared in jsonResponse, set info for the room to nothing
           if (!isBedroom1Updated) {
             rbIdText_1.innerHTML ="-";
+            sensorSelectTranslate["sens1"] = 0;
           }
           if (!isBedroom2Updated) {
             rbIdText_2.innerHTML = "-";
+            sensorSelectTranslate["sens2"] = 0;
           }
           if (!isBedroom3Updated) {
             rbIdText_3.innerHTML = "-";
+            sensorSelectTranslate["sens3"] = 0;
           }
           if (!isLivingRoomUpdated) {
             rbIdText_4.innerHTML = "-";
+            sensorSelectTranslate["sens4"] = 0;
           }
           if (!isKitchenUpdated) {
             rbIdText_5.innerHTML = "-";
+            sensorSelectTranslate["sens5"] = 0;
           }
         },
         error: function(xhr, status, error) {
@@ -778,7 +798,7 @@
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
 
       text_lineChartTitle.innerHTML = "Sensor Reading by Room " + selected_sensor;
-      global_selected_sensor = selected_sensor;
+      global_selected_sensor = sensorSelectTranslate["sens" + selected_sensor];
       chartRefresh();
     }
   </script>
