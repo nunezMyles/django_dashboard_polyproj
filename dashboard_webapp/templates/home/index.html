@@ -381,6 +381,21 @@
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
 
+  <!--  init disable radio btns script  -->
+  <script>
+      var radioBtn_s1 = document.getElementById("radioBtn_s1");
+      var radioBtn_s2 = document.getElementById("radioBtn_s2");
+      var radioBtn_s3 = document.getElementById("radioBtn_s3");
+      var radioBtn_s4 = document.getElementById("radioBtn_s4");
+      var radioBtn_s5 = document.getElementById("radioBtn_s5");
+
+      radioBtn_s1.disabled = true;
+      radioBtn_s2.disabled = true;
+      radioBtn_s3.disabled = true;
+      radioBtn_s4.disabled = true;
+      radioBtn_s5.disabled = true;
+  </script>
+
   <!--  block/unit dropDownList item onClick: update dashboard context script 	-->
   <script>
 
@@ -398,12 +413,29 @@
 
     function dropDownItem_Unit_onClick(text) {
 
-      // uncheck all radio btns
+      // if selected unit = previously selected unit, dont refresh line chart & rb info table
+      var unitNameText = document.getElementById("text_unitName");
+
+      if (unitNameText.innerHTML == text) {
+        return;
+      }     
+
+      // else, set corresponding text
+      global_selected_unit = text;
+      unitNameText.innerHTML = text;
+
+      // uncheck + enable all radio btns
       var radioBtn_s1 = document.getElementById("radioBtn_s1");
       var radioBtn_s2 = document.getElementById("radioBtn_s2");
       var radioBtn_s3 = document.getElementById("radioBtn_s3");
       var radioBtn_s4 = document.getElementById("radioBtn_s4");
       var radioBtn_s5 = document.getElementById("radioBtn_s5");
+
+      radioBtn_s1.disabled = false;
+      radioBtn_s2.disabled = false;
+      radioBtn_s3.disabled = false;
+      radioBtn_s4.disabled = false;
+      radioBtn_s5.disabled = false;
 
       radioBtn_s1.checked = false;
       radioBtn_s2.checked = false;
@@ -428,17 +460,6 @@
           openDropdown.classList.remove('dropdown-toggle');
         }
       }
-
-      // if selected unit = previously selected unit, dont refresh line chart + rb info table
-      if (unitNameText.innerHTML == text) {
-        return;
-      }     
-
-      global_selected_unit = text;
-
-      // set corresponding text
-      var unitNameText = document.getElementById("text_unitName");
-      unitNameText.innerHTML = text;
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
@@ -515,24 +536,29 @@
 
           // if room name not in jsonResponse, set html for that room to display no info
           if (!isBedroom1Updated) {
-            rbIdText_1.innerHTML ="-";
+            rbIdText_1.innerHTML = "-";
             sensorSelectTranslate["sens1"] = 0;
+            radioBtn_s1.disabled = true;
           }
           if (!isBedroom2Updated) {
             rbIdText_2.innerHTML = "-";
             sensorSelectTranslate["sens2"] = 0;
+            radioBtn_s2.disabled = true;
           }
           if (!isBedroom3Updated) {
             rbIdText_3.innerHTML = "-";
             sensorSelectTranslate["sens3"] = 0;
+            radioBtn_s3.disabled = true;
           }
           if (!isLivingRoomUpdated) {
             rbIdText_4.innerHTML = "-";
             sensorSelectTranslate["sens4"] = 0;
+            radioBtn_s4.disabled = true;
           }
           if (!isKitchenUpdated) {
             rbIdText_5.innerHTML = "-";
             sensorSelectTranslate["sens5"] = 0;
+            radioBtn_s5.disabled = true;
           }
         },
         error: function(xhr, status, error) {
@@ -544,13 +570,34 @@
 
     function dropDownItem_Block_onClick(text) {
 
-      // uncheck all radio btns
+      // if selected block = previously selected block, dont refresh dashboard
+      var blockNameText = document.getElementById("text_blockName");
+      var unitNameText = document.getElementById("text_unitName");
+      var flatTypeText = document.getElementById("text_flatType");
+
+      if (blockNameText.innerHTML == text) {
+        return;
+      }   
+
+      // else, update corresponding text
+      global_selected_block = text;
+      blockNameText.innerHTML = text;
+      unitNameText.innerHTML = "-"; 
+      flatTypeText.innerHTML = "-";
+      
+      // uncheck + disable all radio btns
       var radioBtn_s1 = document.getElementById("radioBtn_s1");
       var radioBtn_s2 = document.getElementById("radioBtn_s2");
       var radioBtn_s3 = document.getElementById("radioBtn_s3");
       var radioBtn_s4 = document.getElementById("radioBtn_s4");
       var radioBtn_s5 = document.getElementById("radioBtn_s5");
-      
+
+      radioBtn_s1.disabled = true;
+      radioBtn_s2.disabled = true;
+      radioBtn_s3.disabled = true;
+      radioBtn_s4.disabled = true;
+      radioBtn_s5.disabled = true;
+
       radioBtn_s1.checked = false;
       radioBtn_s2.checked = false;
       radioBtn_s3.checked = false;
@@ -574,22 +621,6 @@
           openDropdown.classList.remove('dropdown-toggle');
         }
       }
-
-      // if selected block = previously selected block, dont refresh dashboard
-      if (blockNameText.innerHTML == text) {
-        return;
-      }     
-
-      global_selected_block = text;
-
-      // update corresponding text
-      var blockNameText = document.getElementById("text_blockName");
-      var unitNameText = document.getElementById("text_unitName");
-      var flatTypeText = document.getElementById("text_flatType");
-
-      blockNameText.innerHTML = text;
-      unitNameText.innerHTML = "-"; 
-      flatTypeText.innerHTML = "-";
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
