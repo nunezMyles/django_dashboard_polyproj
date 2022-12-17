@@ -120,13 +120,9 @@
 
       <div class="row mt-4">
 
-        <div class="col-lg-5 d-flex">
+        <!--div class="col-lg-5 d-flex">
           <div class="card mb-4">
-            <!--div class="card-header pb-0">
-              <h6>Sensor Layout</h6>
-            </div-->
-
-            <!--div id="interactive-floor" class="card-body px-0 pt-0 pb-2"-->
+            
             <div class="card-body px-0 pt-3 pb-0 ">
               <div id="floorplan-img-container">
                 <a id="pulse1" class="pulse pulse-online" onclick="sensor_onClick(1)">
@@ -148,9 +144,9 @@
               </div>
             </div>
           </div>
-        </div>
+        </div-->
         
-        <div class="col-lg-7">
+        <div class="col-lg-12">
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h6>Raspberry Pi Info</h6>
@@ -172,11 +168,11 @@
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1 justify-content-center">
-                          <!--div>
-                            <img src="/static/assets/img/team-2.jpg" class="avatar avatar-sm me-3">
-                          </div-->
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 me-0 font-weight-bold">1</h6>
+                            <label class="radio-container pb-3">
+                              <input id="radioBtn_s1" type="radio" name="radio" onclick="sensor_onClick(1)">
+                              <span class="radio-checkmark"></span>
+                            </label>
                           </div>
                         </div>
                       </td>
@@ -201,8 +197,11 @@
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1 justify-content-center">
-                          <div class="d-flex flex-column">
-                            <h6 class="mb-0 me-0 font-weight-bold">2</h6>
+                          <div class="d-flex flex-column justify-content-center">
+                            <label class="radio-container pb-3">
+                              <input id="radioBtn_s2" type="radio" name="radio" onclick="sensor_onClick(2)">
+                              <span class="radio-checkmark"></span>
+                            </label>
                           </div>
                         </div>
                       </td>
@@ -228,7 +227,10 @@
                       <td>
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 me-0 font-weight-bold">3</h6>
+                            <label class="radio-container pb-3">
+                              <input id="radioBtn_s3" type="radio" name="radio" onclick="sensor_onClick(3)">
+                              <span class="radio-checkmark"></span>
+                            </label>
                           </div>
                         </div>
                       </td>
@@ -254,7 +256,10 @@
                       <td>
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 me-0 font-weight-bold">4</h6>
+                            <label class="radio-container pb-3">
+                              <input id="radioBtn_s4" type="radio" name="radio" onclick="sensor_onClick(4)">
+                              <span class="radio-checkmark"></span>
+                            </label>
                           </div>
                         </div>
                       </td>
@@ -280,7 +285,10 @@
                       <td>
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 me-0 font-weight-bold">5</h6>
+                            <label class="radio-container pb-3">
+                              <input id="radioBtn_s5" type="radio" name="radio" onclick="sensor_onClick(5)">
+                              <span class="radio-checkmark"></span>
+                            </label>
                           </div>
                         </div>
                       </td>
@@ -389,16 +397,31 @@
     
 
     function dropDownItem_Unit_onClick(text) {
-      var searchUnitText = document.getElementById("textfield_searchUnit");
-      var dropdowns = document.getElementsByClassName("dropdown-content-unit");
-      var unitNameText = document.getElementById("text_unitName");
+
+      // uncheck all radio btns
+      var radioBtn_s1 = document.getElementById("radioBtn_s1");
+      var radioBtn_s2 = document.getElementById("radioBtn_s2");
+      var radioBtn_s3 = document.getElementById("radioBtn_s3");
+      var radioBtn_s4 = document.getElementById("radioBtn_s4");
+      var radioBtn_s5 = document.getElementById("radioBtn_s5");
+
+      radioBtn_s1.checked = false;
+      radioBtn_s2.checked = false;
+      radioBtn_s3.checked = false;
+      radioBtn_s4.checked = false;
+      radioBtn_s5.checked = false;
 
       // close dropdownlist_unit
+      var searchUnitText = document.getElementById("textfield_searchUnit");
+      var dropdowns = document.getElementsByClassName("dropdown-content-unit");
+
       ddlUnit_isOpen = false;
+
       if (searchUnitText.value != "") {
         searchUnitText.value = "";
         filterUnitFunction();
       }
+      
       for (let i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
         if (openDropdown.classList.contains('dropdown-toggle')) {
@@ -412,6 +435,9 @@
       }     
 
       global_selected_unit = text;
+
+      // set corresponding text
+      var unitNameText = document.getElementById("text_unitName");
       unitNameText.innerHTML = text;
 
       // call line chart reset
@@ -425,9 +451,16 @@
         url: "/fetchUnitInfo/" + global_selected_block + "/" + global_selected_unit.slice(1,7), // remove '#' from #14-101 to prevent interfere w/ url
         success: function(response) {
 
-          // set flat type
+          // set corresponding text
           var flatTypeText = document.getElementById("text_flatType");
           flatTypeText.innerHTML = response['unit_info'][0][5];
+
+          // set corresponding text for 'raspberry info' table
+          var isBedroom1Updated = false;
+          var isBedroom2Updated = false;
+          var isBedroom3Updated = false;
+          var isLivingRoomUpdated = false;
+          var isKitchenUpdated = false;
 
           var rbIdText_1 = document.getElementById("text_raspberryId1");
           var rbIdText_2 = document.getElementById("text_raspberryId2");
@@ -441,36 +474,34 @@
           var rbStatusText_4 = document.getElementById("text_raspberryStatus4");
           var rbStatusText_5 = document.getElementById("text_raspberryStatus5");
 
-          var isBedroom1Updated = false;
-          var isBedroom2Updated = false;
-          var isBedroom3Updated = false;
-          var isLivingRoomUpdated = false;
-          var isKitchenUpdated = false;
-
-          // algorithm to update rb info html based on given room names
+          // algorithm to update 'raspberry info' html based on given room names from JsonResponse
           response['unit_info'].forEach(function(element) {
-
             switch(element[4]) {
+
               case 'Bedroom 1':
                 rbIdText_1.innerHTML = element[3];
                 sensorSelectTranslate["sens1"] = element[3];
                 isBedroom1Updated = true;
                 break;
+
               case 'Bedroom 2':
                 rbIdText_2.innerHTML = element[3];
                 sensorSelectTranslate["sens2"] = element[3];
                 isBedroom2Updated = true;
                 break;
+
               case 'Bedroom 3':
                 rbIdText_3.innerHTML = element[3];
                 sensorSelectTranslate["sens3"] = element[3];
                 isBedroom3Updated = true;
                 break;
+
               case 'Living room':
                 rbIdText_4.innerHTML = element[3];
                 sensorSelectTranslate["sens4"] = element[3];
                 isLivingRoomUpdated = true;
                 break;
+
               case 'Kitchen':
                 rbIdText_5.innerHTML = element[3];
                 sensorSelectTranslate["sens5"] = element[3];
@@ -482,7 +513,7 @@
             }
           });
 
-          // if none of the room names appeared in jsonResponse, set info for the room to nothing
+          // if room name not in jsonResponse, set html for that room to display no info
           if (!isBedroom1Updated) {
             rbIdText_1.innerHTML ="-";
             sensorSelectTranslate["sens1"] = 0;
@@ -512,18 +543,31 @@
     }
 
     function dropDownItem_Block_onClick(text) {
+
+      // uncheck all radio btns
+      var radioBtn_s1 = document.getElementById("radioBtn_s1");
+      var radioBtn_s2 = document.getElementById("radioBtn_s2");
+      var radioBtn_s3 = document.getElementById("radioBtn_s3");
+      var radioBtn_s4 = document.getElementById("radioBtn_s4");
+      var radioBtn_s5 = document.getElementById("radioBtn_s5");
+      
+      radioBtn_s1.checked = false;
+      radioBtn_s2.checked = false;
+      radioBtn_s3.checked = false;
+      radioBtn_s4.checked = false;
+      radioBtn_s5.checked = false;
+
+      // close dropdownlist_block + reset ddl's search field
       var searchBlockText = document.getElementById("textfield_searchBlock");
       var dropdowns = document.getElementsByClassName("dropdown-content-block");
-      var blockNameText = document.getElementById("text_blockName");
-      var unitNameText = document.getElementById("text_unitName");
-      var flatTypeText = document.getElementById("text_flatType");
 
-      // close dropdownlist_block
       ddlBlock_isOpen = false;
+
       if (searchBlockText.value != "") {
         searchBlockText.value = "";
         filterBlockFunction();
       }
+
       for (let i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
         if (openDropdown.classList.contains('dropdown-toggle')) {
@@ -531,12 +575,18 @@
         }
       }
 
-      // if selected block = previously selected block, dont refresh page context
+      // if selected block = previously selected block, dont refresh dashboard
       if (blockNameText.innerHTML == text) {
         return;
       }     
 
       global_selected_block = text;
+
+      // update corresponding text
+      var blockNameText = document.getElementById("text_blockName");
+      var unitNameText = document.getElementById("text_unitName");
+      var flatTypeText = document.getElementById("text_flatType");
+
       blockNameText.innerHTML = text;
       unitNameText.innerHTML = "-"; 
       flatTypeText.innerHTML = "-";
@@ -552,6 +602,7 @@
         url: "/fetchUnits/" + text,
         success: function(response) {
 
+          // update corresponding text
           var unitAreaText = document.getElementById("text_area");
           var unitStreetText = document.getElementById("text_street");
 
@@ -564,7 +615,7 @@
             unit.remove();
           });
 
-          // algorithm to filter out repeating unit numbers, we want distinct
+          // algorithm to filter out repeating unit numbers, we want distinct units
           var array = response['units'];
           var unique = [];
           var distinct = [];
@@ -816,7 +867,7 @@
     }
   </script>
 
-  <!--  pulsing btn onClick: update line chart script   -->
+  <!--  pulsingBtn/radioBtn onClick: update line chart script   -->
   <script>
     var global_selected_sensor = 0;
     
