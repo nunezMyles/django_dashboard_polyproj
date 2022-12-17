@@ -339,7 +339,7 @@
                   </div>
                 </div>
 
-                <div class="row align-items-center ms-4">
+                <div class="row align-items-center ms-4 me-1">
                   <div class="col-lg-2">
                     <span id="label-test" class="text-xs font-weight-bolder">TO</span>
                   </div>
@@ -351,9 +351,9 @@
                   </div>
                 </div>
 
-                <div class="row align-items-center ms-4 me-1">
+                <!--div class="row align-items-center ms-4 me-1">
                   <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="chartRefresh()"></i>
-                </div>
+                </div-->
 
               </div>
             </div>
@@ -381,7 +381,7 @@
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
 
-  <!--  init disable radio btns script  -->
+  <!--  init radio btns script  -->
   <script>
       var radioBtn_s1 = document.getElementById("radioBtn_s1");
       var radioBtn_s2 = document.getElementById("radioBtn_s2");
@@ -584,6 +584,24 @@
       blockNameText.innerHTML = text;
       unitNameText.innerHTML = "-"; 
       flatTypeText.innerHTML = "-";
+
+      // close dropdownlist_block + reset ddl's search field
+      var searchBlockText = document.getElementById("textfield_searchBlock");
+      var dropdowns = document.getElementsByClassName("dropdown-content-block");
+
+      ddlBlock_isOpen = false;
+
+      if (searchBlockText.value != "") {
+        searchBlockText.value = "";
+        filterBlockFunction();
+      }
+
+      for (let i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('dropdown-toggle')) {
+          openDropdown.classList.remove('dropdown-toggle');
+        }
+      }
       
       // uncheck + disable all radio btns
       var radioBtn_s1 = document.getElementById("radioBtn_s1");
@@ -604,23 +622,31 @@
       radioBtn_s4.checked = false;
       radioBtn_s5.checked = false;
 
-      // close dropdownlist_block + reset ddl's search field
-      var searchBlockText = document.getElementById("textfield_searchBlock");
-      var dropdowns = document.getElementsByClassName("dropdown-content-block");
+      // reset 'raspberry pi info' table
+      var rbIdText_1 = document.getElementById("text_raspberryId1");
+      var rbIdText_2 = document.getElementById("text_raspberryId2");
+      var rbIdText_3 = document.getElementById("text_raspberryId3");
+      var rbIdText_4 = document.getElementById("text_raspberryId4");
+      var rbIdText_5 = document.getElementById("text_raspberryId5");
 
-      ddlBlock_isOpen = false;
+      rbIdText_1.innerHTML = "-";
+      rbIdText_2.innerHTML = "-";
+      rbIdText_3.innerHTML = "-";
+      rbIdText_4.innerHTML = "-";
+      rbIdText_5.innerHTML = "-";
 
-      if (searchBlockText.value != "") {
-        searchBlockText.value = "";
-        filterBlockFunction();
-      }
+      /*var rbStatusText_1 = document.getElementById("text_raspberryStatus1");
+      var rbStatusText_2 = document.getElementById("text_raspberryStatus2");
+      var rbStatusText_3 = document.getElementById("text_raspberryStatus3");
+      var rbStatusText_4 = document.getElementById("text_raspberryStatus4");
+      var rbStatusText_5 = document.getElementById("text_raspberryStatus5");
 
-      for (let i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('dropdown-toggle')) {
-          openDropdown.classList.remove('dropdown-toggle');
-        }
-      }
+      rbStatusText_1.innerHTML = "-";
+      rbStatusText_2.innerHTML = "-";
+      rbStatusText_3.innerHTML = "-";
+      rbStatusText_4.innerHTML = "-";
+      rbStatusText_5.innerHTML = "-";*/
+
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
@@ -679,7 +705,7 @@
 
   </script>
 
-  <!--  init: add blocks to dropdownlist script 	-->
+  <!--  init dropdownlist_blocks script 	-->
   <script>
 
     $(function() {
@@ -705,7 +731,7 @@
 
   </script>
 
-  <!--  block/unit dropdownlist toggle open/close + search bar script   -->
+  <!--  dropdownlist_block&unit isToggled + own search bar script   -->
   <script>
     var ddlBlock_isOpen = false;
     var ddlUnit_isOpen = false;
@@ -927,17 +953,20 @@
         today = yyyy + '-' + mm + '-' + dd;
 
         document.getElementById("datepicker-end").value = today;
-        alert("Invalid date. Please select a date from within the acceptable range.");
+        document.getElementById("timepicker-start").value = "00:00";
+        alert("Invalid date. Please select a date within the acceptable range.");
       }
 
       else if (current_date_start == current_date_end && current_time_start > current_time_end) {        
         document.getElementById("timepicker-start").value = "00:00";
-        alert("Invalid time. Please select a time from within the acceptable range.");
+        alert("Invalid time. Please select a time within the acceptable range.");
       }
+
+      chartRefresh();
     }
   </script>
 
-  <!--  init: design lineChart script   -->
+  <!--  init lineChart script   -->
   <script>
     var global_lineChart;
     var ctx = document.getElementById("chart-line").getContext("2d");
