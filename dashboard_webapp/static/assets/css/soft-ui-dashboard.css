@@ -5,6 +5,17 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
 */
 
+/***    navbar - login/register page  ***/
+
+@media (width < 400px) {
+  .responsive-mobile {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+
 /***    radio btn css     ***/
 
 .radio-container {

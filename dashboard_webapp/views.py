@@ -12,7 +12,8 @@ from django.urls import reverse
 
 import mysql.connector
 import datetime
-
+from django.core import serializers
+from django.contrib.auth.models import User
 # Create your views here
 
 """
@@ -30,8 +31,8 @@ def db_r_query(query, param):
         returned_rows = Cursor.fetchall()
         Connection.close()
         return returned_rows
-    except (mysql.connector.DatabaseError, mysql.connector.OperationalError) as e:  # catch error
-        #print('***', e, '***')
+    except (mysql.connector.DatabaseError, mysql.connector.OperationalError) as e:
+        Connection.close()
         return []
 
 
@@ -54,7 +55,7 @@ def fetch_unit_info(request, hdb_block, unit_number):
 def fetch_units(request, hdb_block):
     units = []
 
-    ReturnedRows = db_r_query("SELECT DISTINCT * FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s", [hdb_block])  
+    ReturnedRows = db_r_query("SELECT * FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s", [hdb_block])  
     for household_unit in ReturnedRows: 
         units.append(household_unit) 
     
@@ -75,37 +76,61 @@ def fetch_blocks(request):
     })
 
 
-def fetch_smokeValues(request, sensorId, startDate, startTime, endDate, endTime):
+def time_axis_formatter(capturedDate_str, startDate, endDate):
+     # if same day, exclude date, show time in AM/PM on x-axis
+    if startDate == endDate:    
+        dt = datetime.datetime.strptime(capturedDate_str[11:16], '%H:%M').strftime('%I:%M %p')
+        return dt
+
+    # if same year, exclude year, show '13 Dec, 01:40 PM' on x-axis
+    elif startDate[0:4] == endDate[0:4]:
+        dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b, %I:%M %p')
+        return dt
+
+    # if different year, exclude time, show date on x-axis
+    else:
+        dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b %Y')
+        return dt
+
+
+def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, endDate, endTime):
+    data = []
+
+    datetime_start = startDate + " " + startTime + ":00"
+    datetime_end = endDate + " " + endTime + ":00"
+
+    data = [
+        [{'x': 10,'y': 59}, {'x': 16,'y': 28}, {'x': 16,'y': 5}], 
+        [{'x': 21,'y': 51}, {'x': 63,'y': 12}, {'x': 71,'y': 30}],
+        [{'x': 94,'y': 53}, {'x': 36,'y': 24}, {'x': 84,'y': 49}],
+        [{'x': 92,'y': 13}, {'x': 64,'y': 25}, {'x': 16,'y': 10}],
+        [{'x': 49,'y': 54}, {'x': 65,'y': 5}, {'x': 63,'y': 9}],
+    ]
+
+    return JsonResponse(data={      
+        'data': data,                  
+    })
+
+
+def fetch_smoke_data(request, sensorId, startDate, startTime, endDate, endTime):
     labels = []
     data = []
-    #print(startDate, startTime, endDate, endTime)
 
     datetime_start = startDate + " " + startTime + ":00"
     datetime_end = endDate + " " + endTime + ":00"
 
     ReturnedRows = db_r_query(
-        "SELECT DISTINCT * FROM dashboard_webapp_smokereading WHERE raspberry_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
+        "SELECT captured_date, smoke_value FROM dashboard_webapp_smokereading WHERE raspberry_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
         [sensorId, datetime_start, datetime_end]
     )                
 
     for smokeReading in ReturnedRows:   
-        capturedDate_str = str(smokeReading[2])
-        #print(smokeReading)
+        capturedDate_str = str(smokeReading[0])
 
-        # if same day, exclude date, show time in AM/PM
-        if startDate == endDate:    
-            dt = datetime.datetime.strptime(capturedDate_str[11:16], '%H:%M').strftime('%I:%M %p')
-
-        # if same year, exclude year, show '13 Dec, 01:40 PM'
-        elif startDate[0:4] == endDate[0:4]:
-            dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b, %I:%M %p')
-
-        # if different year, exclude time, show date
-        else:
-            dt = datetime.datetime.strptime(capturedDate_str[0:16], '%Y-%m-%d %H:%M').strftime('%d %b %Y')
+        dt = time_axis_formatter(capturedDate_str, startDate, endDate)
             
         labels.append(str(dt))
-        data.append(smokeReading[3])    
+        data.append(smokeReading[1])    
     
     return JsonResponse(data={
         'labels': labels,              
@@ -145,6 +170,7 @@ def register_user(request):
 
     if request.method == "POST":
         form = SignUpForm(request.POST)
+        print(form)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get("username")
