@@ -372,7 +372,7 @@
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6 id="text_scatterChartTitle">No. of Smoking Occurences per Room</h6>
+                  <h6 id="text_scatterChartTitle">Smoking Occurences Identified</h6>
                 </div>
               </div>
             </div>
@@ -391,7 +391,7 @@
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6 id="text_barChartTitle">Total Smoking Duration per Room (in Mins)</h6>
+                  <h6 id="text_barChartTitle">Total Smoking Duration of All Occurences (in Mins)</h6>
                 </div>
               </div>
             </div>
@@ -418,6 +418,43 @@
   <script src="/static/assets/js/plugins/chartjs.min.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
+
+  <!-- init global variables -->
+  <script>
+    var global_lineChart;
+    var ctx = document.getElementById("chart-line").getContext("2d");
+
+    var global_scatterChart;
+    var ctx2 = document.getElementById("chart-scatter").getContext("2d");
+
+    var global_barChart;
+    var ctx3 = document.getElementById("chart-bar").getContext("2d");
+
+    var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
+    gradientStroke1.addColorStop(1, 'rgba(33,148,254,0.2)');
+    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)');
+
+    var gradientStroke2 = ctx.createLinearGradient(0, 230, 0, 50);
+    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)');
+    
+    var ddlBlock_isOpen = false;
+    var ddlUnit_isOpen = false;
+
+    var global_selected_block = "";
+    var global_selected_unit = "";
+    var global_selected_sensor = 0;
+    
+    var sensorSelectTranslate = {
+      sens1: 0,
+      sens2: 0,
+      sens3: 0,
+      sens4: 0,
+      sens5: 0
+    };
+  </script>
 
   <!-- init timepicker & datepicker values -->
   <script>
@@ -460,19 +497,6 @@
 
   <!--  init lineChart script   -->
   <script>
-    var global_lineChart;
-    var ctx = document.getElementById("chart-line").getContext("2d");
-
-    var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
-    gradientStroke1.addColorStop(1, 'rgba(33,148,254,0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
-    var gradientStroke2 = ctx.createLinearGradient(0, 230, 0, 50);
-    gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-    gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-    gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
     $(function() {
       global_lineChart = new Chart(ctx, config = {
         type: "line",
@@ -653,9 +677,6 @@
 
   <!--  init scatterChart script   -->
   <script>
-    var global_scatterChart;
-    var ctx2 = document.getElementById("chart-scatter").getContext("2d");
-
     $(function() {
       global_scatterChart = new Chart(ctx2, config = {
         type: "scatter",
@@ -708,6 +729,7 @@
           ],
         },
         options: {
+          //showLine: false,
           responsive: true,
           maintainAspectRatio: false,
           legend: {
@@ -742,7 +764,6 @@
               },
             }, ],
             xAxes: [{
-              
               /*display: true,
               type: 'time',
               time: {
@@ -754,7 +775,6 @@
                   'day': 'DD MM YYYY'
                 }
               },*/
-
               gridLines: {
                 zeroLineColor: 'rgba(0,0,0,0)',
                 display: false,
@@ -864,10 +884,7 @@
 
   <!--  init barChart script   -->
   <script>
-    var global_barChart;
-    var ctx3 = document.getElementById("chart-bar").getContext("2d");
-
-    $(function() {
+      $(function() {
       global_barChart = new Chart(ctx3, config = {
         type: "bar",
         data: {
@@ -980,19 +997,6 @@
 
   <!--  dropDownLists onClick: update dashboard context script 	-->
   <script>
-
-    var global_selected_block = "";
-    var global_selected_unit = "";
-    
-    var sensorSelectTranslate = {
-      sens1: 0,
-      sens2: 0,
-      sens3: 0,
-      sens4: 0,
-      sens5: 0
-    };
-    
-
     function dropDownItem_Unit_onClick(selected_unit) {
 
       // if selected unit = previously selected unit, dont refresh line chart & rb info table
@@ -1294,7 +1298,6 @@
 
   <!--  init dropdownlist_blocks script 	-->
   <script>
-
     $(function() {
       $.ajax({
         type: "GET",
@@ -1320,9 +1323,6 @@
 
   <!--  dropdownlist_block&unit isToggled + own search bar script   -->
   <script>
-    var ddlBlock_isOpen = false;
-    var ddlUnit_isOpen = false;
-
     function btnChangeBlock_onClick() {
       document.getElementById("ddlBlock_content").classList.toggle("dropdown-toggle");
       ddlBlock_isOpen = true;
@@ -1433,9 +1433,7 @@
   </script>
 
   <!--  rpi radioBtn onClick: update line chart script   -->
-  <script>
-    var global_selected_sensor = 0;
-    
+  <script>  
     function sensor_onClick(selected_sensor) {
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
 

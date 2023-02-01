@@ -18,8 +18,8 @@ urlpatterns = [
 
     path('', views.index, name='home'),
     #path('chart/<int:sensorId>/', views.chart_view, name="chart"), path('chart/<int:sensorId>', views.chart_view, name="chart"),
-    path('line-chart/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.fetch_smoke_data, name='line-graph'), 
-    path('line-chart/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_smoke_data, name='line-graph'),
+    path('line-chart/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.fetch_gas_reading, name='line-graph'), 
+    path('line-chart/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_gas_reading, name='line-graph'),
 
 
     path('scatter-chart/<str:hdb_block>/<str:unit_no>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.fetch_smoke_occurence, name='scatter-graph'), 

@@ -2,22 +2,20 @@ from django.db import models
 
 # Create your models here.
 
-
 class Raspberry(models.Model):
-    mac_address = models.CharField(max_length=200, unique=True)  
-    #smoke_sensor_id = models.IntegerField(unique=True) 
-    #rgb_cam_id = models.IntegerField(unique=True) 
-    #thermal_cam_id = models.IntegerField(unique=True) 
+    mac_address = models.CharField(max_length=200, unique=True)
+
     def __str__(self):
-        return f'{self.mac_address}'
+        return f'{self.mac_address}'    # {self.pk}
 
 
 class Flat_info(models.Model):
     flat_type = models.CharField(max_length=6)
     area = models.CharField(max_length=200)
     street_name = models.CharField(max_length=200)
+
     def __str__(self):
-        return f'{self.flat_type}, {self.area} {self.street_name}'
+        return f'{self.area}, {self.street_name}, {self.flat_type}'
 
 
 class Sensor_threshold(models.Model):
@@ -30,9 +28,13 @@ class Sensor_threshold(models.Model):
     voc = models.IntegerField()
 
     def __str__(self):
-        return f'{self.raspberry.mac_address}'
+        try:
+            assigned_location = Raspberry_location.objects.select_related().get(raspberry=self.raspberry)
+            return f'{assigned_location.hdb_block} {assigned_location.unit_number}, {assigned_location.room_name} / {self.raspberry.mac_address}'
+        except:
+             return f'Unassigned / {self.raspberry.mac_address}'
 
-
+    
 class Raspberry_location(models.Model):
     raspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
     hdb_block = models.CharField(max_length=200)  
@@ -45,7 +47,7 @@ class Raspberry_location(models.Model):
     #postal_code = models.IntegerField()
 
     def __str__(self):
-        return f'{self.raspberry.mac_address}, {self.hdb_block}, {self.unit_number}'
+        return f'{self.hdb_block} {self.unit_number}, {self.room_name} / {self.raspberry.mac_address}'
 
 
 class SmokeReading(models.Model):
@@ -65,7 +67,6 @@ class SmokeReading(models.Model):
 
 class ThermalCaptures(models.Model):
     raspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
-    #image_path = models.CharField(max_length=255)
     image = models.BinaryField()
     captured_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
@@ -74,12 +75,7 @@ class ThermalCaptures(models.Model):
 
 class RGBCaptures(models.Model):
     raspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
-    #image_path = models.CharField(max_length=255)
     image = models.BinaryField()
     captured_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return f'{self.raspberry.mac_address}, {self.captured_date}'
-
-
-#rgb_cam_reading = models.IntegerField(max_length=6)
-#thermal_cam_reading = models.IntegerField(max_length=6)
