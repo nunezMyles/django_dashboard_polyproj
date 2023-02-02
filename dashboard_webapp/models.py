@@ -52,7 +52,8 @@ class Raspberry_location(models.Model):
 
 class SmokeReading(models.Model):
     raspberry = models.ForeignKey(Raspberry, on_delete=models.CASCADE)
-    smoke_value = models.IntegerField(blank=True, null=True) # nullable
+    
+    #smoke_value = models.IntegerField(blank=True, null=True)   # nullable
     
     co = models.IntegerField()
     nh3 = models.IntegerField()

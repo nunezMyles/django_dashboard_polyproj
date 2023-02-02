@@ -739,9 +739,36 @@
             enabled: true,
             mode: "nearest",
             intersect: true,
+            callbacks: {
+                label: function(tooltipItems, data) {
+                  var date_from_ms = new Date(tooltipItems.xLabel);
+
+                  // Get date format
+                  var dd = String(date_from_ms.getDate()).padStart(2, '0');
+                  var mmm = String(date_from_ms.toLocaleString('en-us',{month:'short'}));
+                  var yyyy = date_from_ms.getFullYear();
+                  formatted_date = dd + ' ' + mmm + ' ' + yyyy;
+
+                  // Get time format
+                  function getTime(d) {
+                    function pad(n) {return n<10 ? '0'+n : n}
+                    return [
+                      pad(d.getUTCHours() + 8),':',
+                      pad(d.getUTCMinutes()), ':',
+                      pad(d.getUTCSeconds())
+                    ].join("");
+                  }
+                  var formatted_time = getTime(date_from_ms);
+
+                  // Room: data.datasets[tooltipItems.datasetIndex].label
+                  
+                  return formatted_date + ' ' + formatted_time;
+                }
+            }
           },
           scales: {
             yAxes: [{
+              //display: false,
               gridLines: {
                 borderDash: [2],
                 borderDashOffset: [2],
@@ -767,7 +794,7 @@
               /*display: true,
               type: 'time',
               time: {
-                parser: 'YYYY-MM-DD HH:mm:ss',
+                parser: 's',
                 tooltipFormat: 'll HH:mm',
                 unit: 'day',
                 unitStepSize: 1,
@@ -788,6 +815,27 @@
                 lineHeight: 3,
                 fontStyle: 'normal',
                 fontFamily: "Open Sans",
+                callback: function(value, index, values) {
+                  var date_from_ms = new Date(value);
+
+                  // Get date format
+                  var dd = String(date_from_ms.getDate()).padStart(2, '0');
+                  var mmm = String(date_from_ms.toLocaleString('en-us',{month:'short'}));
+                  var yyyy = date_from_ms.getFullYear();
+                  formatted_date = dd + ' ' + mmm + ' ' + yyyy;
+
+                  // Get time format
+                  function getTime(d){
+                    function pad(n){return n<10 ? '0'+n : n}
+                    return [
+                      pad(d.getUTCHours() + 8),':',
+                      pad(d.getUTCMinutes()),
+                    ].join("");
+                  }
+                  var formatted_time = getTime(date_from_ms);
+
+                  return formatted_date + ' ' + formatted_time;
+                }
               },
               
             }],

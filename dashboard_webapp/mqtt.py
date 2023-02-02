@@ -156,8 +156,8 @@ def on_message(client, userdata, msg):
             voc = reading_split[5]
 
             db_insert(
-                "INSERT INTO dashboard_webapp_smokereading VALUES (NULL, %s, NOW(), %s, %s, %s, %s, %s, %s)", 
-                [rpi_id, 1, co, nh3, ch2o, hcn, voc]
+                "INSERT INTO dashboard_webapp_smokereading VALUES (NULL, %s, NOW(), %s, %s, %s, %s, %s)", 
+                [rpi_id, co, nh3, ch2o, hcn, voc]
             )
 
         print("received '{}'".format(msg.topic))

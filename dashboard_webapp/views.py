@@ -95,7 +95,8 @@ def format_time_axis(capturedDate_str, startDate, endDate):
 
 
 def format_reading_to_threshold(room_raw_readings, returned_rows_threshold, room_rpi_id):
-    room_occurence_list = []  # Where each element is { x:y } equivalent to { datetime:duration }
+    
+    smoke_occurence_list = []  # Where each element is { x:y } equivalent to { datetime:duration }
 
     threshold_co = 0
     threshold_nh3 = 0
@@ -119,11 +120,15 @@ def format_reading_to_threshold(room_raw_readings, returned_rows_threshold, room
         actual_voc = reading[6]
 
         if actual_co >= threshold_co and actual_nh3 >= threshold_nh3 and actual_ch2o >= threshold_ch2o and actual_hcn >= threshold_hcn and actual_voc >= threshold_voc:
-            print('smoke occured!')
-        else:
-            print('no occurence')
-    
-    return []
+            # Convert sql datetime to millisec for javascript to display time axis
+            dt_in_seconds = reading[1].timestamp()
+            dt_in_ms = dt_in_seconds * 1000
+            
+            smoke_occurence_list.append({ 'x': dt_in_ms, 'y': 50 })
+        #else:
+        #    print('no occurence')
+
+    return smoke_occurence_list
 
 
 def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, endDate, endTime):
@@ -140,7 +145,7 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
     ReturnedRows1 = db_r_query(
         "SELECT raspberry_id, room_name FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s", 
         [hdb_block, '#' + unit_no]
-    )   
+    )  
     print('1st query executed')
 
     # If no raspberry exists at location, return nothing where data=[]
@@ -213,23 +218,23 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
     # + Get plot points as result {x: smoking duration (<5 mins interval check)), y: captured_datetime_start}
     if len(bedroom_1_raw_data) > 0:
         data[0] = format_reading_to_threshold(bedroom_1_raw_data, ReturnedRows3, bedroom_1_rpi_id)
-        data[0] = [{'x': 10,'y': 10}, {'x': 16,'y': 28}, {'x': 16,'y': 5}]
+        #data[0] = [{'x': 10,'y': 10}, {'x': 16,'y': 28}, {'x': 16,'y': 5}]
 
     if len(bedroom_2_raw_data) > 0:
         data[1] = format_reading_to_threshold(bedroom_2_raw_data, ReturnedRows3, bedroom_2_rpi_id)
-        data[1] = [{'x': 21,'y': 51}, {'x': 63,'y': 12}, {'x': 71,'y': 30}]
+        #data[1] = [{'x': 21,'y': 51}, {'x': 63,'y': 12}, {'x': 71,'y': 30}]
 
     if len(bedroom_3_raw_data) > 0:
         data[2] = format_reading_to_threshold(bedroom_3_raw_data, ReturnedRows3, bedroom_3_rpi_id)
-        data[2] = [{'x': 94,'y': 53}, {'x': 36,'y': 24}, {'x': 84,'y': 49}]
+        #data[2] = [{'x': 94,'y': 53}, {'x': 36,'y': 24}, {'x': 84,'y': 49}]
 
     if len(living_room_raw_data) > 0:
         data[3] = format_reading_to_threshold(living_room_raw_data, ReturnedRows3, living_room_rpi_id)
-        data[3] = [{'x': 92,'y': 13}, {'x': 64,'y': 25}, {'x': 16,'y': 10}]
+        #data[3] = [{'x': 92,'y': 13}, {'x': 64,'y': 25}, {'x': 16,'y': 10}]
 
     if len(kitchen_raw_data) > 0:
         data[4] = format_reading_to_threshold(kitchen_raw_data, ReturnedRows3, kitchen_rpi_id)
-        data[4] = [{'x': 49,'y': 54}, {'x': 65,'y': 5}, {'x': 63,'y': 9}]
+        #data[4] = [{'x': 49,'y': 54}, {'x': 65,'y': 5}, {'x': 63,'y': 9}]
 
 
     return JsonResponse(data={      
