@@ -63,7 +63,7 @@ class SmokeReading(models.Model):
 
     captured_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return f'{self.raspberry.mac_address}, {self.captured_date}'
+        return f'{self.raspberry.mac_address} / {self.captured_date}'
 
 
 class ThermalCaptures(models.Model):
@@ -71,7 +71,7 @@ class ThermalCaptures(models.Model):
     image = models.BinaryField()
     captured_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return f'{self.raspberry.mac_address}, {self.captured_date}'
+        return f'{self.raspberry.mac_address} / {self.captured_date}'
 
 
 class RGBCaptures(models.Model):
@@ -79,4 +79,4 @@ class RGBCaptures(models.Model):
     image = models.BinaryField()
     captured_date = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return f'{self.raspberry.mac_address}, {self.captured_date}'
+        return f'{self.raspberry.mac_address} / {self.captured_date}'

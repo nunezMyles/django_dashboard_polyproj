@@ -324,7 +324,7 @@
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6 id="text_lineChartTitle">Gas Sensor Reading in Room -</h6>
+                  <h6 id="text_lineChartTitle">Gas Concentration in - (in ppm)</h6>
                 </div>
                 
                 <div class="row align-items-center">
@@ -374,6 +374,9 @@
                 <div class="me-auto">
                   <h6 id="text_scatterChartTitle">Smoking Occurences Identified</h6>
                 </div>
+                <div class="row align-items-center ms-4 me-1">
+                  <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="scatterChartRefresh()"></i>
+                </div>
               </div>
             </div>
             <div class="card-body p-3">
@@ -391,7 +394,7 @@
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6 id="text_barChartTitle">Total Smoking Duration of All Occurences (in Mins)</h6>
+                  <h6 id="text_barChartTitle">Total Duration of Smoke Presence (mins/room)</h6>
                 </div>
               </div>
             </div>
@@ -415,9 +418,13 @@
 {% block javascripts %}
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="/static/assets/js/plugins/chartjs.min.js"></script>
+  <!--script src="/static/assets/js/plugins/chartjs.min.js"></script-->
+  <script src="/static/assets/js/plugins/chart.umd.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+  <script src="/static/assets/js/plugins/chartjs-plugin-zoom.min.js"></script>
 
   <!-- init global variables -->
   <script>
@@ -446,6 +453,8 @@
     var global_selected_block = "";
     var global_selected_unit = "";
     var global_selected_sensor = 0;
+
+    var global_room_list = ['Bedroom 1', 'Bedroom 2', 'Bedroom 3', 'Living room', 'Kitchen']
     
     var sensorSelectTranslate = {
       sens1: 0,
@@ -501,10 +510,11 @@
       global_lineChart = new Chart(ctx, config = {
         type: "line",
         data: {
-          datasets: [{
-              data: [], // start with empty y-axis dataset
-              backgroundColor: gradientStroke1,
-              label: "Smoke value",
+          datasets: [
+            {
+              data: [],
+              label: "CO actual",
+              //backgroundColor: gradientStroke1,
               tension: 0.4,
               borderWidth: 0,
               pointRadius: 0,
@@ -512,26 +522,135 @@
               borderWidth: 3,
               maxBarThickness: 6,
             },
-            /*{
-              label: "Websites",
+            {
+              label: "CO threshold",
+              data: [],
+              borderDash: [10,10],
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#2194fe",
+              borderWidth: 3,
+              //backgroundColor: gradientStroke2,
+              maxBarThickness: 6
+            },
+            {
+              data: [],
+              label: "NH3 actual",
+              //backgroundColor: gradientStroke1,
               tension: 0.4,
               borderWidth: 0,
               pointRadius: 0,
               borderColor: "#3A416F",
               borderWidth: 3,
-              backgroundColor: gradientStroke2,
-              data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+              maxBarThickness: 6,
+            },
+            {
+              label: "NH3 threshold",
+              data: [],
+              borderDash: [10,10],
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#3A416F",
+              borderWidth: 3,
+              //backgroundColor: gradientStroke2,
               maxBarThickness: 6
-
-            },*/
+            },
+            {
+              data: [],
+              label: "CH2O actual",
+              //backgroundColor: gradientStroke1,
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#d65eb9",
+              borderWidth: 3,
+              maxBarThickness: 6,
+            },
+            {
+              label: "CH2O threshold",
+              data: [],
+              borderDash: [10,10],
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#d65eb9",
+              borderWidth: 3,
+              //backgroundColor: gradientStroke2,
+              maxBarThickness: 6
+            },
+            {
+              data: [],
+              label: "HCN actual",
+              //backgroundColor: gradientStroke1,
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#41e151",
+              borderWidth: 3,
+              maxBarThickness: 6,
+            },
+            {
+              label: "HCN threshold",
+              data: [],
+              borderDash: [10,10],
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#41e151",
+              borderWidth: 3,
+              //backgroundColor: gradientStroke2,
+              maxBarThickness: 6
+            },
+            {
+              data: [],
+              label: "VOC actual",
+              //backgroundColor: gradientStroke1,
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#cc2e49",
+              borderWidth: 3,
+              maxBarThickness: 6,
+            },
+            {
+              label: "VOC threshold",
+              data: [],
+              borderDash: [10,10],
+              tension: 0.4,
+              borderWidth: 0,
+              pointRadius: 0,
+              borderColor: "#cc2e49",
+              borderWidth: 3,
+              //backgroundColor: gradientStroke2,
+              maxBarThickness: 6
+            },
           ],
           labels: [], // start with empty x-axis dataset
         },
         options: {
+          plugins: {
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x',
+              },
+              pan: {
+                enabled: true,
+                mode: 'x',
+              }
+            }
+          },
           responsive: true,
           maintainAspectRatio: false,
           legend: {
-            display: false,
+            display: true,
           },
           tooltips: {
             enabled: true,
@@ -562,7 +681,8 @@
               },
             }, ],
             xAxes: [{
-              /*display: true,
+              display: true,
+              /*
               type: 'time',
               time: {
                 parser: 'YYYY-MM-DD HH:mm:ss',
@@ -662,9 +782,21 @@
         type: "GET",
         url: "/line-chart/" + String(global_selected_sensor) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
         success: function(response) {
-          //alert(response['labels']);
-          global_lineChart.data.datasets[0].data = response.data;
+          global_lineChart.resetZoom(mode = 'easeOutQuart');
           global_lineChart.data.labels = response.labels;
+
+          global_lineChart.data.datasets[0].data = response['co_actual_data'];
+          global_lineChart.data.datasets[2].data = response['nh3_actual_data'];
+          global_lineChart.data.datasets[4].data = response['ch2o_actual_data'];
+          global_lineChart.data.datasets[6].data = response['hcn_actual_data'];
+          global_lineChart.data.datasets[8].data = response['voc_actual_data'];
+
+          global_lineChart.data.datasets[1].data = response['co_threshold_data'];
+          global_lineChart.data.datasets[3].data = response['nh3_threshold_data'];
+          global_lineChart.data.datasets[5].data = response['ch2o_threshold_data'];
+          global_lineChart.data.datasets[7].data = response['hcn_threshold_data'];
+          global_lineChart.data.datasets[9].data = response['voc_threshold_data'];
+          
           global_lineChart.update();
         },
         error: function(xhr, status, error) {
@@ -791,6 +923,7 @@
               },
             }, ],
             xAxes: [{
+              //display: false,
               /*display: true,
               type: 'time',
               time: {
@@ -1097,7 +1230,7 @@
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
-      text_lineChartTitle.innerHTML = "Sensor Reading by Room -";
+      text_lineChartTitle.innerHTML = "Gas Concentration in - (in ppm)";
       global_selected_sensor = 0;
 
       lineChartRefresh();
@@ -1286,7 +1419,7 @@
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
-      text_lineChartTitle.innerHTML = "Sensor Reading by Room -";
+      text_lineChartTitle.innerHTML = "Gas Concentration in - (in ppm)";
       global_selected_sensor = 0;
       global_selected_unit = ""
 
@@ -1485,7 +1618,9 @@
     function sensor_onClick(selected_sensor) {
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
 
-      text_lineChartTitle.innerHTML = "Sensor Reading by Room " + selected_sensor;
+      var selected_room = global_room_list[selected_sensor - 1]
+
+      text_lineChartTitle.innerHTML = "Gas Concentration in " + selected_room + " (in ppm)";
       global_selected_sensor = sensorSelectTranslate["sens" + selected_sensor];
       lineChartRefresh();
     }

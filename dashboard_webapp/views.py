@@ -94,7 +94,7 @@ def format_time_axis(capturedDate_str, startDate, endDate):
         return dt
 
 
-def format_reading_to_threshold(room_raw_readings, returned_rows_threshold, room_rpi_id):
+def format_to_threshold_scatter(room_raw_readings, returned_rows_threshold, room_rpi_id):
     
     smoke_occurence_list = []  # Where each element is { x:y } equivalent to { datetime:duration }
 
@@ -146,7 +146,7 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
         "SELECT raspberry_id, room_name FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s", 
         [hdb_block, '#' + unit_no]
     )  
-    print('1st query executed')
+    print('scatter, 1st query executed')
 
     # If no raspberry exists at location, return nothing where data=[]
     if len(ReturnedRows1) == 0:
@@ -173,7 +173,7 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
         f"SELECT raspberry_id, captured_date, co, nh3, ch2o, hcn, voc FROM dashboard_webapp_smokereading WHERE raspberry_id IN ({','.join('%s' for rpi_id in rpi_id_list)}) AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
         query2_list
     )   
-    print('2nd query executed')
+    print('scatter, 2nd query executed')
 
     bedroom_1_raw_data = []
     bedroom_2_raw_data = []
@@ -212,28 +212,28 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
         f"SELECT raspberry_id, co, nh3, ch2o, hcn, voc FROM dashboard_webapp_sensor_threshold WHERE raspberry_id IN ({','.join('%s' for rpi_id in rpi_id_list)})", 
         rpi_id_list
     ) 
-    print('3rd query executed')
+    print('scatter, 3rd query executed')
 
     # Function to determine whether each reading is a smoke occurence wrt rpi's threshold
     # + Get plot points as result {x: smoking duration (<5 mins interval check)), y: captured_datetime_start}
     if len(bedroom_1_raw_data) > 0:
-        data[0] = format_reading_to_threshold(bedroom_1_raw_data, ReturnedRows3, bedroom_1_rpi_id)
+        data[0] = format_to_threshold_scatter(bedroom_1_raw_data, ReturnedRows3, bedroom_1_rpi_id)
         #data[0] = [{'x': 10,'y': 10}, {'x': 16,'y': 28}, {'x': 16,'y': 5}]
 
     if len(bedroom_2_raw_data) > 0:
-        data[1] = format_reading_to_threshold(bedroom_2_raw_data, ReturnedRows3, bedroom_2_rpi_id)
+        data[1] = format_to_threshold_scatter(bedroom_2_raw_data, ReturnedRows3, bedroom_2_rpi_id)
         #data[1] = [{'x': 21,'y': 51}, {'x': 63,'y': 12}, {'x': 71,'y': 30}]
 
     if len(bedroom_3_raw_data) > 0:
-        data[2] = format_reading_to_threshold(bedroom_3_raw_data, ReturnedRows3, bedroom_3_rpi_id)
+        data[2] = format_to_threshold_scatter(bedroom_3_raw_data, ReturnedRows3, bedroom_3_rpi_id)
         #data[2] = [{'x': 94,'y': 53}, {'x': 36,'y': 24}, {'x': 84,'y': 49}]
 
     if len(living_room_raw_data) > 0:
-        data[3] = format_reading_to_threshold(living_room_raw_data, ReturnedRows3, living_room_rpi_id)
+        data[3] = format_to_threshold_scatter(living_room_raw_data, ReturnedRows3, living_room_rpi_id)
         #data[3] = [{'x': 92,'y': 13}, {'x': 64,'y': 25}, {'x': 16,'y': 10}]
 
     if len(kitchen_raw_data) > 0:
-        data[4] = format_reading_to_threshold(kitchen_raw_data, ReturnedRows3, kitchen_rpi_id)
+        data[4] = format_to_threshold_scatter(kitchen_raw_data, ReturnedRows3, kitchen_rpi_id)
         #data[4] = [{'x': 49,'y': 54}, {'x': 65,'y': 5}, {'x': 63,'y': 9}]
 
 
@@ -244,30 +244,78 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
 
 def fetch_gas_reading(request, sensorId, startDate, startTime, endDate, endTime):
     labels = []
-    data = []
+
+    co_actual_data = []
+    nh3_actual_data = []
+    ch2o_actual_data = []
+    hcn_actual_data = []
+    voc_actual_data = []
+
+    co_threshold_data = []
+    nh3_threshold_data = []
+    ch2o_threshold_data = []
+    hcn_threshold_data = []
+    voc_threshold_data = []
 
     query_datetime_start = startDate + " " + startTime + ":00"
     query_datetime_end = endDate + " " + endTime + ":00"
 
-    ReturnedRows = db_r_query(
-        "SELECT captured_date, smoke_value FROM dashboard_webapp_smokereading WHERE raspberry_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
+    # Get gas readings
+    ReturnedRows1 = db_r_query(
+        "SELECT captured_date, co, nh3, ch2o, hcn, voc FROM dashboard_webapp_smokereading WHERE raspberry_id=%s AND (captured_date BETWEEN %s AND %s) ORDER BY captured_date", 
         [sensorId, query_datetime_start, query_datetime_end]
-    )                
+    )
+    print('line, 1st query executed')
 
-    for smokeReading in ReturnedRows:   
+    # Get threshold level
+    ReturnedRows2 = db_r_query(
+        "SELECT co, nh3, ch2o, hcn, voc FROM dashboard_webapp_sensor_threshold WHERE raspberry_id=%s", 
+        [sensorId]
+    ) 
+    print('line, 2nd query executed')   
+
+    co_threshold = ReturnedRows2[0][0]
+    nh3_threshold = ReturnedRows2[0][1]
+    ch2o_threshold = ReturnedRows2[0][2]
+    hcn_threshold = ReturnedRows2[0][3]
+    voc_threshold = ReturnedRows2[0][4]
+
+    for smokeReading in ReturnedRows1:
         # Append to labels[] for x(time) axis
         capturedDate_str = str(smokeReading[0])
         dt = format_time_axis(capturedDate_str, startDate, endDate)
-        print(dt)
-        labels.append(str(dt))
+        labels.append(str(dt)) 
 
-        # Append to data[] for y axis
-        data.append(smokeReading[1])    
-    
+        # y_axis values:
+        co_actual_data.append(smokeReading[1])
+        nh3_actual_data.append(smokeReading[2])
+        ch2o_actual_data.append(smokeReading[3])
+        hcn_actual_data.append(smokeReading[4])
+        voc_actual_data.append(smokeReading[5])
+
+        co_threshold_data.append(co_threshold)
+        nh3_threshold_data.append(nh3_threshold)
+        ch2o_threshold_data.append(ch2o_threshold)
+        hcn_threshold_data.append(hcn_threshold)
+        voc_threshold_data.append(voc_threshold)
+
+
+
     # Return to AJAX call 'success'
     return JsonResponse(data={
-        'labels': labels,              
-        'data': data,                  
+        'labels': labels,         
+
+        'co_actual_data': co_actual_data,      
+        'nh3_actual_data': nh3_actual_data,   
+        'ch2o_actual_data': ch2o_actual_data,   
+        'hcn_actual_data': hcn_actual_data,   
+        'voc_actual_data': voc_actual_data,   
+        
+        'co_threshold_data': co_threshold_data,   
+        'nh3_threshold_data': nh3_threshold_data,   
+        'ch2o_threshold_data': ch2o_threshold_data,   
+        'hcn_threshold_data': hcn_threshold_data,   
+        'voc_threshold_data': voc_threshold_data,               
     })
 
 
