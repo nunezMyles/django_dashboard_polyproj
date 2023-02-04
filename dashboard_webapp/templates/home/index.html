@@ -118,6 +118,43 @@
 
       </div>
 
+      <div class="row mt-4 justify-content-md-center">
+        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row align-items-center">
+                <div class="col-lg-2">
+                  <p class="text-sm text-capitalize font-weight-bold mb-auto text-center">From</p>
+                </div>
+                <div class="col-lg-5 mb-2 mt-2">
+                  <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" onchange="dt_range_check()" />
+                </div>
+                <div class="col-lg-5 mb-2 mt-2">
+                  <input id="timepicker-start" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row align-items-center">
+                <div class="col-lg-2">
+                  <p class="text-sm text-capitalize font-weight-bold mb-auto text-center">To</p>
+                </div>
+                <div class="col-lg-5 mb-2 mt-2">
+                  <input id="datepicker-end" class="form-control cursor-pointer" data-toggle="tooltip" type="date" onchange="dt_range_check()" />
+                </div>
+                <div class="col-lg-5 mb-2 mt-2">
+                  <input id="timepicker-end" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row mt-4">
 
         <!--div class="col-lg-5 d-flex">
@@ -146,10 +183,10 @@
           </div>
         </div-->
         
-        <div class="col-lg-12">
-          <div class="card mb-4">
+        <div class="col-lg-3 mb-4">
+          <div class="card h-100">
             <div class="card-header pb-0">
-              <h6>Raspberry Pi Info</h6>
+              <h6>Select Room</h6>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
@@ -157,11 +194,12 @@
                   <thead>
                     <tr>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Allocated Room</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Id</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+                      <th></th>
+                      <!--th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <!--th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ip address</th-->
-                      <th class="text-secondary opacity-7"></th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ip address</th>
+                      <th class="text-secondary opacity-7"></th-->
                     </tr>
                   </thead>
                   <tbody>
@@ -179,13 +217,13 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 1</p>
                       </td>
-                      <td>
+                      <!--td>
                         <p id="text_raspberryId1" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span id="text_raspberryStatus1" class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
-                      <!--td class="align-middle text-center">
+                      <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.101</span>
                       </td-->
                       <td class="align-middle">
@@ -208,13 +246,13 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 2</p>
                       </td>
-                      <td>
+                      <!--td>
                         <p id="text_raspberryId2" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span id="text_raspberryStatus2" class="badge badge-sm bg-gradient-secondary">Inactive</span>
                       </td>
-                      <!--td class="align-middle text-center">
+                      <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.102</span>
                       </td-->
                       <td class="align-middle">
@@ -237,13 +275,13 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 3</p>
                       </td>
-                      <td>
+                      <!--td>
                         <p id="text_raspberryId3" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span id="text_raspberryStatus3" class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
-                      <!--td class="align-middle text-center">
+                      <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.103</span>
                       </td-->
                       <td class="align-middle">
@@ -266,13 +304,13 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Living room</p>
                       </td>
-                      <td>
+                      <!--td>
                         <p id="text_raspberryId4" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span id="text_raspberryStatus4" class="badge badge-sm bg-gradient-success">Active</span>
                       </td>
-                      <!--td class="align-middle text-center">
+                      <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.104</span>
                       </td-->
                       <td class="align-middle">
@@ -295,13 +333,13 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Kitchen</p>
                       </td>
-                      <td>
+                      <!--td>
                         <p id="text_raspberryId5" class="text-xs font-weight-bold mb-0 pe-3">-</p>
                       </td>
                       <td class="align-middle text-center text-sm">
                         <span id="text_raspberryStatus5" class="badge badge-sm bg-gradient-secondary">Inactive</span>
                       </td>
-                      <!--td class="align-middle text-center">
+                      <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">192.168.1.105</span>
                       </td-->
                       <td class="align-middle">
@@ -316,44 +354,17 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row mb-4">
-        <div class="col-lg-13">
-          <div class="card">
+        <div class="col-lg-9 mb-4">
+          <div class="card h-100">
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6 id="text_lineChartTitle">Gas Concentration in - (in ppm)</h6>
+                  <h6 id="text_lineChartTitle">Gas Concentration in - </h6>
                 </div>
-                
-                <div class="row align-items-center">
-                  <div class="col-lg-2">
-                    <span class="text-xs font-weight-bolder">FROM</span>
-                  </div>
-                  <div class="col-lg-5">
-                    <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" onchange="dt_range_check()" />
-                  </div>
-                  <div class="col-lg-5">
-                    <input id="timepicker-start" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
-                  </div>
-                </div>
-
                 <div class="row align-items-center ms-4 me-1">
-                  <div class="col-lg-2">
-                    <span id="label-test" class="text-xs font-weight-bolder">TO</span>
-                  </div>
-                  <div class="col-lg-5">
-                    <input id="datepicker-end" class="form-control cursor-pointer" type="date" onchange="dt_range_check()" />
-                  </div>
-                  <div class="col-lg-5">
-                    <input id="timepicker-end" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
-                  </div>
-                </div>
-
-                <!--div class="row align-items-center ms-4 me-1">
                   <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="lineChartRefresh()"></i>
-                </div-->
+                </div>
 
               </div>
             </div>
@@ -364,7 +375,12 @@
             </div>
           </div>
         </div>
+        
       </div>
+
+      <!--div class="row mb-4">
+        
+      </div-->
 
       <div class="row mb-4">
         <div class="col-lg-13">
@@ -504,6 +520,28 @@
     });
   </script>
 
+  <!--  Chartjs custom tooltop   -->
+  <script>
+    // Create a custom tooltip positioner to put at the bottom of the chart area
+    Chart.Tooltip.positioners.bottom = function(items) {
+      const pos = Chart.Tooltip.positioners.average(items);
+
+      // Happens when nothing is found
+      if (pos === false) {
+        return false;
+      }
+
+      const chart = this.chart;
+
+      return {
+        x: pos.x,
+        y: chart.chartArea.bottom,
+        xAlign: 'center',
+        yAlign: 'top',
+      };
+    };
+  </script>
+
   <!--  init lineChart script   -->
   <script>
     $(function() {
@@ -631,6 +669,12 @@
         },
         options: {
           plugins: {
+            tooltip: {
+              enabled: true,
+              mode: 'index',
+              intersect: false,
+              position: 'average',
+            },
             zoom: {
               zoom: {
                 wheel: {
@@ -649,16 +693,15 @@
           },
           responsive: true,
           maintainAspectRatio: false,
-          legend: {
-            display: true,
-          },
-          tooltips: {
-            enabled: true,
-            mode: "index",
-            intersect: false,
-          },
           scales: {
-            yAxes: [{
+            y: {
+              title: {
+                display: true,
+                text: 'Gas Concentration / ppm',
+                font: {
+                  size: 14
+                },
+              }, 
               gridLines: {
                 borderDash: [2],
                 borderDashOffset: [2],
@@ -679,23 +722,9 @@
                 fontStyle: 'normal',
                 fontFamily: "Open Sans",
               },
-            }, ],
-            xAxes: [{
-              display: true,
-              /*
-              type: 'time',
-              time: {
-                parser: 'YYYY-MM-DD HH:mm:ss',
-                tooltipFormat: 'll HH:mm',
-                unit: 'day',
-                unitStepSize: 1,
-                displayFormats: {
-                  'day': 'DD MM YYYY'
-                }
-              },*/
-
-              gridLines: {
-                zeroLineColor: 'rgba(0,0,0,0)',
+            },
+            x: {
+              grid: {
                 display: false,
               },
               ticks: {
@@ -709,7 +738,7 @@
                 fontFamily: "Open Sans",
               },
               
-            }],
+            },
           },
         },
       });
@@ -861,45 +890,59 @@
           ],
         },
         options: {
+          plugins: {
+            zoom: {
+              zoom: {
+                wheel: {
+                  enabled: true,
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x',
+              },
+              pan: {
+                enabled: true,
+                mode: 'x',
+              }
+            },
+            tooltip: {
+              enabled: true,
+              mode: "nearest",
+              intersect: true,
+              callbacks: {
+                  label: function(context) {
+                    var date_from_ms = new Date(context.parsed.x);
+
+                    // Get date format
+                    var dd = String(date_from_ms.getDate()).padStart(2, '0');
+                    var mmm = String(date_from_ms.toLocaleString('en-us',{month:'short'}));
+                    var yyyy = date_from_ms.getFullYear();
+                    formatted_date = dd + ' ' + mmm + ' ' + yyyy;
+
+                    // Get time format
+                    function getTime(d) {
+                      function pad(n) {return n<10 ? '0'+n : n}
+                      return [
+                        pad(d.getUTCHours() + 8),':',
+                        pad(d.getUTCMinutes()), ':',
+                        pad(d.getUTCSeconds())
+                      ].join("");
+                    }
+                    var formatted_time = getTime(date_from_ms);
+
+                    // Room: data.datasets[tooltipItems.datasetIndex].label
+                    
+                    return formatted_date + ' ' + formatted_time;
+                  }
+              },
+            },
+          },
           //showLine: false,
           responsive: true,
           maintainAspectRatio: false,
-          legend: {
-            display: true,
-          },
-          tooltips: {
-            enabled: true,
-            mode: "nearest",
-            intersect: true,
-            callbacks: {
-                label: function(tooltipItems, data) {
-                  var date_from_ms = new Date(tooltipItems.xLabel);
-
-                  // Get date format
-                  var dd = String(date_from_ms.getDate()).padStart(2, '0');
-                  var mmm = String(date_from_ms.toLocaleString('en-us',{month:'short'}));
-                  var yyyy = date_from_ms.getFullYear();
-                  formatted_date = dd + ' ' + mmm + ' ' + yyyy;
-
-                  // Get time format
-                  function getTime(d) {
-                    function pad(n) {return n<10 ? '0'+n : n}
-                    return [
-                      pad(d.getUTCHours() + 8),':',
-                      pad(d.getUTCMinutes()), ':',
-                      pad(d.getUTCSeconds())
-                    ].join("");
-                  }
-                  var formatted_time = getTime(date_from_ms);
-
-                  // Room: data.datasets[tooltipItems.datasetIndex].label
-                  
-                  return formatted_date + ' ' + formatted_time;
-                }
-            }
-          },
           scales: {
-            yAxes: [{
+            y: {
               //display: false,
               gridLines: {
                 borderDash: [2],
@@ -921,20 +964,8 @@
                 fontStyle: 'normal',
                 fontFamily: "Open Sans",
               },
-            }, ],
-            xAxes: [{
-              //display: false,
-              /*display: true,
-              type: 'time',
-              time: {
-                parser: 's',
-                tooltipFormat: 'll HH:mm',
-                unit: 'day',
-                unitStepSize: 1,
-                displayFormats: {
-                  'day': 'DD MM YYYY'
-                }
-              },*/
+            },
+            x: {
               gridLines: {
                 zeroLineColor: 'rgba(0,0,0,0)',
                 display: false,
@@ -971,7 +1002,7 @@
                 }
               },
               
-            }],
+            },
           },
         },
       });
@@ -1092,18 +1123,20 @@
           labels: ['Bedroom 1', 'Bedroom 2', 'Bedroom 3', 'Living room', 'Kitchen'],
         },
         options: {
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
           responsive: true,
           maintainAspectRatio: false,
-          legend: {
-            display: false,
-          },
           tooltips: {
             enabled: true,
             mode: "index",
             intersect: false,
           },
           scales: {
-            yAxes: [{
+            y: {
               gridLines: {
                 borderDash: [2],
                 borderDashOffset: [2],
@@ -1124,21 +1157,8 @@
                 fontStyle: 'normal',
                 fontFamily: "Open Sans",
               },
-            }, ],
-            xAxes: [{
-              
-              /*display: true,
-              type: 'time',
-              time: {
-                parser: 'YYYY-MM-DD HH:mm:ss',
-                tooltipFormat: 'll HH:mm',
-                unit: 'day',
-                unitStepSize: 1,
-                displayFormats: {
-                  'day': 'DD MM YYYY'
-                }
-              },*/
-
+            },
+            x: {
               gridLines: {
                 zeroLineColor: 'rgba(0,0,0,0)',
                 display: false,
@@ -1154,7 +1174,7 @@
                 fontFamily: "Open Sans",
               },
               
-            }],
+            },
           },
         },
       });
@@ -1230,7 +1250,7 @@
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
-      text_lineChartTitle.innerHTML = "Gas Concentration in - (in ppm)";
+      text_lineChartTitle.innerHTML = "Gas Concentration in -";
       global_selected_sensor = 0;
 
       lineChartRefresh();
@@ -1252,7 +1272,7 @@
           var isLivingRoomUpdated = false;
           var isKitchenUpdated = false;
 
-          var rbIdText_1 = document.getElementById("text_raspberryId1");
+          /*var rbIdText_1 = document.getElementById("text_raspberryId1");
           var rbIdText_2 = document.getElementById("text_raspberryId2");
           var rbIdText_3 = document.getElementById("text_raspberryId3");
           var rbIdText_4 = document.getElementById("text_raspberryId4");
@@ -1262,38 +1282,38 @@
           var rbStatusText_2 = document.getElementById("text_raspberryStatus2");
           var rbStatusText_3 = document.getElementById("text_raspberryStatus3");
           var rbStatusText_4 = document.getElementById("text_raspberryStatus4");
-          var rbStatusText_5 = document.getElementById("text_raspberryStatus5");
+          var rbStatusText_5 = document.getElementById("text_raspberryStatus5");*/
 
           // algorithm to update 'raspberry info' html based on given room names from JsonResponse
           response['unit_info'].forEach(function(element) {
             switch(element[4]) {
 
               case 'Bedroom 1':
-                rbIdText_1.innerHTML = element[3];
+                //rbIdText_1.innerHTML = element[3];
                 sensorSelectTranslate["sens1"] = element[3];
                 isBedroom1Updated = true;
                 break;
 
               case 'Bedroom 2':
-                rbIdText_2.innerHTML = element[3];
+                //rbIdText_2.innerHTML = element[3];
                 sensorSelectTranslate["sens2"] = element[3];
                 isBedroom2Updated = true;
                 break;
 
               case 'Bedroom 3':
-                rbIdText_3.innerHTML = element[3];
+                //rbIdText_3.innerHTML = element[3];
                 sensorSelectTranslate["sens3"] = element[3];
                 isBedroom3Updated = true;
                 break;
 
               case 'Living room':
-                rbIdText_4.innerHTML = element[3];
+                //rbIdText_4.innerHTML = element[3];
                 sensorSelectTranslate["sens4"] = element[3];
                 isLivingRoomUpdated = true;
                 break;
 
               case 'Kitchen':
-                rbIdText_5.innerHTML = element[3];
+                //rbIdText_5.innerHTML = element[3];
                 sensorSelectTranslate["sens5"] = element[3];
                 isKitchenUpdated = true;
                 break;
@@ -1305,27 +1325,27 @@
 
           // if room name not in jsonResponse, set html for that room to display no info
           if (!isBedroom1Updated) {
-            rbIdText_1.innerHTML = "-";
+            //rbIdText_1.innerHTML = "-";
             sensorSelectTranslate["sens1"] = 0;
             radioBtn_s1.disabled = true;
           }
           if (!isBedroom2Updated) {
-            rbIdText_2.innerHTML = "-";
+            //rbIdText_2.innerHTML = "-";
             sensorSelectTranslate["sens2"] = 0;
             radioBtn_s2.disabled = true;
           }
           if (!isBedroom3Updated) {
-            rbIdText_3.innerHTML = "-";
+            //rbIdText_3.innerHTML = "-";
             sensorSelectTranslate["sens3"] = 0;
             radioBtn_s3.disabled = true;
           }
           if (!isLivingRoomUpdated) {
-            rbIdText_4.innerHTML = "-";
+            //rbIdText_4.innerHTML = "-";
             sensorSelectTranslate["sens4"] = 0;
             radioBtn_s4.disabled = true;
           }
           if (!isKitchenUpdated) {
-            rbIdText_5.innerHTML = "-";
+            //rbIdText_5.innerHTML = "-";
             sensorSelectTranslate["sens5"] = 0;
             radioBtn_s5.disabled = true;
           }
@@ -1392,7 +1412,7 @@
       radioBtn_s5.checked = false;
 
       // reset 'raspberry pi info' table
-      var rbIdText_1 = document.getElementById("text_raspberryId1");
+      /*var rbIdText_1 = document.getElementById("text_raspberryId1");
       var rbIdText_2 = document.getElementById("text_raspberryId2");
       var rbIdText_3 = document.getElementById("text_raspberryId3");
       var rbIdText_4 = document.getElementById("text_raspberryId4");
@@ -1402,7 +1422,7 @@
       rbIdText_2.innerHTML = "-";
       rbIdText_3.innerHTML = "-";
       rbIdText_4.innerHTML = "-";
-      rbIdText_5.innerHTML = "-";
+      rbIdText_5.innerHTML = "-";*/
 
       /*var rbStatusText_1 = document.getElementById("text_raspberryStatus1");
       var rbStatusText_2 = document.getElementById("text_raspberryStatus2");
@@ -1419,7 +1439,7 @@
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
-      text_lineChartTitle.innerHTML = "Gas Concentration in - (in ppm)";
+      text_lineChartTitle.innerHTML = "Gas Concentration in -";
       global_selected_sensor = 0;
       global_selected_unit = ""
 
@@ -1620,7 +1640,7 @@
 
       var selected_room = global_room_list[selected_sensor - 1]
 
-      text_lineChartTitle.innerHTML = "Gas Concentration in " + selected_room + " (in ppm)";
+      text_lineChartTitle.innerHTML = "Gas Concentration in " + selected_room;
       global_selected_sensor = sensorSelectTranslate["sens" + selected_sensor];
       lineChartRefresh();
     }
