@@ -5,6 +5,22 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
 */
 
+/***    'FROM', 'TO' datetime labels  ***/
+
+.fromToLabel {
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  border: none;
+}
+
+
+/***    'edit' btn  ***/
+
+.btnEditRpi {
+  cursor: pointer;
+}
+
 /***    navbar - login/register page  ***/
 
 @media (width < 400px) {

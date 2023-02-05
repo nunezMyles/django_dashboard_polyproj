@@ -39,17 +39,31 @@ def db_r_query(query, param):
 
 def fetch_unit_info(request, hdb_block, unit_number):
     unit_info = []
+    rpiLoc_id_list = [0, 0, 0, 0, 0] # where each item represents each room order of Bedroom1, Bedroom 2..., Kitchen
 
     ReturnedRows = db_r_query(
-        "SELECT DISTINCT * FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s ORDER BY raspberry_id ASC", 
+        "SELECT * FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s ORDER BY raspberry_id ASC", 
         [hdb_block, '#' + unit_number]
     )
 
     for info in ReturnedRows: 
         unit_info.append(info) 
+
+        if str(info[4]) == 'Bedroom 1':
+            rpiLoc_id_list[0] = info[0]
+        if str(info[4]) == 'Bedroom 2':
+            rpiLoc_id_list[1] = info[0]
+        if str(info[4]) == 'Bedroom 3':
+            rpiLoc_id_list[2] = info[0]
+        if str(info[4]) == 'Living room':
+            rpiLoc_id_list[3] = info[0]
+        if str(info[4]) == 'Kitchen':
+            rpiLoc_id_list[4] = info[0]
+
     
     return JsonResponse(data={
-        'unit_info': unit_info,             
+        'unit_info': unit_info,   
+        'rpiLocIds': rpiLoc_id_list   
     })
     
 
@@ -143,7 +157,7 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
 
     # Get raspberry ids in chosen block and unit
     ReturnedRows1 = db_r_query(
-        "SELECT raspberry_id, room_name FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s", 
+        "SELECT `id`, raspberry_id, room_name FROM dashboard_webapp_raspberry_location WHERE hdb_block=%s AND unit_number=%s", 
         [hdb_block, '#' + unit_no]
     )  
     print('scatter, 1st query executed')
@@ -154,9 +168,8 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
             'data': data,                  
         })
 
-    # Get list of rpi_id for next sql query
     for returnedRow1 in ReturnedRows1:
-        rpi_id_list.append(str(returnedRow1[0]))
+        rpi_id_list.append(str(returnedRow1[1]))
 
     # Add datetime range for next sql query
     query_datetime_start = startDate + " " + startTime + ":00"
@@ -190,21 +203,21 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
     # Fill above lists with respective gas reading data + get rpi_id of each room
     for returnedRow2 in ReturnedRows2:              # Scan through gas reading data
         for returnedRow1 in ReturnedRows1:          # Scan through raspberry infos
-            if returnedRow2[0] == returnedRow1[0]:  # If rpi_id matches, find out which room its located and add readings to respective raw data list
-                if str(returnedRow1[1]) == 'Bedroom 1': 
-                    bedroom_1_rpi_id = returnedRow1[0]
+            if returnedRow2[0] == returnedRow1[1]:  # If rpi_id matches, find out which room its located and add readings to respective raw data list
+                if str(returnedRow1[2]) == 'Bedroom 1': 
+                    bedroom_1_rpi_id = returnedRow1[1]
                     bedroom_1_raw_data.append(returnedRow2)
-                elif str(returnedRow1[1]) == 'Bedroom 2':
-                    bedroom_2_rpi_id = returnedRow1[0]
+                elif str(returnedRow1[2]) == 'Bedroom 2':
+                    bedroom_2_rpi_id = returnedRow1[1]
                     bedroom_2_raw_data.append(returnedRow2)
-                elif str(returnedRow1[1]) == 'Bedroom 3':
-                    bedroom_3_rpi_id = returnedRow1[0]
+                elif str(returnedRow1[2]) == 'Bedroom 3':
+                    bedroom_3_rpi_id = returnedRow1[1]
                     bedroom_3_raw_data.append(returnedRow2)
-                elif str(returnedRow1[1]) == 'Living room':
-                    living_room_rpi_id = returnedRow1[0]
+                elif str(returnedRow1[2]) == 'Living room':
+                    living_room_rpi_id = returnedRow1[1]
                     living_room_raw_data.append(returnedRow2)
-                elif str(returnedRow1[1]) == 'Kitchen':
-                    kitchen_rpi_id = returnedRow1[0]
+                elif str(returnedRow1[2]) == 'Kitchen':
+                    kitchen_rpi_id = returnedRow1[1]
                     kitchen_raw_data.append(returnedRow2)
 
     # Get threshold level for each raspberry pi
@@ -218,27 +231,21 @@ def fetch_smoke_occurence(request, hdb_block, unit_no, startDate, startTime, end
     # + Get plot points as result {x: smoking duration (<5 mins interval check)), y: captured_datetime_start}
     if len(bedroom_1_raw_data) > 0:
         data[0] = format_to_threshold_scatter(bedroom_1_raw_data, ReturnedRows3, bedroom_1_rpi_id)
-        #data[0] = [{'x': 10,'y': 10}, {'x': 16,'y': 28}, {'x': 16,'y': 5}]
 
     if len(bedroom_2_raw_data) > 0:
         data[1] = format_to_threshold_scatter(bedroom_2_raw_data, ReturnedRows3, bedroom_2_rpi_id)
-        #data[1] = [{'x': 21,'y': 51}, {'x': 63,'y': 12}, {'x': 71,'y': 30}]
 
     if len(bedroom_3_raw_data) > 0:
         data[2] = format_to_threshold_scatter(bedroom_3_raw_data, ReturnedRows3, bedroom_3_rpi_id)
-        #data[2] = [{'x': 94,'y': 53}, {'x': 36,'y': 24}, {'x': 84,'y': 49}]
 
     if len(living_room_raw_data) > 0:
         data[3] = format_to_threshold_scatter(living_room_raw_data, ReturnedRows3, living_room_rpi_id)
-        #data[3] = [{'x': 92,'y': 13}, {'x': 64,'y': 25}, {'x': 16,'y': 10}]
 
     if len(kitchen_raw_data) > 0:
         data[4] = format_to_threshold_scatter(kitchen_raw_data, ReturnedRows3, kitchen_rpi_id)
-        #data[4] = [{'x': 49,'y': 54}, {'x': 65,'y': 5}, {'x': 63,'y': 9}]
-
 
     return JsonResponse(data={      
-        'data': data,                  
+        'data': data,      
     })
 
 
