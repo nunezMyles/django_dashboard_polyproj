@@ -17,23 +17,18 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
 
     path('', views.index, name='home'),
-    #path('chart/<int:sensorId>/', views.chart_view, name="chart"), path('chart/<int:sensorId>', views.chart_view, name="chart"),
-    path('line-chart/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.fetch_gas_reading, name='line-graph'), 
-    path('line-chart/<int:sensorId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_gas_reading, name='line-graph'),
 
+    path('fetchData-lineChart/<int:rpiId>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_gasReading, name='line-graph'),
 
-    path('scatter-chart/<str:hdb_block>/<str:unit_no>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>', views.fetch_smoke_occurence, name='scatter-graph'), 
-    path('scatter-chart/<str:hdb_block>/<str:unit_no>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_smoke_occurence, name='scatter-graph'),
+    path('fetchData-scatterChart-doughnutChart-listview/<str:hdb_block>/<str:unit_no>/<str:startDate>/<str:startTime>/<str:endDate>/<str:endTime>/', views.fetch_smokeEvent, name='scatter-graph'),
 
+    path('fetchData-thermalRgbImage/<int:rpiId>/<int:datetime_ms>/', views.fetch_image, name='thermalRgbImageData'),
 
-    path('fetchBlocks', views.fetch_blocks, name='houseBlockData'), 
     path('fetchBlocks/', views.fetch_blocks, name='houseBlockData'),
 
-    path('fetchUnits/<str:hdb_block>', views.fetch_units, name='houseUnitData'), 
     path('fetchUnits/<str:hdb_block>/', views.fetch_units, name='houseUnitData'),
 
-    path('fetchUnitInfo/<str:hdb_block>/<str:unit_number>', views.fetch_unit_info, name='unitInfoData'), 
-    path('fetchUnitInfo/<str:hdb_block>/<str:unit_number>/', views.fetch_unit_info, name='unitInfoData'),
+    path('fetchUnitInfo/<str:hdb_block>/<str:unit_number>/', views.fetch_unitInfo, name='unitInfoData'),
 
     path("tables/", views.table_view, name="tables"), 
     path("tables", views.table_view, name="tables"), 

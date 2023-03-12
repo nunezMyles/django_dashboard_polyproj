@@ -1,4 +1,4 @@
 from . import mqtt
 
-#mqtt.clientconn()
-#mqtt.client.loop_start()
+mqtt.clientconn()
+mqtt.client.loop_start()

@@ -5,6 +5,15 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
 */
 
+/***    Listview scrollbar  ***/
+
+.list-group{
+  height: 350px;
+  max-height: 350px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
 /***    'FROM', 'TO' datetime labels  ***/
 
 .fromToLabel {

@@ -45,6 +45,8 @@ def clientconn():
     client.on_message = on_message
     try:
         client.connect("192.168.1.12", 1883, 60) 
+        #client.connect("192.168.71.16", 1883, 60)
+        #client.connect("192.168.167.16", 1883, 60) 
         print('connected to broker')
     except:
         print('fail to connect to broker')

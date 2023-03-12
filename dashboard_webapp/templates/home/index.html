@@ -9,9 +9,9 @@
 
     <div class="container-fluid pb-4">
 
+      <!--  Block selection, Unit selection, Flat type, Area info Widgets  -->
       <div class="row mt-4">
 
-        
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-body p-3">
@@ -30,7 +30,7 @@
                         <a class="dropdown-content-item font-weight-bold">405C</a-->
                       </div>
                     </div>
-                    <a id="btnChangeBlock" onclick="btnChangeBlock_onClick()" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit block">
+                    <a id="btnChangeBlock" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit block">
                       change
                     </a>
                   </div>
@@ -44,6 +44,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-body p-3">
@@ -57,7 +58,7 @@
                         <input id="textfield_searchUnit" class="dropdown-content-item" type="text" placeholder="Search.." onkeyup="filterUnitFunction()">
                       </div>
                     </div>
-                    <a id="btnChangeUnit" onclick="btnChangeUnit_onClick()" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
+                    <a id="btnChangeUnit" class="dropdown-content-item text-secondary text-xs font-weight-bolder" data-toggle="tooltip" data-original-title="Edit unit">
                       change
                     </a>
                   </div>
@@ -114,6 +115,7 @@
 
       </div>
 
+      <!--  From/To Date selection Widget-->
       <div class="row mt-4 justify-content-md-center">
         <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
@@ -123,10 +125,10 @@
                   <p class="fromToLabel text-sm text-capitalize font-weight-bolder mb-auto text-center">FROM</p>
                 </div>
                 <div class="col-lg-4 mb-2 mt-2">
-                  <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" onchange="dt_range_check()" />
+                  <input id="datepicker-start" class="form-control cursor-pointer" data-toggle="tooltip" type="date" />
                 </div>
                 <div class="col-lg-4 mb-2 mt-2">
-                  <input id="timepicker-start" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
+                  <input id="timepicker-start" class="form-control cursor-pointer" type="time" />
                 </div>
               </div>
             </div>
@@ -140,10 +142,10 @@
                   <p class="fromToLabel text-sm text-capitalize font-weight-bolder mb-auto text-center">TO</p>
                 </div>
                 <div class="col-lg-4 mb-2 mt-2">
-                  <input id="datepicker-end" class="form-control cursor-pointer" data-toggle="tooltip" type="date" onchange="dt_range_check()" />
+                  <input id="datepicker-end" class="form-control cursor-pointer" data-toggle="tooltip" type="date" />
                 </div>
                 <div class="col-lg-4 mb-2 mt-2">
-                  <input id="timepicker-end" class="form-control cursor-pointer" type="time" onchange="dt_range_check()" />
+                  <input id="timepicker-end" class="form-control cursor-pointer" type="time" />
                 </div>
               </div>
             </div>
@@ -151,7 +153,115 @@
         </div>
       </div>
 
+      <!--  Smoking Frequency & Duration Doughnut Charts -->
       <div class="row mt-4">
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex">
+                <div class="me-auto">
+                  <h6 id="text_scatterChartTitle">Smoking Frequency</h6>
+                </div>
+                <!--div class="row align-items-center ms-4 me-1">
+                  <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="scatterChart_doughnutChart_Listview_Refresh()"></i>
+                </div-->
+              </div>
+            </div>
+            <div class="card-body p-3">
+              <div class="chart">
+                <canvas id="chart-doughnut-1" class="chart-canvas" height="300px"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex">
+                <div class="me-auto">
+                  <h6 id="text_scatterChartTitle">Total Smoking Duration</h6>
+                </div>
+                <!--div class="row align-items-center ms-4 me-1">
+                  <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="scatterChart_doughnutChart_Listview_Refresh()"></i>
+                </div-->
+              </div>
+            </div>
+            <div class="card-body p-3">
+              <div class="chart">
+                <canvas id="chart-doughnut-2" class="chart-canvas" height="300px"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--  Smoking Events Scatter Chart & Listview-->
+      <div class="row">
+        <div class="col-lg-8 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex">
+                <div class="me-auto">
+                  <h6 id="text_scatterChartTitle">Timeline of Smoking Events</h6>
+                </div>
+                <div class="row align-items-center ms-4 me-1">
+                  <i class="fa-solid fa-magnifying-glass-minus cursor-pointer" onclick="scatterChartResetZoom()"></i>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-3">
+              <div class="chart">
+                <canvas id="chart-scatter" class="chart-canvas" height="350px"></canvas>
+              </div>
+            </div>
+
+            <div id="modalImg" class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thermal & RGB Image</h5>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row justify-content-center">
+                      <div class="col-lg-5">
+                        <img id="imgThermal" src="" class="img-fluid" alt="Thermal image">
+                      </div>
+                      <div class="col-lg-7">
+                        <img id="imgRgb" src="" class="img-fluid" alt="RGB image">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!--button type="button" class="btn btn-primary">Save changes</button-->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+          <div class="card">
+            <div class="card-header pb-0">
+              <div class="d-flex">
+                <div class="me-auto">
+                  <h6 id="text_scatterChartTitle">All Smoking Events (By Latest)</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-3">
+              <ol id="listview_smokeEvents" class="list-group list-group-flush list-group-numbered">    
+
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--  Room selection radioBtn, Raspberry editBtn & Line Chart-->
+      <div class="row">
 
         <!--div class="col-lg-5 d-flex">
           <div class="card mb-4">
@@ -192,10 +302,6 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
                       <th></th>
-                      <!--th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Id</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ip address</th>
-                      <th class="text-secondary opacity-7"></th-->
                     </tr>
                   </thead>
                   <tbody>
@@ -204,7 +310,7 @@
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
                             <label class="radio-container pb-3">
-                              <input id="radioBtn_s1" type="radio" name="radio" onclick="sensor_onClick(1)">
+                              <input id="radioBtn_s1" type="radio" name="radio">
                               <span class="radio-checkmark"></span>
                             </label>
                           </div>
@@ -213,17 +319,8 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 1</p>
                       </td>
-                      <!--td>
-                        <p id="text_raspberryId1" class="text-xs font-weight-bold mb-0 pe-3">-</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span id="text_raspberryStatus1" class="badge badge-sm bg-gradient-success">Active</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">192.168.1.101</span>
-                      </td-->
                       <td class="align-middle">
-                        <a id="btnEditRpi1" onclick="btnEditOnClick(1)" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a id="btnEditRpi1" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
                         </a>
                       </td>
@@ -233,7 +330,7 @@
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
                             <label class="radio-container pb-3">
-                              <input id="radioBtn_s2" type="radio" name="radio" onclick="sensor_onClick(2)">
+                              <input id="radioBtn_s2" type="radio" name="radio">
                               <span class="radio-checkmark"></span>
                             </label>
                           </div>
@@ -242,17 +339,8 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 2</p>
                       </td>
-                      <!--td>
-                        <p id="text_raspberryId2" class="text-xs font-weight-bold mb-0 pe-3">-</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span id="text_raspberryStatus2" class="badge badge-sm bg-gradient-secondary">Inactive</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">192.168.1.102</span>
-                      </td-->
                       <td class="align-middle">
-                        <a id="btnEditRpi2" onclick="btnEditOnClick(2)" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a id="btnEditRpi2" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
                         </a>
                       </td>
@@ -262,7 +350,7 @@
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
                             <label class="radio-container pb-3">
-                              <input id="radioBtn_s3" type="radio" name="radio" onclick="sensor_onClick(3)">
+                              <input id="radioBtn_s3" type="radio" name="radio">
                               <span class="radio-checkmark"></span>
                             </label>
                           </div>
@@ -271,17 +359,8 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Bedroom 3</p>
                       </td>
-                      <!--td>
-                        <p id="text_raspberryId3" class="text-xs font-weight-bold mb-0 pe-3">-</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span id="text_raspberryStatus3" class="badge badge-sm bg-gradient-success">Active</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">192.168.1.103</span>
-                      </td-->
                       <td class="align-middle">
-                        <a id="btnEditRpi3" onclick="btnEditOnClick(3)" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a id="btnEditRpi3" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
                         </a>
                       </td>
@@ -291,7 +370,7 @@
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
                             <label class="radio-container pb-3">
-                              <input id="radioBtn_s4" type="radio" name="radio" onclick="sensor_onClick(4)">
+                              <input id="radioBtn_s4" type="radio" name="radio">
                               <span class="radio-checkmark"></span>
                             </label>
                           </div>
@@ -300,17 +379,8 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Living room</p>
                       </td>
-                      <!--td>
-                        <p id="text_raspberryId4" class="text-xs font-weight-bold mb-0 pe-3">-</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span id="text_raspberryStatus4" class="badge badge-sm bg-gradient-success">Active</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">192.168.1.104</span>
-                      </td-->
                       <td class="align-middle">
-                        <a id="btnEditRpi4" onclick="btnEditOnClick(4)" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a id="btnEditRpi4" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
                         </a>
                       </td>
@@ -320,7 +390,7 @@
                         <div class="d-flex px-2 py-1 justify-content-center">
                           <div class="d-flex flex-column justify-content-center">
                             <label class="radio-container pb-3">
-                              <input id="radioBtn_s5" type="radio" name="radio" onclick="sensor_onClick(5)">
+                              <input id="radioBtn_s5" type="radio" name="radio">
                               <span class="radio-checkmark"></span>
                             </label>
                           </div>
@@ -329,17 +399,8 @@
                       <td>
                         <p class="text-xs font-weight-bold mb-0 ps-3">Kitchen</p>
                       </td>
-                      <!--td>
-                        <p id="text_raspberryId5" class="text-xs font-weight-bold mb-0 pe-3">-</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <span id="text_raspberryStatus5" class="badge badge-sm bg-gradient-secondary">Inactive</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">192.168.1.105</span>
-                      </td-->
                       <td class="align-middle">
-                        <a id="btnEditRpi5" onclick="btnEditOnClick(5)" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a id="btnEditRpi5" class="btnEditRpi text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
                         </a>
                       </td>
@@ -356,71 +417,26 @@
             <div class="card-header pb-0">
               <div class="d-flex">
                 <div class="me-auto">
-                  <h6 id="text_lineChartTitle">Gas Concentration in - </h6>
+                  <h6 id="text_lineChartTitle">Gas Concentration in - (No room selected)</h6>
                 </div>
                 <div class="row align-items-center ms-4 me-1">
-                  <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="lineChartRefresh()"></i>
+                  <i class="fa-solid fa-magnifying-glass-minus cursor-pointer" onclick="lineChartResetZoom()"></i>
                 </div>
-
               </div>
             </div>
             <div class="card-body p-3">
               <div class="chart">
-                <canvas id="chart-line" class="chart-canvas" height="300px"></canvas>
+                <canvas id="chart-line" class="chart-canvas" height="350px"></canvas>
               </div>
             </div>
           </div>
         </div>
         
-      </div>
-
-      <!--div class="row mb-4">
-        
-      </div-->
-
-      <div class="row mb-4">
-        <div class="col-lg-13">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="d-flex">
-                <div class="me-auto">
-                  <h6 id="text_scatterChartTitle">Smoking Occurences Identified</h6>
-                </div>
-                <div class="row align-items-center ms-4 me-1">
-                  <i class="fa-solid fa-arrows-rotate cursor-pointer" onclick="scatterChartRefresh()"></i>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-3">
-              <div class="chart">
-                <canvas id="chart-scatter" class="chart-canvas" height="300px"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-4">
-        <div class="col-lg-13">
-          <div class="card">
-            <div class="card-header pb-0">
-              <div class="d-flex">
-                <div class="me-auto">
-                  <h6 id="text_barChartTitle">Total Duration of Smoke Presence (mins/room)</h6>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-3">
-              <div class="chart">
-                <canvas id="chart-bar" class="chart-canvas" height="300px"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {% include "includes/footer.html" %}
 
+  
     </div>
     
 
@@ -434,11 +450,10 @@
   <script src="/static/assets/js/plugins/chart.umd.js"></script>
   <script src="/static/assets/js/plugins/Chart.extension.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactiveimagejs@2.7.1/dist/interactive-image.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
   <script src="/static/assets/js/plugins/chartjs-plugin-zoom.min.js"></script>
 
-  <!-- init global variables -->
+  <!-- Init global variables -->
   <script>
     var global_lineChart;
     var ctx = document.getElementById("chart-line").getContext("2d");
@@ -446,8 +461,11 @@
     var global_scatterChart;
     var ctx2 = document.getElementById("chart-scatter").getContext("2d");
 
-    var global_barChart;
-    var ctx3 = document.getElementById("chart-bar").getContext("2d");
+    var global_doughnutChart_freq;
+    var ctx4 = document.getElementById("chart-doughnut-1").getContext("2d");
+
+    var global_doughnutChart_duration;
+    var ctx5 = document.getElementById("chart-doughnut-2").getContext("2d");
 
     var gradientStroke1 = ctx.createLinearGradient(0, 230, 0, 50);
     gradientStroke1.addColorStop(1, 'rgba(33,148,254,0.2)');
@@ -469,35 +487,70 @@
     var global_room_list = ['Bedroom 1', 'Bedroom 2', 'Bedroom 3', 'Living room', 'Kitchen']
     
     var radioBtnRpiIdTranslate = {
-      sens1: 0,
-      sens2: 0,
-      sens3: 0,
-      sens4: 0,
-      sens5: 0
+      "Room 1": 0,
+      "Room 2": 0,
+      "Room 3": 0,
+      "Room 4": 0,
+      "Room 5": 0
     };
 
     var editBtnRpiLocIdTranslate = {
-      sens1: 0,
-      sens2: 0,
-      sens3: 0,
-      sens4: 0,
-      sens5: 0
+      "Room 1": 0,
+      "Room 2": 0,
+      "Room 3": 0,
+      "Room 4": 0,
+      "Room 5": 0
     };
+
+    var isScatterBedroom1Hidden = false;
+    var isScatterBedroom2Hidden = false;
+    var isScatterBedroom3Hidden = false;
+    var isScatterLivingroomHidden = false;
+    var isScatterKitchenHidden = false;
   </script>
 
-  <!--  edit rpi radioBtn onClick: enter admin page  -->
+  <!--  Init From/To date+timepickers onChange() -->
+  <script>
+    document.getElementById("datepicker-start").onchange = function(e) { dt_range_check(); }
+    document.getElementById("timepicker-start").onchange = function(e) { dt_range_check(); }
+    document.getElementById("datepicker-end").onchange = function(e) { dt_range_check(); }
+    document.getElementById("timepicker-end").onchange = function(e) { dt_range_check(); }
+  </script>
+
+  <!--  Init dashboard refresh interval script  -->
+  <script>
+    function updateDashboard() {
+      lineChartRefresh();
+      scatterChart_doughnutChart_Listview_Refresh();
+    }
+
+    setInterval(updateDashboard, 5000); // every 5 seconds
+  </script>
+
+  <!--  Line/scatter chart unzoom script-->
+  <script>
+    function lineChartResetZoom() {
+      global_lineChart.resetZoom(mode = 'easeOutQuart');
+    }
+
+    function scatterChartResetZoom() {
+      global_scatterChart.resetZoom(mode = 'easeOutQuart');
+    }
+  </script>
+  
+  <!--  Edit rpi radioBtn onClick: enter admin page  -->
   <script>
     function btnEditOnClick(rpi_number) {
-      if (radioBtnRpiIdTranslate['sens'+String(rpi_number)] == 0) {
-        // TODO: disable edit button to be same status as radio btn when unit not selected
+      if (radioBtnRpiIdTranslate['Room '+String(rpi_number)] == 0) {
         location.href = "/admin/dashboard_webapp/raspberry_location/add/";
       } else {
-        location.href = "/admin/dashboard_webapp/raspberry_location/" + editBtnRpiLocIdTranslate['sens'+String(rpi_number)] + "/change/";
+        var rpi_location_id = editBtnRpiLocIdTranslate['Room ' + String(rpi_number)]
+        location.href = "/admin/dashboard_webapp/raspberry_location/" + rpi_location_id + "/change/";
       }
     }
   </script>
 
-  <!-- init timepicker & datepicker values -->
+  <!--  Init timepicker & datepicker values -->
   <script>
     $(function() {
       // init datepicker-start: set start date to current day
@@ -531,12 +584,13 @@
       var rawDate = new Date();
       var formattedTime = getTime(rawDate);
 
-      endTime = formattedTime;
-
-      var endTime_hrs_str = endTime.toString().slice(0, 2);
-      var endTime_hrs_int = parseInt(endTime_hrs_str);
+      //endTime = formattedTime;
+      endTime = "23:59";
 
       // Fix 24:00 error, should be 00:00 instead
+      var endTime_hrs_str = endTime.toString().slice(0, 2);
+      var endTime_hrs_int = parseInt(endTime_hrs_str);
+      
       if (endTime_hrs_int >= 24) {
         var new_endTime_hrs_int = endTime_hrs_int - 24;
         var new_endTime_hrs_str = new_endTime_hrs_int.toString();
@@ -552,7 +606,219 @@
     });
   </script>
 
-  <!--  init lineChart script   -->
+  <!--  Listview reset + update -->
+  <script>
+    function listviewReset() {
+      const listviewitem_smokeEvents = document.querySelectorAll('.listview-item-smokeEvent');
+      listviewitem_smokeEvents.forEach(event => {
+        event.remove();
+      });
+    }
+  
+    function listviewAdd(smokeEventsRooms) {
+      var unordered_events = [];
+
+      // Get all smoke events as items
+      smokeEventsRooms.forEach(smokeEvents => {
+        smokeEvents.forEach(event => {
+          unordered_events.push(event);
+        });
+      });
+
+      // Sort by oldest to latest (to show latest event on listview, nice display)
+      var ordered_events = unordered_events.sort((a, b) => new Date(a[1]) - new Date(b[1]));
+      ordered_events.reverse();
+      
+      // Add items to listview
+      ordered_events.forEach(event => {
+        const parentElement = document.querySelector('#listview_smokeEvents');
+        const li = document.createElement('li');
+
+        li.classList.add('list-group-item');
+        li.classList.add('d-flex');
+        li.classList.add('list-group-item-action');
+        li.classList.add('listview-item-smokeEvent');
+
+        room_name = event[0]
+        datetime_start = event[1]
+        datetime_end = event[2]
+        duration = event[3]
+
+        li.innerHTML = '<div class="ms-2 me-auto"><div class="d-flex w-100 justify-content-between"><p class="mb-1 text-s font-weight-bold">'
+          + room_name + '</p></div><p class="mb-1 text-xs font-weight-bold">'
+          + datetime_start + ' - ' + datetime_end + '</p><small class="text-xs font-weight-bold">'
+          + duration + '</small></div>';
+        parentElement.appendChild(li);
+      });
+    }
+  </script>
+
+  <!--  Init doughnutChart_frequency script  -->
+  <script>
+    const freq_plugin = {
+      id: 'textCenter1',
+      beforeDatasetsDraw(chart, args, pluginOptions) {
+        const {ctx, data} = chart;
+        const xCoor = chart.getDatasetMeta(0).data[0].x;
+        const yCoor = chart.getDatasetMeta(0).data[0].y;
+        ctx.save();
+        
+        ctx.font = 'bolder 35px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        var total_duration = 0
+        data.datasets[0].data.forEach(duration => total_duration += duration)
+
+        ctx.fillText(String(total_duration), xCoor, yCoor - 15);
+
+        ctx.font = 'bolder 21px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.fillText('events', xCoor, yCoor + 20);
+      }
+    };
+
+    $(function() {
+      global_doughnutChart_freq = new Chart(ctx4, config = {
+        type: "doughnut",
+        data: {
+          labels: [
+            'Bedroom 1',
+            'Bedroom 2',
+            'Bedroom 3',
+            'Living Room',
+            'Kitchen',
+          ],
+          datasets: [{
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+            ],
+            hoverOffset: 4
+          }]
+        },
+        plugins: [freq_plugin],
+        options: {
+          parsing: false,
+          animation: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.parsed + ' events';
+                }
+              },
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    });
+  </script>
+
+  <!--  Init doughnutChart_duration script  -->
+  <script>
+    const duration_plugin = {
+      id: 'textCenter2',
+      beforeDatasetsDraw(chart, args, pluginOptions) {
+        const {ctx, data} = chart;
+        const xCoor = chart.getDatasetMeta(0).data[0].x;
+        const yCoor = chart.getDatasetMeta(0).data[0].y;
+        ctx.save();
+        
+        ctx.font = 'bolder 35px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        var total_duration = 0
+        data.datasets[0].data.forEach(duration => total_duration += duration)
+
+        ctx.fillText(String(total_duration), xCoor, yCoor - 15);
+
+        ctx.font = 'bolder 21px sans-serif';
+        ctx.fillStyle = 'black';
+        ctx.fillText('minutes', xCoor, yCoor + 20);
+      }
+    };
+    
+    $(function() {
+      global_doughnutChart_duration = new Chart(ctx5, config = {
+        type: "doughnut",
+        data: {
+          labels: [
+            'Bedroom 1',
+            'Bedroom 2',
+            'Bedroom 3',
+            'Living Room',
+            'Kitchen',
+          ],
+          datasets: [{
+            data: [0, 0, 0, 0, 0],
+            backgroundColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)',
+            ],
+            hoverOffset: 4
+          }]
+        },
+        plugins: [duration_plugin],
+        options: {
+          parsing: false,
+          animation: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return context.parsed + ' mins';
+                }
+              },
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    });
+  </script>
+
+  <!--  DoughnutCharts refresh   -->
+  <script>
+    function doughnutChartFreqRefresh() {
+      if (global_selected_block == "" || global_selected_unit == "") {
+        global_doughnutChart_freq.data.datasets[0].data[0] = 0;
+        global_doughnutChart_freq.data.datasets[0].data[1] = 0;
+        global_doughnutChart_freq.data.datasets[0].data[2] = 0;
+        global_doughnutChart_freq.data.datasets[0].data[3] = 0;
+        global_doughnutChart_freq.data.datasets[0].data[4] = 0;
+
+        global_doughnutChart_freq.update();
+      }
+    }
+
+    function doughnutChartDurationRefresh() {
+      if (global_selected_block == "" || global_selected_unit == "") {
+        global_doughnutChart_duration.data.datasets[0].data[0] = 0;
+        global_doughnutChart_duration.data.datasets[0].data[1] = 0;
+        global_doughnutChart_duration.data.datasets[0].data[2] = 0;
+        global_doughnutChart_duration.data.datasets[0].data[3] = 0;
+        global_doughnutChart_duration.data.datasets[0].data[4] = 0;
+
+        global_doughnutChart_duration.update();
+      }
+    }
+  </script>
+
+  <!--  Init lineChart script   -->
   <script>
     $(function() {
       global_lineChart = new Chart(ctx, config = {
@@ -678,7 +944,12 @@
           labels: [], // start with empty x-axis dataset
         },
         options: {
+          spanGaps: true,
+          animation: false,
           plugins: {
+            legend: {
+              position: 'top'
+            },
             tooltip: {
               enabled: true,
               mode: 'index',
@@ -689,9 +960,11 @@
               zoom: {
                 wheel: {
                   enabled: true,
+                  speed: 0.2,
                 },
                 pinch: {
-                  enabled: true
+                  enabled: true,
+                  speed: 0.2,
                 },
                 mode: 'x',
               },
@@ -705,9 +978,11 @@
           maintainAspectRatio: false,
           scales: {
             y: {
+              suggestedMin: 0,
+              suggestedMax: 100,
               title: {
                 display: true,
-                text: 'Gas Concentration / ppm',
+                text: 'Gas Concentration (ppm)',
                 font: {
                   size: 14
                 },
@@ -722,8 +997,6 @@
                 drawBorder: false,
               },
               ticks: {
-                suggestedMin: 0,
-                suggestedMax: 100,
                 beginAtZero: true,
                 padding: 10,
                 fontSize: 11,
@@ -734,6 +1007,13 @@
               },
             },
             x: {
+              title: {
+                display: true,
+                text: 'Datetime',
+                font: {
+                  size: 13
+                },
+              }, 
               grid: {
                 display: false,
               },
@@ -755,12 +1035,13 @@
     });
   </script>
 
-  <!--  lineChart refresh   -->
+  <!--  LineChart refresh   -->
   <script>
     function lineChartRefresh() {
 
       // selected sensor must have valid id first, else reset line chart
       if (global_selected_sensor == 0) {
+        lineChartResetZoom();
         global_lineChart.data.datasets[0].data = [];
         global_lineChart.data.labels = [];
         global_lineChart.update();
@@ -819,9 +1100,8 @@
       
       $.ajax({
         type: "GET",
-        url: "/line-chart/" + String(global_selected_sensor) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
+        url: "/fetchData-lineChart/" + String(global_selected_sensor) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime + "/",
         success: function(response) {
-          global_lineChart.resetZoom(mode = 'easeOutQuart');
           global_lineChart.data.labels = response.labels;
 
           global_lineChart.data.datasets[0].data = response['co_actual_data'];
@@ -846,7 +1126,99 @@
 
   </script>
 
-  <!--  init scatterChart script   -->
+  <!--  ScatterChart dataset onClick(), show thermal and rgb images -->
+  <script>
+    document.getElementById("chart-scatter").onclick = function(e) {
+      const points = global_scatterChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+
+      // If onClick() occurs on an existing scatter point
+      if (points.length) {
+        var thermalImg = document.getElementById("imgThermal");
+        var rgbimg = document.getElementById("imgRgb");
+        var modalTitle = document.getElementById("exampleModalLabel");
+
+        // Reset modal context
+        thermalImg.src = "";
+        rgbimg.src = "";
+        modalTitle.innerHTML = "Thermal & RGB Image, ";
+
+        // Show modal immediately on click
+        var myModal = new bootstrap.Modal(document.getElementById('modalImg'), {
+          keyboard: false,
+        });
+
+        myModal.show();
+
+        const firstPoint = points[0];
+
+        // Get AJAX url parameters
+        const label = global_scatterChart.data.datasets[firstPoint.datasetIndex].label;
+        const value = global_scatterChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
+
+        var rpiId = radioBtnRpiIdTranslate["Room " + String(global_room_list.indexOf(label) + 1)];
+        var datetime_in_ms = value['x'];
+
+        $.ajax({
+          type: "GET",
+          url: "/fetchData-thermalRgbImage/" + rpiId + "/" + datetime_in_ms + "/",
+          success: function(response) {
+
+            // Set modal context once ajax success -> By displaying images + datetime modal title
+            thermalImg.src = response['thermalData'];
+            rgbimg.src = response['rgbData'];
+
+            modalTitle.innerHTML = "Thermal & RGB Image, " + response['datetime'];
+          },
+          error: function(xhr, status, error) {
+            http_error_handler(xhr);
+          }
+        });
+
+      }
+    };
+  </script>
+
+  <!--  ScatterChart legend onClick() -->
+  <script>
+    const newLegendClickHandler = function(e, legendItem, legend) {
+      var selected_room_name = legendItem['text'];
+
+      switch(selected_room_name) {
+        case "Bedroom 1":
+        isScatterBedroom1Hidden = !isScatterBedroom1Hidden;
+          break;
+
+        case "Bedroom 2":
+          isScatterBedroom2Hidden = !isScatterBedroom2Hidden;
+          break;
+
+        case "Bedroom 3":
+          isScatterBedroom3Hidden = !isScatterBedroom3Hidden;
+          break;
+
+        case "Living room":
+          isScatterLivingroomHidden = !isScatterLivingroomHidden;
+          break;
+
+        case "Kitchen":
+          isScatterKitchenHidden = !isScatterKitchenHidden;
+          break;
+
+        default:
+          break;
+      }
+
+      legend.chart.data.datasets.forEach( function(val, index, arr) {
+        if (val['label'] == selected_room_name) {
+          val['hidden'] = !val['hidden'];
+        }
+      });      
+
+      legend.chart.update();
+    }
+  </script>
+
+  <!--  Init scatterChart script   -->
   <script>
     $(function() {
       global_scatterChart = new Chart(ctx2, config = {
@@ -856,7 +1228,7 @@
               data: [], // start with empty y-axis dataset
               label: "Bedroom 1",
               tension: 0.4,
-              pointRadius: 1,
+              pointRadius: 3,
               borderColor: 'rgb(255, 99, 132)',
               borderWidth: 4,
               maxBarThickness: 6,
@@ -865,7 +1237,7 @@
               data: [],
               label: "Bedroom 2",
               tension: 0.4,
-              pointRadius: 1,
+              pointRadius: 3,
               borderColor: 'rgb(255, 205, 86)',
               borderWidth: 4,
               maxBarThickness: 6,
@@ -874,7 +1246,7 @@
               data: [], 
               label: "Bedroom 3",
               tension: 0.4,
-              pointRadius: 1,
+              pointRadius: 3,
               borderColor: 'rgb(75, 192, 192)',
               borderWidth: 4,
               maxBarThickness: 6,
@@ -883,7 +1255,7 @@
               data: [],
               label: "Living room",
               tension: 0.4,
-              pointRadius: 1,
+              pointRadius: 3,
               borderColor: 'rgb(54, 162, 235)',
               borderWidth: 4,
               maxBarThickness: 6,
@@ -892,7 +1264,7 @@
               data: [],
               label: "Kitchen",
               tension: 0.4,
-              pointRadius: 1,
+              pointRadius: 3,
               borderColor: 'rgb(153, 102, 255)',
               borderWidth: 4,
               maxBarThickness: 6,
@@ -900,14 +1272,64 @@
           ],
         },
         options: {
+          showLine: true,
+          parsing: false,
+          animation: false,
           plugins: {
+            legend: {
+              display: true,
+              labels: {
+                generateLabels: function(chart) {
+                  return [
+                    {
+                      text: "Bedroom 1",
+                      datasetIndex: 0,
+                      fillStyle: 'rgb(255, 99, 132)',
+                      strokeStyle: 'rgb(255, 99, 132)',
+                      hidden: isScatterBedroom1Hidden,
+                    },
+                    {
+                      text: "Bedroom 2",
+                      datasetIndex: 1,
+                      fillStyle: 'rgb(255, 205, 86)',
+                      strokeStyle: 'rgb(255, 205, 86)',
+                      hidden: isScatterBedroom2Hidden,
+                    },
+                    {
+                      text: "Bedroom 3",
+                      datasetIndex: 2,
+                      fillStyle: 'rgb(75, 192, 192)',
+                      strokeStyle: 'rgb(75, 192, 192)',
+                      hidden: isScatterBedroom3Hidden,
+                    },
+                    {
+                      text: "Living room",
+                      datasetIndex: 3,
+                      fillStyle: 'rgb(54, 162, 235)',
+                      strokeStyle: 'rgb(54, 162, 235)',
+                      hidden: isScatterLivingroomHidden,
+                    },
+                    {
+                      text: "Kitchen",
+                      datasetIndex: 4,
+                      fillStyle: 'rgb(153, 102, 255)',
+                      strokeStyle: 'rgb(153, 102, 255)',
+                      hidden: isScatterKitchenHidden,
+                    },
+                  ];
+                },
+              },
+              onClick: newLegendClickHandler,
+            },
             zoom: {
               zoom: {
                 wheel: {
                   enabled: true,
+                  speed: 0.3,
                 },
                 pinch: {
-                  enabled: true
+                  enabled: true,
+                  speed: 0.3,
                 },
                 mode: 'x',
               },
@@ -948,24 +1370,20 @@
               },
             },
           },
-          //showLine: false,
           responsive: true,
           maintainAspectRatio: false,
           scales: {
             y: {
-              //display: false,
-              gridLines: {
-                borderDash: [2],
-                borderDashOffset: [2],
-                color: '#dee2e6',
-                zeroLineColor: '#dee2e6',
-                zeroLineWidth: 1,
-                zeroLineBorderDash: [2],
-                drawBorder: false,
+              display: true,
+              grid: {
+                display: true,
+              },
+              border: {
+                display: false,
               },
               ticks: {
-                suggestedMin: 0,
-                suggestedMax: 100,
+                maxTicksLimit: 10,
+                display: false,
                 beginAtZero: true,
                 padding: 10,
                 fontSize: 11,
@@ -976,8 +1394,15 @@
               },
             },
             x: {
-              gridLines: {
-                zeroLineColor: 'rgba(0,0,0,0)',
+              title: {
+                display: true,
+                text: 'Datetime',
+                font: {
+                  size: 14
+                },
+              }, 
+              suggestedMax: 1577846300000,
+              grid: {
                 display: false,
               },
               ticks: {
@@ -1019,17 +1444,58 @@
     });
   </script>
 
-  <!--  scatterChart refresh   -->
+  <!--  Scatter Chart + Doughnut Chart + Listview refresh   -->
   <script>
-    function scatterChartRefresh() {
+    function scatterChart_doughnutChart_Listview_Refresh() {
 
       // must have selected block and unit, else reset scatter chart
       if (global_selected_block == "" || global_selected_unit == "") {
-        global_scatterChart.data.datasets[0].data = [];
-        global_scatterChart.data.datasets[1].data = [];
-        global_scatterChart.data.datasets[2].data = [];
-        global_scatterChart.data.datasets[3].data = [];
-        global_scatterChart.data.datasets[4].data = [];
+        scatterChartResetZoom();
+        global_scatterChart.data.datasets = [{
+          data: [],
+          label: "Bedroom 1",
+          tension: 0.4,
+          pointRadius: 2,
+          borderColor: 'rgb(255, 99, 132)',
+          borderWidth: 4,
+          maxBarThickness: 6,
+        },
+        {
+          data: [],
+          label: "Bedroom 2",
+          tension: 0.4,
+          pointRadius: 2,
+          borderColor: 'rgb(255, 205, 86)',
+          borderWidth: 4,
+          maxBarThickness: 6,
+        },
+        {
+          data: [], 
+          label: "Bedroom 3",
+          tension: 0.4,
+          pointRadius: 2,
+          borderColor: 'rgb(75, 192, 192)',
+          borderWidth: 4,
+          maxBarThickness: 6,
+        },
+        {
+          data: [],
+          label: "Living room",
+          tension: 0.4,
+          pointRadius: 2,
+          borderColor: 'rgb(54, 162, 235)',
+          borderWidth: 4,
+          maxBarThickness: 6,
+        },
+        {
+          data: [],
+          label: "Kitchen",
+          tension: 0.4,
+          pointRadius: 2,
+          borderColor: 'rgb(153, 102, 255)',
+          borderWidth: 4,
+          maxBarThickness: 6,
+        }];
 
         global_scatterChart.update();
         return;
@@ -1085,16 +1551,169 @@
       
       $.ajax({
         type: "GET",
-        url: "/scatter-chart/" + global_selected_block + "/" + global_selected_unit.slice(1,7) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime,
+        url: "/fetchData-scatterChart-doughnutChart-listview/" + global_selected_block + "/" + global_selected_unit.slice(1,7) + "/" + startDate + "/" + startTime + "/" + endDate + "/" + endTime + "/",
         success: function(response) {
-          //alert(response['data'][0]['x']);
-          global_scatterChart.data.datasets[0].data = response['data'][0];
-          global_scatterChart.data.datasets[1].data = response['data'][1];
-          global_scatterChart.data.datasets[2].data = response['data'][2];
-          global_scatterChart.data.datasets[3].data = response['data'][3];
-          global_scatterChart.data.datasets[4].data = response['data'][4];
+          global_scatterChart.data.datasets = [{
+            data: [],
+            label: "Bedroom 1",
+            tension: 0.4,
+            pointRadius: 2,
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 4,
+            maxBarThickness: 6,
+          },
+          {
+            data: [],
+            label: "Bedroom 2",
+            tension: 0.4,
+            pointRadius: 2,
+            borderColor: 'rgb(255, 205, 86)',
+            borderWidth: 4,
+            maxBarThickness: 6,
+          },
+          {
+            data: [], 
+            label: "Bedroom 3",
+            tension: 0.4,
+            pointRadius: 2,
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 4,
+            maxBarThickness: 6,
+          },
+          {
+            data: [],
+            label: "Living room",
+            tension: 0.4,
+            pointRadius: 2,
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 4,
+            maxBarThickness: 6,
+          },
+          {
+            data: [],
+            label: "Kitchen",
+            tension: 0.4,
+            pointRadius: 2,
+            borderColor: 'rgb(153, 102, 255)',
+            borderWidth: 4,
+            maxBarThickness: 6,
+          }];
+
+          response['scatterChartData'].forEach(room => {
+            room.forEach(session => {
+              switch (response['scatterChartData'].indexOf(room)) {
+
+                // Bedroom 1
+                case 0: 
+                  global_scatterChart.data.datasets.push(
+                    {
+                      data: session,
+                      label: "Bedroom 1",
+                      tension: 0.4,
+                      pointRadius: 4,
+                      pointBorderWidth: 8,
+                      pointBorderColor: 'rgb(255, 99, 132)',
+                      borderColor: 'rgb(0, 0, 0)',
+                      borderWidth: 2,
+                      hidden: isScatterBedroom1Hidden,
+                    },
+                  );
+                  break;
+
+                // Bedroom 2
+                case 1:
+                  global_scatterChart.data.datasets.push(
+                    {
+                      data: session,
+                      label: "Bedroom 2",
+                      tension: 0.4,
+                      pointRadius: 4,
+                      pointBorderWidth: 8,
+                      pointBorderColor: 'rgb(255, 205, 86)',
+                      borderColor: 'rgb(0, 0, 0)',
+                      borderWidth: 2,
+                      hidden: isScatterBedroom2Hidden,
+                    },
+                  );
+                  break;
+                
+                // Bedroom 3
+                case 2:
+                  global_scatterChart.data.datasets.push(
+                    {
+                      data: session, 
+                      label: "Bedroom 3",
+                      tension: 0.4,
+                      pointRadius: 4,
+                      pointBorderWidth: 8,
+                      pointBorderColor: 'rgb(75, 192, 192)',
+                      borderColor: 'rgb(0, 0, 0)',
+                      borderWidth: 2,
+                      hidden: isScatterBedroom3Hidden,
+                    },
+                  );
+                  break;
+
+                // Living room
+                case 3:
+                  global_scatterChart.data.datasets.push(
+                    {
+                      data: session,
+                      label: "Living room",
+                      tension: 0.4,
+                      pointRadius: 4,
+                      pointBorderWidth: 8,
+                      pointBorderColor: 'rgb(54, 162, 235)',
+                      borderColor: 'rgb(0, 0, 0)',
+                      borderWidth: 2,
+                      hidden: isScatterLivingroomHidden,
+                    },
+                  );
+                  break;
+
+                // Kitchen
+                case 4:
+                  global_scatterChart.data.datasets.push(
+                    {
+                      data: session,
+                      label: "Kitchen",
+                      tension: 0.4,
+                      pointRadius: 4,
+                      pointBorderWidth: 8,
+                      pointBorderColor: 'rgb(153, 102, 255)',
+                      borderColor: 'rgb(0, 0, 0)',
+                      borderWidth: 2,
+                      hidden: isScatterKitchenHidden,
+                    },
+                  );
+                  break;
+
+                default:
+                  break;
+              }
+            })
+          });
 
           global_scatterChart.update();
+
+          global_doughnutChart_freq.data.datasets[0].data[0] = response['doughnutChartDataFreq'][0];
+          global_doughnutChart_freq.data.datasets[0].data[1] = response['doughnutChartDataFreq'][1];
+          global_doughnutChart_freq.data.datasets[0].data[2] = response['doughnutChartDataFreq'][2];
+          global_doughnutChart_freq.data.datasets[0].data[3] = response['doughnutChartDataFreq'][3];
+          global_doughnutChart_freq.data.datasets[0].data[4] = response['doughnutChartDataFreq'][4];
+
+          global_doughnutChart_freq.update();
+
+          global_doughnutChart_duration.data.datasets[0].data[0] = response['doughnutChartDataDuration'][0];
+          global_doughnutChart_duration.data.datasets[0].data[1] = response['doughnutChartDataDuration'][1];
+          global_doughnutChart_duration.data.datasets[0].data[2] = response['doughnutChartDataDuration'][2];
+          global_doughnutChart_duration.data.datasets[0].data[3] = response['doughnutChartDataDuration'][3];
+          global_doughnutChart_duration.data.datasets[0].data[4] = response['doughnutChartDataDuration'][4];
+
+          global_doughnutChart_duration.update();
+
+          listviewReset();
+          listviewAdd(response['listViewData']);
         },
         error: function(xhr, status, error) {
           http_error_handler(xhr);
@@ -1104,109 +1723,40 @@
 
   </script>
 
-  <!--  init barChart script   -->
+  <!--  Init radioBtns + editBtns script  -->
   <script>
-      $(function() {
-      global_barChart = new Chart(ctx3, config = {
-        type: "bar",
-        data: {
-          datasets: [{
-              borderWidth: 1,
-              maxBarThickness: 20,
-              data: [65, 59, 80, 81, 56], // start with empty y-axis dataset
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-              ],
-              borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)',
-              ],
-            },
-          ],
-          labels: ['Bedroom 1', 'Bedroom 2', 'Bedroom 3', 'Living room', 'Kitchen'],
-        },
-        options: {
-          plugins: {
-            legend: {
-              display: false,
-            },
-          },
-          responsive: true,
-          maintainAspectRatio: false,
-          tooltips: {
-            enabled: true,
-            mode: "index",
-            intersect: false,
-          },
-          scales: {
-            y: {
-              gridLines: {
-                borderDash: [2],
-                borderDashOffset: [2],
-                color: '#dee2e6',
-                zeroLineColor: '#dee2e6',
-                zeroLineWidth: 1,
-                zeroLineBorderDash: [2],
-                drawBorder: false,
-              },
-              ticks: {
-                suggestedMin: 0,
-                suggestedMax: 100,
-                beginAtZero: true,
-                padding: 10,
-                fontSize: 11,
-                fontColor: '#adb5bd',
-                lineHeight: 3,
-                fontStyle: 'normal',
-                fontFamily: "Open Sans",
-              },
-            },
-            x: {
-              gridLines: {
-                zeroLineColor: 'rgba(0,0,0,0)',
-                display: false,
-              },
-              ticks: {
-                autoSkip: true,     // interval setting
-                maxTicksLimit: 10,  // interval setting
-                padding: 10,
-                fontSize: 11,
-                fontColor: '#adb5bd',
-                lineHeight: 3,
-                fontStyle: 'normal',
-                fontFamily: "Open Sans",
-              },
-              
-            },
-          },
-        },
-      });
-    });
+      var radioBtn_1 = document.getElementById("radioBtn_s1");
+      var radioBtn_2 = document.getElementById("radioBtn_s2");
+      var radioBtn_3 = document.getElementById("radioBtn_s3");
+      var radioBtn_4 = document.getElementById("radioBtn_s4");
+      var radioBtn_5 = document.getElementById("radioBtn_s5");
+
+      radioBtn_1.disabled = true;
+      radioBtn_2.disabled = true;
+      radioBtn_3.disabled = true;
+      radioBtn_4.disabled = true;
+      radioBtn_5.disabled = true;
+
+      radioBtn_1.onclick = function(e) { sensor_onClick(1); }
+      radioBtn_2.onclick = function(e) { sensor_onClick(2); }
+      radioBtn_3.onclick = function(e) { sensor_onClick(3); }
+      radioBtn_4.onclick = function(e) { sensor_onClick(4); }
+      radioBtn_5.onclick = function(e) { sensor_onClick(5); }
+
+      var editBtn_1 = document.getElementById("btnEditRpi1");
+      var editBtn_2 = document.getElementById("btnEditRpi2");
+      var editBtn_3 = document.getElementById("btnEditRpi3");
+      var editBtn_4 = document.getElementById("btnEditRpi4");
+      var editBtn_5 = document.getElementById("btnEditRpi5");
+
+      editBtn_1.onclick = function(e) { btnEditOnClick(1); }
+      editBtn_2.onclick = function(e) { btnEditOnClick(2); }
+      editBtn_3.onclick = function(e) { btnEditOnClick(3); }
+      editBtn_4.onclick = function(e) { btnEditOnClick(4); }
+      editBtn_5.onclick = function(e) { btnEditOnClick(5); }
   </script>
 
-  <!--  init radio btns script  -->
-  <script>
-      var radioBtn_s1 = document.getElementById("radioBtn_s1");
-      var radioBtn_s2 = document.getElementById("radioBtn_s2");
-      var radioBtn_s3 = document.getElementById("radioBtn_s3");
-      var radioBtn_s4 = document.getElementById("radioBtn_s4");
-      var radioBtn_s5 = document.getElementById("radioBtn_s5");
-
-      radioBtn_s1.disabled = true;
-      radioBtn_s2.disabled = true;
-      radioBtn_s3.disabled = true;
-      radioBtn_s4.disabled = true;
-      radioBtn_s5.disabled = true;
-  </script>
-
-  <!--  dropdown_unit onClick: update dashboard context script 	-->
+  <!--  Dropdown_unit onClick: update dashboard context script 	-->
   <script>
     function dropDownItem_Unit_onClick(selected_unit) {
 
@@ -1260,22 +1810,25 @@
 
       // call line chart reset
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
-      text_lineChartTitle.innerHTML = "Gas Concentration in -";
+      text_lineChartTitle.innerHTML = "Gas Concentration in - (No room selected)";
       global_selected_sensor = 0;
 
       lineChartRefresh();
-      scatterChartRefresh();
+      scatterChart_doughnutChart_Listview_Refresh();
+      listviewReset();
+      doughnutChartFreqRefresh();
+      doughnutChartDurationRefresh();
 
       $.ajax({
         type: "GET",
-        url: "/fetchUnitInfo/" + global_selected_block + "/" + global_selected_unit.slice(1,7), // remove '#' from #14-101 to prevent interfere w/ url
+        url: "/fetchUnitInfo/" + global_selected_block + "/" + global_selected_unit.slice(1,7) + "/", // remove '#' from #14-101 to prevent interfere w/ url
         success: function(response) {
 
-          editBtnRpiLocIdTranslate["sens1"] = response['rpiLocIds'][0]
-          editBtnRpiLocIdTranslate["sens2"] = response['rpiLocIds'][1]
-          editBtnRpiLocIdTranslate["sens3"] = response['rpiLocIds'][2]
-          editBtnRpiLocIdTranslate["sens4"] = response['rpiLocIds'][3]
-          editBtnRpiLocIdTranslate["sens5"] = response['rpiLocIds'][4]
+          editBtnRpiLocIdTranslate["Room 1"] = response['rpiLocIds'][0]
+          editBtnRpiLocIdTranslate["Room 2"] = response['rpiLocIds'][1]
+          editBtnRpiLocIdTranslate["Room 3"] = response['rpiLocIds'][2]
+          editBtnRpiLocIdTranslate["Room 4"] = response['rpiLocIds'][3]
+          editBtnRpiLocIdTranslate["Room 5"] = response['rpiLocIds'][4]
 
           // set corresponding text
           var flatTypeText = document.getElementById("text_flatType");
@@ -1288,37 +1841,37 @@
           var isLivingRoomUpdated = false;
           var isKitchenUpdated = false;
 
-          // algorithm to update 'raspberry info' html based on given room names from JsonResponse
+          // Algorithm to update 'raspberry info' html based on given room names from JsonResponse
           response['unit_info'].forEach(function(element) {
             switch(element[4]) {
 
               case 'Bedroom 1':
                 //rbIdText_1.innerHTML = element[3];
-                radioBtnRpiIdTranslate["sens1"] = element[3];
+                radioBtnRpiIdTranslate["Room 1"] = element[3];
                 isBedroom1Updated = true;
                 break;
 
               case 'Bedroom 2':
                 //rbIdText_2.innerHTML = element[3];
-                radioBtnRpiIdTranslate["sens2"] = element[3];
+                radioBtnRpiIdTranslate["Room 2"] = element[3];
                 isBedroom2Updated = true;
                 break;
 
               case 'Bedroom 3':
                 //rbIdText_3.innerHTML = element[3];
-                radioBtnRpiIdTranslate["sens3"] = element[3];
+                radioBtnRpiIdTranslate["Room 3"] = element[3];
                 isBedroom3Updated = true;
                 break;
 
               case 'Living room':
                 //rbIdText_4.innerHTML = element[3];
-                radioBtnRpiIdTranslate["sens4"] = element[3];
+                radioBtnRpiIdTranslate["Room 4"] = element[3];
                 isLivingRoomUpdated = true;
                 break;
 
               case 'Kitchen':
                 //rbIdText_5.innerHTML = element[3];
-                radioBtnRpiIdTranslate["sens5"] = element[3];
+                radioBtnRpiIdTranslate["Room 5"] = element[3];
                 isKitchenUpdated = true;
                 break;
 
@@ -1330,27 +1883,27 @@
           // if room name not in jsonResponse, set html for that room to display no info
           if (!isBedroom1Updated) {
             //rbIdText_1.innerHTML = "-";
-            radioBtnRpiIdTranslate["sens1"] = 0;
+            radioBtnRpiIdTranslate["Room 1"] = 0;
             radioBtn_s1.disabled = true;
           }
           if (!isBedroom2Updated) {
             //rbIdText_2.innerHTML = "-";
-            radioBtnRpiIdTranslate["sens2"] = 0;
+            radioBtnRpiIdTranslate["Room 2"] = 0;
             radioBtn_s2.disabled = true;
           }
           if (!isBedroom3Updated) {
             //rbIdText_3.innerHTML = "-";
-            radioBtnRpiIdTranslate["sens3"] = 0;
+            radioBtnRpiIdTranslate["Room 3"] = 0;
             radioBtn_s3.disabled = true;
           }
           if (!isLivingRoomUpdated) {
             //rbIdText_4.innerHTML = "-";
-            radioBtnRpiIdTranslate["sens4"] = 0;
+            radioBtnRpiIdTranslate["Room 4"] = 0;
             radioBtn_s4.disabled = true;
           }
           if (!isKitchenUpdated) {
             //rbIdText_5.innerHTML = "-";
-            radioBtnRpiIdTranslate["sens5"] = 0;
+            radioBtnRpiIdTranslate["Room 5"] = 0;
             radioBtn_s5.disabled = true;
           }
         },
@@ -1362,7 +1915,7 @@
     }
   </script>
 
-  <!--  dropdown_block onClick: update dashboard context script -->
+  <!--  Dropdown_block onClick: update dashboard context script -->
   <script>
     function dropDownItem_Block_onClick(selected_block) {
 
@@ -1371,33 +1924,31 @@
     var unitNameText = document.getElementById("text_unitName");
     var flatTypeText = document.getElementById("text_flatType");
 
+    // If chosen block = current block, do nothing
     if (blockNameText.innerHTML == selected_block) {
       return;
     }   
 
-    radioBtnRpiIdTranslate = {
-      sens1: 0,
-      sens2: 0,
-      sens3: 0,
-      sens4: 0,
-      sens5: 0
-    };
+    // Reset option translations
+    radioBtnRpiIdTranslate["Room 1"] = 0;
+    radioBtnRpiIdTranslate["Room 2"] = 0;
+    radioBtnRpiIdTranslate["Room 3"] = 0;
+    radioBtnRpiIdTranslate["Room 4"] = 0;
+    radioBtnRpiIdTranslate["Room 5"] = 0;
 
-    editBtnRpiLocIdTranslate = {
-      sens1: 0,
-      sens2: 0,
-      sens3: 0,
-      sens4: 0,
-      sens5: 0
-    };
+    editBtnRpiLocIdTranslate["Room 1"] = 0;
+    editBtnRpiLocIdTranslate["Room 2"] = 0;
+    editBtnRpiLocIdTranslate["Room 3"] = 0;
+    editBtnRpiLocIdTranslate["Room 4"] = 0;
+    editBtnRpiLocIdTranslate["Room 5"] = 0;
 
-    // else, update corresponding text
+    //  Update corresponding text
     global_selected_block = selected_block;
     blockNameText.innerHTML = selected_block;
     unitNameText.innerHTML = "-"; 
     flatTypeText.innerHTML = "-";
 
-    // close dropdownlist_block + reset ddl's search field
+    // Close dropdownlist_block + reset ddl's search field
     var searchBlockText = document.getElementById("textfield_searchBlock");
     var dropdowns = document.getElementsByClassName("dropdown-content-block");
 
@@ -1415,7 +1966,7 @@
       }
     }
 
-    // uncheck + disable all radio btns
+    // Uncheck + disable all radio btns
     var radioBtn_s1 = document.getElementById("radioBtn_s1");
     var radioBtn_s2 = document.getElementById("radioBtn_s2");
     var radioBtn_s3 = document.getElementById("radioBtn_s3");
@@ -1434,60 +1985,37 @@
     radioBtn_s4.checked = false;
     radioBtn_s5.checked = false;
 
-    // reset 'raspberry pi info' table
-    /*var rbIdText_1 = document.getElementById("text_raspberryId1");
-    var rbIdText_2 = document.getElementById("text_raspberryId2");
-    var rbIdText_3 = document.getElementById("text_raspberryId3");
-    var rbIdText_4 = document.getElementById("text_raspberryId4");
-    var rbIdText_5 = document.getElementById("text_raspberryId5");
-
-    rbIdText_1.innerHTML = "-";
-    rbIdText_2.innerHTML = "-";
-    rbIdText_3.innerHTML = "-";
-    rbIdText_4.innerHTML = "-";
-    rbIdText_5.innerHTML = "-";*/
-
-    /*var rbStatusText_1 = document.getElementById("text_raspberryStatus1");
-    var rbStatusText_2 = document.getElementById("text_raspberryStatus2");
-    var rbStatusText_3 = document.getElementById("text_raspberryStatus3");
-    var rbStatusText_4 = document.getElementById("text_raspberryStatus4");
-    var rbStatusText_5 = document.getElementById("text_raspberryStatus5");
-
-    rbStatusText_1.innerHTML = "-";
-    rbStatusText_2.innerHTML = "-";
-    rbStatusText_3.innerHTML = "-";
-    rbStatusText_4.innerHTML = "-";
-    rbStatusText_5.innerHTML = "-";*/
-
-
     // call line chart reset
     var text_lineChartTitle = document.getElementById("text_lineChartTitle");
-    text_lineChartTitle.innerHTML = "Gas Concentration in -";
+    text_lineChartTitle.innerHTML = "Gas Concentration in - (No room selected)";
     global_selected_sensor = 0;
     global_selected_unit = ""
 
     lineChartRefresh();  
-    scatterChartRefresh();
+    scatterChart_doughnutChart_Listview_Refresh();
+    listviewReset();
+    doughnutChartFreqRefresh();
+    doughnutChartDurationRefresh();
 
     $.ajax({
       type: "GET",
-      url: "/fetchUnits/" + selected_block,
+      url: "/fetchUnits/" + selected_block + "/",
       success: function(response) {
 
-        // update corresponding text
+        // Update corresponding text
         var unitAreaText = document.getElementById("text_area");
         var unitStreetText = document.getElementById("text_street");
 
         unitAreaText.innerHTML = response['units'][0][6];
         unitStreetText.innerHTML = response['units'][0][7];
 
-        // delete existing units in dropdownlist_units
-        const unitOptions = document.querySelectorAll('.dropdown-item-unit');
-        unitOptions.forEach(unit => {
+        // Delete existing units in dropdownlist_units
+        const unitChoices = document.querySelectorAll('.dropdown-item-unit');
+        unitChoices.forEach(unit => {
           unit.remove();
         });
 
-        // algorithm to filter out repeating unit numbers, we want distinct units
+        // Algorithm to filter out repeating unit numbers, we want distinct units
         var array = response['units'];
         var unique = [];
         var distinct = [];
@@ -1498,7 +2026,7 @@
           }
         }
           
-        // add filtered units into dropdownlist_units
+        // Add filtered units into dropdownlist_units
         distinct.forEach(function(element) {
           const parentElement = document.querySelector('#ddlUnit_content');
           const div = document.createElement('div');
@@ -1506,7 +2034,7 @@
           parentElement.appendChild(div);
         });
 
-        // open dropdownlist_units
+        // Open dropdownlist_units
         if (!ddlUnit_isOpen) {
           btnChangeUnit_onClick();
         }
@@ -1519,15 +2047,18 @@
     }
   </script>
 
-  <!--  init dropdownlist_blocks script 	-->
+  <!--  Init dropdownlists script 	-->
   <script>
+    document.getElementById("btnChangeBlock").onclick = function(e) { btnChangeBlock_onClick(); }
+    document.getElementById("btnChangeUnit").onclick = function(e) { btnChangeUnit_onClick(); }
+
     $(function() {
       $.ajax({
         type: "GET",
-        url: "/fetchBlocks",
+        url: "/fetchBlocks/",
         success: function(response) {
 
-          // add blocks into dropdownlist for blocks
+          // Add blocks into dropdownlist for blocks
           response['blocks'].forEach(function(element) {
             const parentElement = document.querySelector('#ddlBlock_content');
             const div = document.createElement('div');
@@ -1544,7 +2075,7 @@
 
   </script>
 
-  <!--  dropdownlist_block&unit isToggled + own search bar script   -->
+  <!--  Dropdownlist_block&unit isToggled + own search bar script   -->
   <script>
     function btnChangeBlock_onClick() {
       document.getElementById("ddlBlock_content").classList.toggle("dropdown-toggle");
@@ -1627,7 +2158,7 @@
 
   </script>
 
-  <!--  http error handler script   -->
+  <!--  Http error handler script   -->
   <script>
     function http_error_handler(xhr) {
       if (xhr.status === 400) {
@@ -1655,7 +2186,7 @@
     }
   </script>
 
-  <!--  rpi radioBtn onClick: update line chart script   -->
+  <!--  Rpi radioBtn onClick: update line chart script   -->
   <script>  
     function sensor_onClick(selected_sensor) {
       var text_lineChartTitle = document.getElementById("text_lineChartTitle");
@@ -1663,12 +2194,12 @@
       var selected_room = global_room_list[selected_sensor - 1]
 
       text_lineChartTitle.innerHTML = "Gas Concentration in " + selected_room;
-      global_selected_sensor = radioBtnRpiIdTranslate["sens" + selected_sensor];
+      global_selected_sensor = radioBtnRpiIdTranslate["Room " + selected_sensor];
       lineChartRefresh();
     }
   </script>
 
-  <!--  lineChart datetime range checker script   -->
+  <!--  Charts datetime range checker script   -->
   <script>
     function dt_range_check() {
       current_date_start = document.getElementById("datepicker-start").value;
@@ -1690,11 +2221,15 @@
 
       else if (current_date_start == current_date_end && current_time_start > current_time_end) {        
         document.getElementById("timepicker-start").value = "00:00";
+        document.getElementById("timepicker-end").value = "23:59";
         alert("Invalid time. Please select a time within the acceptable range.");
       }
 
       lineChartRefresh();
-      scatterChartRefresh();
+      scatterChart_doughnutChart_Listview_Refresh();
+      listviewReset();
+      doughnutChartFreqRefresh();
+      doughnutChartDurationRefresh();
     }
   </script>
 
